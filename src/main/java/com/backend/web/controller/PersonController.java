@@ -1,2 +1,4 @@
-package com.backend.web.controller;public class PersonController {
+package com.backend.web.controller;
+
+public class PersonController {
 }
