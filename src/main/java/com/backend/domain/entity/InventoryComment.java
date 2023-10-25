@@ -18,10 +18,6 @@ public class InventoryComment extends GeneralEntityAudit {
     @Column(name = "calificacion")
     private Integer qualification;
 
-    @ManyToOne
-    @JoinColumn(name = "idInventario", referencedColumnName = "idInventory")
-    private Inventory inventory;
-
     @Column(name = "activo")
     private boolean active;
 }

@@ -20,8 +20,5 @@ public class InventoryDetails extends GeneralEntityAudit {
     @Column(name = "fichaTecnica")
     private String datasheet;
 
-    @ManyToOne
-    @JoinColumn(name = "idInventario", referencedColumnName = "idInventory")
-    private Inventory inventory;
 
 }

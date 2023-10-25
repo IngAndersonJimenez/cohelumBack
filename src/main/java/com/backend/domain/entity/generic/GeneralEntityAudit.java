@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import java.util.Date;
 
 @MappedSuperclass
@@ -20,5 +22,16 @@ public abstract class GeneralEntityAudit {
 
     @Column(name = "fechaModificacion")
     private Date modificationDate;
+
+    @PrePersist
+    public void setCreationDate() {
+        this.highDate = new Date();
+    }
+
+    @PreUpdate
+    public void setUpdateDate(){
+        this.modificationDate = new Date();
+    }
+
 
 }
