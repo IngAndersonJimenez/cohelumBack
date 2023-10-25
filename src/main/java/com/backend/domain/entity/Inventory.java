@@ -3,10 +3,7 @@ package com.backend.domain.entity;
 import com.backend.domain.entity.generic.GeneralEntityAudit;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -29,7 +26,10 @@ public class Inventory extends GeneralEntityAudit {
     @Column(name = "unidadesDisponibles")
     private Integer unitsAvailable;
 
-    @Column(name = "idCategoria")
-    private Integer idCategory;
+    @ManyToOne
+    @JoinColumn(name = "idCategoria", referencedColumnName = "idCategoria")
+    private InventoryCategory category;
+
+
 
 }
