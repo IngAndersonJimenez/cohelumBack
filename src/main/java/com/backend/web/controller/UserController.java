@@ -20,25 +20,13 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<Object> getUserByEmail(@RequestParam String email) {
-        User user = userService.getUserByEmail(email);
-        Map<String, String> response = new HashMap<>();
-        if (user == null){
-            response.put("message", "Usuario no encontrado para el correo electrónico: " + email);
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        }
+        return userService.getUserByEmail(email);
     }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
-        User user = userService.getUserByEmail(loginDTO.getEmail());
 
-        if (user != null && user.getPassword().equals(loginDTO.getPassword())) {
-            return ResponseEntity.ok("Inicio de sesión exitoso");
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
-        }
+        return userService.authenticateUser(loginDTO);
     }
 
 }
