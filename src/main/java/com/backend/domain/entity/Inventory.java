@@ -26,10 +26,4 @@ public class Inventory extends GeneralEntityAudit {
     @Column(name = "unidadesDisponibles")
     private Integer unitsAvailable;
 
-    @ManyToOne
-    @JoinColumn(name = "idCategoria", referencedColumnName = "idCategoria")
-    private InventoryCategory category;
-
-
-
 }
