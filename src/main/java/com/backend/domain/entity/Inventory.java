@@ -12,6 +12,7 @@ public class Inventory extends GeneralEntityAudit {
 
     @Id
     @Column(name = "idInventario")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer idInventory;
 
     @Column(name = "nombre")

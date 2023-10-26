@@ -1,15 +1,13 @@
 package com.backend.web.dto.InventoryCategory;
 
+import com.backend.web.dto.Inventory.InventoryDTO;
 import lombok.*;
 
 @Data
-@Builder(toBuilder = true)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
-public class InventoryCategoryDTO {
+public class GetInventoryCategoryDTO extends InventoryCategoryDTO {
 
-    private String description;
-
-    private boolean active;
+    private Integer idInventoryCategory;
 
 }

@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface InventoryCategoryRepository extends JpaRepository<InventoryCategory, Integer> {
     InventoryCategory findByDescription(String description);
+    InventoryCategory findOneByIdCategory(Integer idInventoryCategory);
 }

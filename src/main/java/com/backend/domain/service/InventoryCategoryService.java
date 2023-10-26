@@ -1,15 +1,21 @@
 package com.backend.domain.service;
 
 import com.backend.domain.entity.InventoryCategory;
+import com.backend.domain.exception.DataNotFound;
+import com.backend.web.dto.Inventory.GetInventoryDTO;
+import com.backend.web.dto.Inventory.InventoryDTO;
+import com.backend.web.dto.InventoryCategory.GetInventoryCategoryDTO;
 import com.backend.web.dto.InventoryCategory.InventoryCategoryDTO;
 
 import java.util.List;
 
 public interface InventoryCategoryService {
 
-    String createCategory(InventoryCategoryDTO inventoryCategoryDTO);
+    GetInventoryCategoryDTO createInventoryCategory(InventoryCategoryDTO inventoryCategoryDTO) throws Exception;
 
     String updateCategory(String description,InventoryCategoryDTO inventoryCategoryDTO);
 
-    InventoryCategoryDTO getCategoryById(Integer categoryId);
+    GetInventoryCategoryDTO getCategoryById(Integer categoryId) throws Exception;
+
+    GetInventoryCategoryDTO getInventoryByDescription(String description) throws DataNotFound;
 }
