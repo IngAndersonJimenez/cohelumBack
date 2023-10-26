@@ -17,5 +17,5 @@ public interface InventoryCategoryService {
 
     GetInventoryCategoryDTO getCategoryById(Integer categoryId) throws Exception;
 
-    GetInventoryCategoryDTO getInventoryByDescription(String description) throws DataNotFound;
+    GetInventoryCategoryDTO getInventoryCategoryByDescription(String description) throws DataNotFound;
 }

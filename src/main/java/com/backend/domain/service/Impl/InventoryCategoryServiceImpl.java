@@ -22,7 +22,7 @@ public class InventoryCategoryServiceImpl implements InventoryCategoryService {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public GetInventoryCategoryDTO getInventoryByDescription(String description) throws DataNotFound {
+    public GetInventoryCategoryDTO getInventoryCategoryByDescription(String description) throws DataNotFound {
         InventoryCategory inventoryCategory = this.inventoryCategoryRepository.findByDescription(description);
         return this.generateStructureResponse(inventoryCategory);
     }
@@ -34,7 +34,7 @@ public class InventoryCategoryServiceImpl implements InventoryCategoryService {
         GetInventoryCategoryDTO getInventoryCategoryDTO;
 
         try {
-            getInventoryCategoryDTO = this.getInventoryByDescription(inventoryCategoryDTO.getDescription());
+            getInventoryCategoryDTO = this.getInventoryCategoryByDescription(inventoryCategoryDTO.getDescription());
         } catch (DataNotFound dataNotFound) {
             InventoryCategory inventoryCategory = this.objectMapper.convertValue(inventoryCategoryDTO, InventoryCategory.class);
             inventoryCategory.setHighDate(new Date());
@@ -53,7 +53,7 @@ public class InventoryCategoryServiceImpl implements InventoryCategoryService {
 
     @Override
     public GetInventoryCategoryDTO getCategoryById(Integer categoryId) throws Exception {
-        InventoryCategory inventoryCategory = inventoryCategoryRepository.findOneByIdCategory(categoryId);
+        InventoryCategory inventoryCategory = inventoryCategoryRepository.findByIdCategory(categoryId);
         return this.generateStructureResponse(inventoryCategory);
     }
 
