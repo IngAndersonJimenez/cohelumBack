@@ -10,7 +10,7 @@ import java.util.Date;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class GetInventoryCategoryDTO extends InventoryCategoryDTO {
 
-    private Integer idInventoryCategory;
+    private Integer idCategory;
     private Date highDate;
     private Date modificationDate;
 }

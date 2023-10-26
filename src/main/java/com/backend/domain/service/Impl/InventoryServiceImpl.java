@@ -52,6 +52,28 @@ public class InventoryServiceImpl implements InventoryService {
         return getInventoryDTO;
     }
 
+    @Override
+    public GetInventoryDTO updateInventory(InventoryDTO inventoryDTO, Integer inventoryId) throws Exception {
+        GetInventoryDTO getInventoryDTO;
+
+        try {
+            getInventoryDTO = this.getInventoryByIdInventory(inventoryId);
+            Inventory existingInventory = this.objectMapper.convertValue(getInventoryDTO, Inventory.class);
+            existingInventory.setName(existingInventory.getName());
+            Inventory updatedInventory = this.inventoryRepository.save(existingInventory);
+            getInventoryDTO = this.generateStructureResponse(updatedInventory);
+        } catch (DataNotFound dataNotFound) {
+            throw new Exception("El inventario no existe y no se puede actualizar.");
+        }
+
+        return getInventoryDTO;
+    }
+
+
+
+
+
+
 
     private GetInventoryDTO generateStructureResponse(Inventory inventory) throws DataNotFound {
         GetInventoryDTO getInventoryDTO;

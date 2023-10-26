@@ -12,4 +12,6 @@ public interface InventoryService {
 
     GetInventoryDTO createInventory(InventoryDTO inventoryDTO) throws Exception;
 
+    GetInventoryDTO updateInventory(InventoryDTO inventoryDTO, Integer inventoryId) throws Exception;
+
 }

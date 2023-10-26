@@ -1,6 +1,7 @@
 package com.backend.web.controller;
 
 import com.backend.domain.service.InventoryService;
+import com.backend.web.dto.Inventory.GetInventoryDTO;
 import com.backend.web.dto.Inventory.InventoryDTO;
 import com.backend.web.dto.Inventory.ResponseInventoryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,16 @@ public class InventoryController {
                 .getInventoryDTO(this.inventoryService.createInventory(inventoryDTO))
                 .build());
     }
+
+    @PostMapping ("/update")
+    public ResponseEntity<ResponseInventoryDTO> updateInventory(@RequestBody InventoryDTO inventoryDTO, @RequestParam Integer inventoryId) throws Exception {
+        GetInventoryDTO updatedInventory = inventoryService.updateInventory(inventoryDTO, inventoryId);
+        ResponseInventoryDTO response = ResponseInventoryDTO.builder()
+                .getInventoryDTO(updatedInventory)
+                .build();
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/{idInventory}")
     public ResponseEntity<InventoryDTO> getInventoryById(@PathVariable Integer idInventory) throws Exception {
         InventoryDTO inventoryDTO = inventoryService.getInventoryByIdInventory(idInventory);
