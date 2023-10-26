@@ -3,6 +3,9 @@ package com.backend.domain.service.Impl;
 
 import com.backend.domain.entity.InventoryCategory;
 import com.backend.domain.repository.InventoryCategoryRepository;
+import com.backend.domain.service.InventoryCategoryService;
+import com.backend.web.dto.InventoryCategory.InventoryCategoryDTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,17 +16,19 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class InventaryCategoryServiceImpl {
+public class InventoryCategoryServiceImpl implements InventoryCategoryService {
 
     @Autowired
     private InventoryCategoryRepository inventoryCategoryRepository;
+
+    private ObjectMapper objectMapper = new ObjectMapper();
 
 
     public ResponseEntity<Object> createCategory(InventoryCategory category) {
         InventoryCategory inventoryCategory = inventoryCategoryRepository.findByDescription(category.getDescription());
         ResponseEntity<Object> response;
 
-        if (inventoryCategory !=null) {
+        if (inventoryCategory != null) {
             response = ResponseEntity.status(HttpStatus.CONFLICT).body("La categoría ya existe");
         } else {
             category.setHighDate(new Date());
@@ -63,7 +68,7 @@ public class InventaryCategoryServiceImpl {
         Optional<InventoryCategory> existingCategory = inventoryCategoryRepository.findById(categoryId);
         ResponseEntity<Object> response;
 
-        if (existingCategory.isPresent()){
+        if (existingCategory.isPresent()) {
             response = ResponseEntity.status(HttpStatus.OK).body(existingCategory);
         } else {
 
@@ -72,4 +77,14 @@ public class InventaryCategoryServiceImpl {
 
         return response;
     }
+
+    @Override
+    public String createCategory(InventoryCategoryDTO inventoryCategoryDTO) {
+        InventoryCategory inventoryCategory = this.objectMapper.convertValue(inventoryCategoryDTO, InventoryCategory.class);
+        inventoryCategory.setHighDate(new Date());
+        this.inventoryCategoryRepository.save(inventoryCategory);
+        return "Se creo la categoria " + inventoryCategoryDTO.getDescription();
+    }
+
+
 }

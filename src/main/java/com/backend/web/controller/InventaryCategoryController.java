@@ -2,7 +2,9 @@ package com.backend.web.controller;
 
 
 import com.backend.domain.entity.InventoryCategory;
-import com.backend.domain.service.Impl.InventaryCategoryServiceImpl;
+import com.backend.domain.service.Impl.InventoryCategoryServiceImpl;
+import com.backend.web.dto.InventoryCategory.InventoryCategoryDTO;
+import com.backend.web.dto.InventoryCategory.ResponseCreateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,20 +12,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/inventory")
+@RequestMapping("/api/v1/inventory")
 public class InventaryCategoryController {
 
     @Autowired
-    private InventaryCategoryServiceImpl inventaryCategoryService;
+    private InventoryCategoryServiceImpl inventaryCategoryService;
 
     @PostMapping("/create")
-    public ResponseEntity<Object> createCategory(@RequestBody InventoryCategory category) {
-        return inventaryCategoryService.createCategory(category);
+    public ResponseEntity<ResponseCreateDTO> createCategory(@RequestBody InventoryCategoryDTO inventoryCategoryDTO) {
+        return ResponseEntity.ok(ResponseCreateDTO.builder()
+                .message(this.inventaryCategoryService.createCategory(inventoryCategoryDTO))
+                .build());
     }
 
     @PutMapping("/{categoryId}")
     public ResponseEntity<Object> updateCategory(@PathVariable Integer categoryId, @RequestBody InventoryCategory updatedCategory) {
         return inventaryCategoryService.updateCategory(categoryId, updatedCategory);
+
+
 
     }
 
