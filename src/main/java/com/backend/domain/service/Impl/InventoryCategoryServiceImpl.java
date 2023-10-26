@@ -23,23 +23,47 @@ public class InventoryCategoryServiceImpl implements InventoryCategoryService {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
+    @Override
+    public String createCategory(InventoryCategoryDTO inventoryCategoryDTO) {
+        InventoryCategory inventoryCategory = this.objectMapper.convertValue(inventoryCategoryDTO, InventoryCategory.class);
+        inventoryCategory.setHighDate(new Date());
+        this.inventoryCategoryRepository.save(inventoryCategory);
+        return "Se creo la categoria " + inventoryCategoryDTO.getDescription();
+    }
 
-    public ResponseEntity<Object> createCategory(InventoryCategory category) {
-        InventoryCategory inventoryCategory = inventoryCategoryRepository.findByDescription(category.getDescription());
-        ResponseEntity<Object> response;
+    @Override
+    public String updateCategory(String description,InventoryCategoryDTO inventoryCategoryDTO) {
 
-        if (inventoryCategory != null) {
-            response = ResponseEntity.status(HttpStatus.CONFLICT).body("La categoría ya existe");
+        InventoryCategory inventoryCategory = this.objectMapper.convertValue(inventoryCategoryDTO, InventoryCategory.class);
+        String response;
+        if (inventoryCategory.getDescription() != null){
+
+            this.inventoryCategoryRepository.save(inventoryCategory);
+            response = "Se ha actualizado la categoría correctamente" + inventoryCategoryDTO.getDescription();
         } else {
-            category.setHighDate(new Date());
-            InventoryCategory createdCategory = inventoryCategoryRepository.save(category);
-            response = ResponseEntity.status(HttpStatus.CREATED).body(createdCategory);
+            response = "La categoría no existe " + inventoryCategoryDTO.getDescription();
         }
         return response;
     }
 
 
-    public ResponseEntity<Object> updateCategory(Integer categoryId, InventoryCategory updatedCategory) {
+
+    @Override
+    public InventoryCategoryDTO getCategoryById(Integer categoryId) {
+        InventoryCategory inventoryCategory = inventoryCategoryRepository.findById(categoryId).orElse(null);
+
+        if (inventoryCategory != null) {
+            InventoryCategoryDTO categoryDTO = new InventoryCategoryDTO();
+            categoryDTO.setDescription(inventoryCategory.getDescription());
+            categoryDTO.setActive(inventoryCategory.isActive());
+            return categoryDTO;
+        } else {
+            throw new RuntimeException("Categoría no encontrada");
+        }
+    }
+
+
+ /*   public ResponseEntity<Object> updateCategory(Integer categoryId, InventoryCategory updatedCategory) {
         Optional<InventoryCategory> existingCategory = inventoryCategoryRepository.findById(categoryId);
         ResponseEntity<Object> response;
 
@@ -57,14 +81,14 @@ public class InventoryCategoryServiceImpl implements InventoryCategoryService {
         }
 
         return response;
-    }
+    }*/
 
 
-    public List<InventoryCategory> getAllCategories() {
+/*    public List<InventoryCategory> getAllCategories() {
         return inventoryCategoryRepository.findAll();
-    }
+    }*/
 
-    public ResponseEntity<Object> getCategoryById(Integer categoryId) {
+/*    public ResponseEntity<Object> getCategoryById(Integer categoryId) {
         Optional<InventoryCategory> existingCategory = inventoryCategoryRepository.findById(categoryId);
         ResponseEntity<Object> response;
 
@@ -76,15 +100,9 @@ public class InventoryCategoryServiceImpl implements InventoryCategoryService {
         }
 
         return response;
-    }
+    }*/
 
-    @Override
-    public String createCategory(InventoryCategoryDTO inventoryCategoryDTO) {
-        InventoryCategory inventoryCategory = this.objectMapper.convertValue(inventoryCategoryDTO, InventoryCategory.class);
-        inventoryCategory.setHighDate(new Date());
-        this.inventoryCategoryRepository.save(inventoryCategory);
-        return "Se creo la categoria " + inventoryCategoryDTO.getDescription();
-    }
+
 
 
 }

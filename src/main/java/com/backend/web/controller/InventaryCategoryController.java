@@ -25,21 +25,24 @@ public class InventaryCategoryController {
                 .build());
     }
 
-    @PutMapping("/{categoryId}")
-    public ResponseEntity<Object> updateCategory(@PathVariable Integer categoryId, @RequestBody InventoryCategory updatedCategory) {
-        return inventaryCategoryService.updateCategory(categoryId, updatedCategory);
-
-
+    @PutMapping("/{description}")
+    public ResponseEntity<ResponseCreateDTO> updateCategory(@PathVariable("description") String description , @RequestBody InventoryCategoryDTO inventoryCategoryDTO) {
+        return ResponseEntity.ok(ResponseCreateDTO.builder()
+                .message(this.inventaryCategoryService.updateCategory(description,inventoryCategoryDTO))
+                .build());
 
     }
 
-    @GetMapping
+/*    @GetMapping
     public List<InventoryCategory> getAllCategories() {
         return inventaryCategoryService.getAllCategories();
-    }
+    }*/
 
-    @GetMapping("/{categoryId}")
-    public ResponseEntity<Object> getCategoryById(@PathVariable Integer categoryId) {
-        return inventaryCategoryService.getCategoryById(categoryId);
-    }
+/*    @GetMapping("/{categoryId}")
+    public ResponseEntity<ResponseCreateDTO> getCategoryById(@PathVariable Integer categoryId) {
+        return ResponseEntity.ok(ResponseCreateDTO.builder()
+                .message(this.inventaryCategoryService.getCategoryById(categoryId))
+                .build());
+
+    }*/
 }
