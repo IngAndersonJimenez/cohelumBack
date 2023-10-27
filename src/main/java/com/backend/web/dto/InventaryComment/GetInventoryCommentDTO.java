@@ -1,14 +1,16 @@
-package com.backend.web.dto.Inventory;
+package com.backend.web.dto.InventaryComment;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.*;
-
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class GetInventoryDTO extends InventoryDTO {
+public class GetInventoryCommentDTO extends InventoryCommentDTO {
 
     private Integer idInventory;
 

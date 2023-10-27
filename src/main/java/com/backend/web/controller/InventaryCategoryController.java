@@ -3,9 +3,8 @@ package com.backend.web.controller;
 
 
 import com.backend.domain.service.Impl.InventoryCategoryServiceImpl;
-import com.backend.web.dto.Inventory.InventoryDTO;
 import com.backend.web.dto.InventoryCategory.InventoryCategoryDTO;
-import com.backend.web.dto.InventoryCategory.ResponseCreateDTO;
+import com.backend.web.dto.InventoryCategory.ResponseCommentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +19,8 @@ public class InventaryCategoryController {
     private InventoryCategoryServiceImpl inventaryCategoryService;
 
     @PostMapping("/create")
-    public ResponseEntity<ResponseCreateDTO> createInventoryCategory(@RequestBody InventoryCategoryDTO InventoryCategoryDTO) throws Exception {
-        return ResponseEntity.ok(ResponseCreateDTO
+    public ResponseEntity<ResponseCommentDTO> createInventoryCategory(@RequestBody InventoryCategoryDTO InventoryCategoryDTO) throws Exception {
+        return ResponseEntity.ok(ResponseCommentDTO
                 .builder()
                 .getInventoryCategoryDTO(this.inventaryCategoryService.createInventoryCategory(InventoryCategoryDTO))
                 .build());
