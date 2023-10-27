@@ -54,25 +54,10 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public GetInventoryDTO updateInventory(InventoryDTO inventoryDTO, Integer inventoryId) throws Exception {
-        GetInventoryDTO getInventoryDTO;
-
-        try {
-            getInventoryDTO = this.getInventoryByIdInventory(inventoryId);
-            Inventory existingInventory = this.objectMapper.convertValue(getInventoryDTO, Inventory.class);
-            existingInventory.setName(existingInventory.getName());
-            Inventory updatedInventory = this.inventoryRepository.save(existingInventory);
-            getInventoryDTO = this.generateStructureResponse(updatedInventory);
-        } catch (DataNotFound dataNotFound) {
-            throw new Exception("El inventario no existe y no se puede actualizar.");
-        }
-
-        return getInventoryDTO;
+        GetInventoryDTO getInventoryDTO = this.getInventoryByIdInventory(inventoryId);
+        Inventory inventoryUpdated = this.inventoryRepository.save(this.validationObject(getInventoryDTO));
+        return this.generateStructureResponse(inventoryUpdated);
     }
-
-
-
-
-
 
 
     private GetInventoryDTO generateStructureResponse(Inventory inventory) throws DataNotFound {
@@ -84,6 +69,27 @@ public class InventoryServiceImpl implements InventoryService {
             throw new DataNotFound("El producto no existe en el inventario. ");
         }
         return getInventoryDTO;
+    }
+
+    private Inventory validationObject(GetInventoryDTO getInventoryDTO) {
+
+        Inventory inventory = new Inventory();
+        inventory.setIdInventory(getInventoryDTO.getIdInventory());
+
+        if (getInventoryDTO.getName() != null) {
+            inventory.setName(getInventoryDTO.getName());
+        }
+
+        if (getInventoryDTO.getPrice() != null) {
+            inventory.setPrice(getInventoryDTO.getPrice());
+        }
+
+        if (getInventoryDTO.getUnitsAvailable() != null) {
+            inventory.setUnitsAvailable(getInventoryDTO.getUnitsAvailable());
+        }
+
+        inventory.setModificationDate(new Date());
+        return inventory;
     }
 
 
