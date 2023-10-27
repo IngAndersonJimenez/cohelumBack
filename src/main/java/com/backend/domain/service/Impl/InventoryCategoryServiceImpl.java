@@ -69,6 +69,8 @@ public class InventoryCategoryServiceImpl implements InventoryCategoryService {
             inventoryCategory.setDescription(getInventoryCategoryDTO.getDescription());
         }
 
+        inventoryCategory.setActive(getInventoryCategoryDTO.isActive());
+
         inventoryCategory.setModificationDate(new Date());
         return inventoryCategory;
     }

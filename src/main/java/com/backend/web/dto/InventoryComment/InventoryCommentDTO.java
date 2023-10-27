@@ -1,4 +1,4 @@
-package com.backend.web.dto.InventaryComment;
+package com.backend.web.dto.InventoryComment;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;

@@ -1,10 +1,8 @@
 package com.backend.domain.service;
 
 import com.backend.domain.exception.DataNotFound;
-import com.backend.web.dto.InventaryComment.GetInventoryCommentDTO;
-import com.backend.web.dto.InventaryComment.InventoryCommentDTO;
-import com.backend.web.dto.Inventory.GetInventoryDTO;
-import com.backend.web.dto.Inventory.InventoryDTO;
+import com.backend.web.dto.InventoryComment.GetInventoryCommentDTO;
+import com.backend.web.dto.InventoryComment.InventoryCommentDTO;
 
 public interface InventoryCommentService {
 

@@ -90,6 +90,8 @@ public class InventoryServiceImpl implements InventoryService {
             inventory.setUnitsAvailable(getInventoryDTO.getUnitsAvailable());
         }
 
+        inventory.setActive(getInventoryDTO.isActive());
+
         inventory.setModificationDate(new Date());
         return inventory;
     }

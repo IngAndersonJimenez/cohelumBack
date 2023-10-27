@@ -1,12 +1,9 @@
 package com.backend.web.controller;
 
 import com.backend.domain.service.Impl.InventoryCommentServiceImpl;
-import com.backend.web.dto.InventaryComment.GetInventoryCommentDTO;
-import com.backend.web.dto.InventaryComment.InventoryCommentDTO;
-import com.backend.web.dto.InventaryComment.ResponseInventoryCommentDTO;
-import com.backend.web.dto.InventoryCategory.GetInventoryCategoryDTO;
-import com.backend.web.dto.InventoryCategory.InventoryCategoryDTO;
-import com.backend.web.dto.InventoryCategory.ResponseCommentDTO;
+import com.backend.web.dto.InventoryComment.GetInventoryCommentDTO;
+import com.backend.web.dto.InventoryComment.InventoryCommentDTO;
+import com.backend.web.dto.InventoryComment.ResponseInventoryCommentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

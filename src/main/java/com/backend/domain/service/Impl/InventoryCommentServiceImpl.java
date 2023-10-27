@@ -1,17 +1,11 @@
 package com.backend.domain.service.Impl;
 
-import com.backend.domain.entity.Inventory;
-import com.backend.domain.entity.InventoryCategory;
 import com.backend.domain.entity.InventoryComment;
 import com.backend.domain.exception.DataNotFound;
 import com.backend.domain.repository.InventoryCommentRepository;
 import com.backend.domain.service.InventoryCommentService;
-import com.backend.web.dto.InventaryComment.GetInventoryCommentDTO;
-import com.backend.web.dto.InventaryComment.InventoryCommentDTO;
-import com.backend.web.dto.Inventory.GetInventoryDTO;
-import com.backend.web.dto.Inventory.InventoryDTO;
-import com.backend.web.dto.InventoryCategory.GetInventoryCategoryDTO;
-import com.backend.web.dto.InventoryCategory.InventoryCategoryDTO;
+import com.backend.web.dto.InventoryComment.GetInventoryCommentDTO;
+import com.backend.web.dto.InventoryComment.InventoryCommentDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,6 +68,7 @@ public class InventoryCommentServiceImpl implements InventoryCommentService {
         if (getInventoryCommentDTO.getQualification() != null) {
             inventoryComment.setQualification(getInventoryCommentDTO.getQualification());
         }
+        inventoryComment.setActive(getInventoryCommentDTO.isActive());
 
         inventoryComment.setModificationDate(new Date());
         return inventoryComment;
