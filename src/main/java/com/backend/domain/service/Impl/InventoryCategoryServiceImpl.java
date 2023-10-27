@@ -19,7 +19,7 @@ public class InventoryCategoryServiceImpl implements InventoryCategoryService {
     @Autowired
     private InventoryCategoryRepository inventoryCategoryRepository;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public GetInventoryCategoryDTO getInventoryCategoryByDescription(String description) throws DataNotFound {
@@ -38,8 +38,7 @@ public class InventoryCategoryServiceImpl implements InventoryCategoryService {
         } catch (DataNotFound dataNotFound) {
             InventoryCategory inventoryCategory = this.objectMapper.convertValue(inventoryCategoryDTO, InventoryCategory.class);
             inventoryCategory.setHighDate(new Date());
-            getInventoryCategoryDTO = this.generateStructureResponse(
-                    this.inventoryCategoryRepository.save(this.objectMapper.convertValue(inventoryCategoryDTO, InventoryCategory.class))
+            getInventoryCategoryDTO = this.generateStructureResponse(this.inventoryCategoryRepository.save(inventoryCategory)
             );
         }
 
@@ -47,17 +46,28 @@ public class InventoryCategoryServiceImpl implements InventoryCategoryService {
     }
 
     @Override
-    public GetInventoryCategoryDTO updateInventoryCategory(InventoryCategoryDTO inventoryCategoryDTO, Integer inventoryCategoryId) throws Exception {
-        GetInventoryCategoryDTO getInventoryCategoryDTO = this.getCategoryById(inventoryCategoryId);
-        InventoryCategory inventoryUpdated = this.inventoryCategoryRepository.save(this.validationObject(getInventoryCategoryDTO));
-        return this.generateStructureResponse(inventoryUpdated);
+    public GetInventoryCategoryDTO updateCategory(InventoryCategoryDTO inventoryCategoryDTO, Integer idCategory) throws Exception {
+        GetInventoryCategoryDTO getInventoryCategoryDTO = this.getCategoryById(idCategory);
+        InventoryCategory inventoryCategoryUpdated = this.inventoryCategoryRepository.save(this.validationObject(getInventoryCategoryDTO));
+        return this.generateStructureResponse(inventoryCategoryUpdated);
     }
-
 
     @Override
     public GetInventoryCategoryDTO getCategoryById(Integer categoryId) throws Exception {
         InventoryCategory inventoryCategory = inventoryCategoryRepository.findByIdCategory(categoryId);
         return this.generateStructureResponse(inventoryCategory);
+    }
+
+
+    private GetInventoryCategoryDTO generateStructureResponse(InventoryCategory inventoryCategory) throws DataNotFound {
+        GetInventoryCategoryDTO getInventoryCategoryDTO;
+
+        if (inventoryCategory != null) {
+            getInventoryCategoryDTO = this.objectMapper.convertValue(inventoryCategory, GetInventoryCategoryDTO.class);
+        } else {
+            throw new DataNotFound("El producto no existe en el inventario. ");
+        }
+        return getInventoryCategoryDTO;
     }
 
     private InventoryCategory validationObject(GetInventoryCategoryDTO getInventoryCategoryDTO) {
@@ -73,19 +83,6 @@ public class InventoryCategoryServiceImpl implements InventoryCategoryService {
 
         inventoryCategory.setModificationDate(new Date());
         return inventoryCategory;
-    }
-
-
-
-    private GetInventoryCategoryDTO generateStructureResponse(InventoryCategory inventoryCategory) throws DataNotFound {
-        GetInventoryCategoryDTO getInventoryCategoryDTO;
-
-        if (inventoryCategory != null) {
-            getInventoryCategoryDTO = this.objectMapper.convertValue(inventoryCategory, GetInventoryCategoryDTO.class);
-        } else {
-            throw new DataNotFound("El producto no existe en el inventario. ");
-        }
-        return getInventoryCategoryDTO;
     }
 
 
