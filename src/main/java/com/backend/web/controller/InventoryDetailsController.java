@@ -1,37 +1,36 @@
 package com.backend.web.controller;
 
-import com.backend.domain.service.InventoryService;
+import com.backend.domain.service.Impl.InventoryDetailsServiceImpl;
 import com.backend.web.dto.Generic.ResponseDTO;
-import com.backend.web.dto.Inventory.GetInventoryDTO;
-import com.backend.web.dto.Inventory.InventoryDTO;
 import com.backend.web.dto.InventoryDetails.InventoryDetailsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
-@RequestMapping("/api/v1/inventory")
-public class InventoryController {
+@RequestMapping("/api/v1/inventoryDetails")
+public class InventoryDetailsController {
 
     @Autowired
-    private InventoryService inventoryService;
+    private InventoryDetailsServiceImpl inventoryDetailsService;
 
     @PostMapping("/create")
-    public ResponseEntity<ResponseDTO> createInventory(@RequestBody InventoryDTO inventoryDTO) throws Exception {
+    public ResponseEntity<ResponseDTO> createInventoryCategory(@RequestBody InventoryDetailsDTO inventoryDetailsDTO) throws Exception {
         return ResponseEntity.ok(ResponseDTO
                 .builder()
-                .responseDTO(this.inventoryService.createInventory(inventoryDTO))
+                .responseDTO(this.inventoryDetailsService.createInventoryDetails(inventoryDetailsDTO))
                 .build());
     }
 
     @PutMapping("/update")
     public ResponseEntity<ResponseDTO> updateCategory(
-            @RequestBody InventoryDTO inventoryDTO,
+            @RequestBody InventoryDetailsDTO inventoryDetailsDTO,
             @RequestParam Integer idDetails
     ) throws Exception {
         return ResponseEntity.ok(ResponseDTO
                 .builder()
-                .responseDTO(this.inventoryService.updateInventory(inventoryDTO, idDetails))
+                .responseDTO(this.inventoryDetailsService.updateDetails(inventoryDetailsDTO, idDetails))
                 .build());
     }
 
@@ -39,7 +38,7 @@ public class InventoryController {
     public ResponseEntity<ResponseDTO> getInventoryById(@PathVariable Integer idInventory) throws Exception {
         return ResponseEntity.ok(ResponseDTO
                 .builder()
-                .responseDTO(this.inventoryService.getInventoryByIdInventory(idInventory))
+                .responseDTO(this.inventoryDetailsService.getDetailsById(idInventory))
                 .build());
     }
 

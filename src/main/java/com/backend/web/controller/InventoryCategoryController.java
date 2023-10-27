@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "InventoryCategory")
 @RestController
 @RequestMapping("/api/v1/inventoryCategory")
-public class InventaryCategoryController {
+public class InventoryCategoryController {
 
     @Autowired
     private InventoryCategoryServiceImpl inventaryCategoryService;

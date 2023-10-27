@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GetInventoryDetailsDetailsDTO extends InventoryDetailsDTO {
+public class GetInventoryDetailsDTO extends InventoryDetailsDTO {
 
     private Integer idInventoryDetails;
 

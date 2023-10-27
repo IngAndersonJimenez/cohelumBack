@@ -1,9 +1,11 @@
 package com.backend.web.controller;
 
 import com.backend.domain.service.Impl.InventoryCommentServiceImpl;
+import com.backend.web.dto.Generic.ResponseDTO;
+import com.backend.web.dto.InventoryCategory.InventoryCategoryDTO;
 import com.backend.web.dto.InventoryComment.GetInventoryCommentDTO;
 import com.backend.web.dto.InventoryComment.InventoryCommentDTO;
-import com.backend.web.dto.InventoryComment.ResponseInventoryCommentDTO;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,26 +18,29 @@ public class InventoryCommentController {
     private InventoryCommentServiceImpl inventoryCommentService;
 
     @PostMapping("/create")
-    public ResponseEntity<ResponseInventoryCommentDTO> createInventoryCategory(@RequestBody InventoryCommentDTO inventoryCommentDTO) throws Exception {
-        return ResponseEntity.ok(ResponseInventoryCommentDTO
+    public ResponseEntity<ResponseDTO> createInventoryCategory(@RequestBody InventoryCommentDTO inventoryCommentDTO) throws Exception {
+        return ResponseEntity.ok(ResponseDTO
                 .builder()
-                .getInventoryCommentDTO(this.inventoryCommentService.createInventoryComment(inventoryCommentDTO))
+                .responseDTO(this.inventoryCommentService.createInventoryComment(inventoryCommentDTO))
                 .build());
     }
 
-    @PostMapping ("/update")
-    public ResponseEntity<ResponseInventoryCommentDTO> updateInventory(@RequestBody InventoryCommentDTO inventoryCommentDTO, @RequestParam Integer inventoryId) throws Exception {
-        GetInventoryCommentDTO updatedInventory = inventoryCommentService.updateInventoryComment(inventoryCommentDTO, inventoryId);
-        ResponseInventoryCommentDTO response = ResponseInventoryCommentDTO.builder()
-                .getInventoryCommentDTO(updatedInventory)
-                .build();
-        return ResponseEntity.ok(response);
+    @GetMapping("/{idInventory}")
+    public ResponseEntity<ResponseDTO> getInventoryById(@PathVariable Integer idInventory) throws Exception {
+        return ResponseEntity.ok(ResponseDTO
+                .builder()
+                .responseDTO(this.inventoryCommentService.getInventoryCommentByIdInventoryComment(idInventory))
+                .build());
     }
 
-    @GetMapping("/{idInventory}")
-    public ResponseEntity<InventoryCommentDTO> getInventoryById(@PathVariable Integer idInventory) throws Exception {
-        InventoryCommentDTO inventoryCommentDTO = inventoryCommentService.getInventoryCommentByIdInventoryComment(idInventory);
-        InventoryCommentDTO newInventoryDTO = inventoryCommentDTO.toBuilder().build();
-        return ResponseEntity.ok(newInventoryDTO);
+    @PutMapping("/update")
+    public ResponseEntity<ResponseDTO> updateCategory(
+            @RequestBody InventoryCommentDTO inventoryCommentDTO,
+            @RequestParam Integer idCategory
+    ) throws Exception {
+        return ResponseEntity.ok(ResponseDTO
+                .builder()
+                .responseDTO(this.inventoryCommentService.updateInventoryComment(inventoryCommentDTO, idCategory))
+                .build());
     }
 }
