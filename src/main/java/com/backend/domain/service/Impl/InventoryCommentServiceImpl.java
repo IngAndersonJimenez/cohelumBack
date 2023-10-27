@@ -1,5 +1,6 @@
 package com.backend.domain.service.Impl;
 
+import com.backend.domain.entity.Inventory;
 import com.backend.domain.entity.InventoryCategory;
 import com.backend.domain.entity.InventoryComment;
 import com.backend.domain.exception.DataNotFound;
@@ -38,8 +39,9 @@ public class InventoryCommentServiceImpl implements InventoryCommentService {
         return this.generateStructureResponse(inventoryComment);
     }
 
+
     @Override
-    public GetInventoryCommentDTO createInventory(InventoryCommentDTO inventoryCommentDTO) throws Exception {
+    public GetInventoryCommentDTO createInventoryComment(InventoryCommentDTO inventoryCommentDTO) throws Exception {
         GetInventoryCommentDTO getInventoryCommentDTO;
 
         try {

@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class GetInventoryCommentDTO extends InventoryCommentDTO {
 
-    private Integer idInventory;
-
+    private Integer idInventoryComment;
 
 }

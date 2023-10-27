@@ -12,7 +12,7 @@ public interface InventoryCommentService {
 
     GetInventoryCommentDTO getInventoryCommentByQualification(Integer qualification) throws DataNotFound;
 
-    GetInventoryCommentDTO createInventory(InventoryCommentDTO InventoryCommentDTO) throws Exception;
+    GetInventoryCommentDTO createInventoryComment(InventoryCommentDTO InventoryCommentDTO) throws Exception;
 
     GetInventoryCommentDTO updateInventory(InventoryDTO inventoryDTO, Integer inventoryId) throws Exception;
 

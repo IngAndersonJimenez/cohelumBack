@@ -18,7 +18,7 @@ public class InventoryCommentController {
     public ResponseEntity<ResponseInventoryCommentDTO> createInventoryCategory(@RequestBody InventoryCommentDTO inventoryCommentDTO) throws Exception {
         return ResponseEntity.ok(ResponseInventoryCommentDTO
                 .builder()
-                .getInventoryCommentDTO(this.inventoryCommentService.createInventory(inventoryCommentDTO))
+                .getInventoryCommentDTO(this.inventoryCommentService.createInventoryComment(inventoryCommentDTO))
                 .build());
     }
 
