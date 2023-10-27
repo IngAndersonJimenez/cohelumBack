@@ -13,6 +13,7 @@ public class InventoryComment extends GeneralEntityAudit {
 
     @Id
     @Column(name = "idInventarioComentario")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer idInventoryComment;
 
     @Column(name = "calificacion")
