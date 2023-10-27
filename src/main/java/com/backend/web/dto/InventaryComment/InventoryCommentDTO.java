@@ -1,4 +1,4 @@
-package com.backend.web.dto.InventoryCategory;
+package com.backend.web.dto.InventaryComment;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
@@ -8,10 +8,9 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class InventoryCategoryDTO {
+public class InventoryCommentDTO {
 
-    private String description;
-
+    private Integer qualification;
     private boolean active;
 
 }

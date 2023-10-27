@@ -34,6 +34,8 @@ public class InventoryServiceImpl implements InventoryService {
         return this.generateStructureResponse(inventory);
     }
 
+
+
     @Override
     public GetInventoryDTO createInventory(InventoryDTO inventoryDTO) throws Exception {
 
