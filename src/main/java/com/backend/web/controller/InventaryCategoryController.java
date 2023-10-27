@@ -3,7 +3,6 @@ package com.backend.web.controller;
 import com.backend.domain.service.Impl.InventoryCategoryServiceImpl;
 import com.backend.web.dto.Generic.ResponseDTO;
 import com.backend.web.dto.InventoryCategory.InventoryCategoryDTO;
-import com.backend.web.dto.InventoryCategory.ResponseCreateDTO;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +18,10 @@ public class InventaryCategoryController {
     private InventoryCategoryServiceImpl inventaryCategoryService;
 
     @PostMapping("/create")
-    public ResponseEntity<ResponseCreateDTO> createInventoryCategory(@RequestBody InventoryCategoryDTO InventoryCategoryDTO) throws Exception {
-        return ResponseEntity.ok(ResponseCreateDTO
+    public ResponseEntity<ResponseDTO> createInventoryCategory(@RequestBody InventoryCategoryDTO inventoryCategoryDTO) throws Exception {
+        return ResponseEntity.ok(ResponseDTO
                 .builder()
-                .getInventoryCategoryDTO(this.inventaryCategoryService.createInventoryCategory(InventoryCategoryDTO))
+                .responseDTO(this.inventaryCategoryService.createInventoryCategory(inventoryCategoryDTO))
                 .build());
     }
 
@@ -36,13 +35,13 @@ public class InventaryCategoryController {
 
     @Operation(summary = "Update InventoryCategory", description = "Return InventoryCategory updated")
     @PutMapping("/update")
-    public ResponseEntity<ResponseCreateDTO> updateCategory(
+    public ResponseEntity<ResponseDTO> updateCategory(
             @RequestBody InventoryCategoryDTO inventoryCategoryDTO,
             @RequestParam Integer idCategory
     ) throws Exception {
-        return ResponseEntity.ok(ResponseCreateDTO
+        return ResponseEntity.ok(ResponseDTO
                 .builder()
-                .getInventoryCategoryDTO(this.inventaryCategoryService.updateCategory(inventoryCategoryDTO, idCategory))
+                .responseDTO(this.inventaryCategoryService.updateCategory(inventoryCategoryDTO, idCategory))
                 .build());
     }
 
