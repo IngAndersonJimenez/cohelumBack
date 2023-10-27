@@ -14,6 +14,6 @@ public interface InventoryCommentService {
 
     GetInventoryCommentDTO createInventoryComment(InventoryCommentDTO InventoryCommentDTO) throws Exception;
 
-    GetInventoryCommentDTO updateInventory(InventoryDTO inventoryDTO, Integer inventoryId) throws Exception;
+    GetInventoryCommentDTO updateInventoryComment(InventoryCommentDTO inventoryCommentDTO, Integer inventoryId) throws Exception;
 
 }

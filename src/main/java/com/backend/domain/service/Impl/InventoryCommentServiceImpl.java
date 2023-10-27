@@ -58,8 +58,25 @@ public class InventoryCommentServiceImpl implements InventoryCommentService {
     }
 
     @Override
-    public GetInventoryCommentDTO updateInventory(InventoryDTO inventoryDTO, Integer inventoryId) throws Exception {
-        return null;
+    public GetInventoryCommentDTO updateInventoryComment(InventoryCommentDTO inventoryCommentDTO, Integer inventoryId) throws Exception {
+
+        GetInventoryCommentDTO getInventoryCommentDTO = this.getInventoryCommentByIdInventoryComment(inventoryId);
+        InventoryComment inventoryComment = this.inventoryCommentRepository.save(this.validationObject(getInventoryCommentDTO));
+        return this.generateStructureResponse(inventoryComment);
+    }
+
+
+    private InventoryComment validationObject(GetInventoryCommentDTO getInventoryCommentDTO) {
+
+        InventoryComment inventoryComment = new InventoryComment();
+        inventoryComment.setIdInventoryComment(getInventoryCommentDTO.getIdInventoryComment());
+
+        if (getInventoryCommentDTO.getQualification() != null) {
+            inventoryComment.setQualification(getInventoryCommentDTO.getQualification());
+        }
+
+        inventoryComment.setModificationDate(new Date());
+        return inventoryComment;
     }
 
     private GetInventoryCommentDTO generateStructureResponse(InventoryComment inventoryComment) throws DataNotFound {

@@ -13,7 +13,7 @@ public interface InventoryCategoryService {
 
     GetInventoryCategoryDTO createInventoryCategory(InventoryCategoryDTO inventoryCategoryDTO) throws Exception;
 
-    String updateCategory(String description,InventoryCategoryDTO inventoryCategoryDTO);
+    GetInventoryCategoryDTO updateInventoryCategory(InventoryCategoryDTO inventoryCategoryDTO, Integer inventoryId) throws Exception;
 
     GetInventoryCategoryDTO getCategoryById(Integer categoryId) throws Exception;
 

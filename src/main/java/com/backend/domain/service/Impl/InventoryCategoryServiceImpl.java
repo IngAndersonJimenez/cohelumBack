@@ -47,9 +47,12 @@ public class InventoryCategoryServiceImpl implements InventoryCategoryService {
     }
 
     @Override
-    public String updateCategory(String description, InventoryCategoryDTO inventoryCategoryDTO) {
-        return null;
+    public GetInventoryCategoryDTO updateInventoryCategory(InventoryCategoryDTO inventoryCategoryDTO, Integer inventoryCategoryId) throws Exception {
+        GetInventoryCategoryDTO getInventoryCategoryDTO = this.getCategoryById(inventoryCategoryId);
+        InventoryCategory inventoryUpdated = this.inventoryCategoryRepository.save(this.validationObject(getInventoryCategoryDTO));
+        return this.generateStructureResponse(inventoryUpdated);
     }
+
 
     @Override
     public GetInventoryCategoryDTO getCategoryById(Integer categoryId) throws Exception {
@@ -57,7 +60,18 @@ public class InventoryCategoryServiceImpl implements InventoryCategoryService {
         return this.generateStructureResponse(inventoryCategory);
     }
 
+    private InventoryCategory validationObject(GetInventoryCategoryDTO getInventoryCategoryDTO) {
 
+        InventoryCategory inventoryCategory = new InventoryCategory();
+        inventoryCategory.setIdCategory(getInventoryCategoryDTO.getIdCategory());
+
+        if (getInventoryCategoryDTO.getDescription() != null) {
+            inventoryCategory.setDescription(getInventoryCategoryDTO.getDescription());
+        }
+
+        inventoryCategory.setModificationDate(new Date());
+        return inventoryCategory;
+    }
 
 
 
