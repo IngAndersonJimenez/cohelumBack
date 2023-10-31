@@ -47,7 +47,7 @@ public class InventoryServiceImpl implements InventoryService {
             Inventory inventory = this.objectMapper.convertValue(inventoryDTO, Inventory.class);
             inventory.setHighDate(new Date());
             getInventoryDTO = this.generateStructureResponse(
-                    this.inventoryRepository.save(this.objectMapper.convertValue(inventoryDTO, Inventory.class))
+                    this.inventoryRepository.save(inventory)
             );
         }
 

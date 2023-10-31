@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GetInventoryDetailsDTO extends InventoryDetailsDTO {
+public class GetInventoryImageDTO extends InventoryImageDTO {
 
-    private Integer idInventoryDetails;
+    private Integer idInventoryImage;
 
 }

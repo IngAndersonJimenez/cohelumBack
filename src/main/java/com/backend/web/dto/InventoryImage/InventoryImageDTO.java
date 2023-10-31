@@ -8,9 +8,9 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class InventoryDetailsDTO {
+public class InventoryImageDTO {
 
-    private String characteristic;
-    private String datasheet;
+    private byte[] image;
+    private boolean active;
 
 }
