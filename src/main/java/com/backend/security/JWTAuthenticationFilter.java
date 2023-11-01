@@ -39,8 +39,12 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                             FilterChain chain, Authentication authResult) throws IOException, ServletException {
         UserDetailsImpl userDetailsImpl = (UserDetailsImpl) authResult.getPrincipal();
+
+        ObjectMapper objectMapper = new ObjectMapper();
         String token = CohelumToken.createToken(userDetailsImpl.getUsername(), userDetailsImpl.getUsername());
-        response.addHeader("Authorization", "Bearer " + token);
+        response.setContentType("application/json");
+        response.getWriter().write(objectMapper.writeValueAsString(ResponseAuthDTO.builder().token("Bearer " + token)
+                .build()));
         response.getWriter().flush();
         super.successfulAuthentication(request, response, chain, authResult);
     }
