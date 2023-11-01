@@ -37,8 +37,9 @@ public class InventoryImageServiceImpl implements InventoryImageService {
     }
 
     @Override
-    public GetInventoryImageDTO createInventoryImage(InventoryImageDTO inventoryImageDTO, MultipartFile file) throws Exception {
+    public GetInventoryImageDTO createInventoryImage(MultipartFile file) throws Exception {
         GetInventoryImageDTO getInventoryImageDTO;
+        InventoryImage inventoryImageDTO = new InventoryImage();
         try {
             getInventoryImageDTO = this.getImage(inventoryImageDTO.getImage());
         } catch (DataNotFound dataNotFound) {
@@ -51,6 +52,7 @@ public class InventoryImageServiceImpl implements InventoryImageService {
         }
         return getInventoryImageDTO;
     }
+
 
     private GetInventoryImageDTO generateStructureResponse(InventoryImage inventoryImage) throws DataNotFound {
         GetInventoryImageDTO getInventoryImageDTO;

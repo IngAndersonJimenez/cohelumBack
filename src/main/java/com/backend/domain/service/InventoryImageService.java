@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface InventoryImageService {
 
-    GetInventoryImageDTO createInventoryImage(InventoryImageDTO inventoryImageDTO, MultipartFile file) throws Exception;
+    GetInventoryImageDTO createInventoryImage(MultipartFile file) throws Exception;
     GetInventoryImageDTO getImageById(Integer categoryId) throws Exception;
 
     GetInventoryImageDTO getImage(byte[] image) throws Exception;
