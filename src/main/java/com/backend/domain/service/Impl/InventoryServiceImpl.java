@@ -77,7 +77,7 @@ public class InventoryServiceImpl implements InventoryService {
     public void createFullInventory(InventoryFullDTO inventoryFullDTO) throws Exception {
 
         try {
-            // Guardar en el microservicio Inventory
+
             Inventory inventory = new Inventory();
             inventory.setName(inventoryFullDTO.getName());
             inventory.setPrice(inventoryFullDTO.getPrice());
@@ -85,14 +85,14 @@ public class InventoryServiceImpl implements InventoryService {
             inventory.setHighDate(new Date());
             inventoryRepository.save(inventory);
 
-            // Guardar en el microservicio Details
+
             InventoryDetails inventoryDetails = new InventoryDetails();
             inventoryDetails.setCharacteristic(inventoryFullDTO.getCharacteristic());
             inventoryDetails.setDatasheet(inventoryFullDTO.getDatasheet());
             inventoryDetails.setHighDate(new Date());
             inventoryDetailsRepository.save(inventoryDetails);
 
-            // Guardar en el microservicio Image
+
             InventoryImage inventoryImage = new InventoryImage();
             inventoryImage.setImage(inventoryFullDTO.getImage().getBytes());
             inventoryImage.setHighDate(new Date());
