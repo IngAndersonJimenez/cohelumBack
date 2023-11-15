@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -25,6 +27,15 @@ public class InventoryCategoryServiceImpl implements InventoryCategoryService {
     public GetInventoryCategoryDTO getInventoryCategoryByDescription(String description) throws DataNotFound {
         InventoryCategory inventoryCategory = this.inventoryCategoryRepository.findByDescription(description);
         return this.generateStructureResponse(inventoryCategory);
+    }
+
+    @Override
+    public List<GetInventoryCategoryDTO> getAllCategories() throws Exception {
+        List<InventoryCategory> categories = inventoryCategoryRepository.findAll();
+
+        return categories.stream()
+                .map(category -> objectMapper.convertValue(category, GetInventoryCategoryDTO.class))
+                .collect(Collectors.toList());
     }
 
 

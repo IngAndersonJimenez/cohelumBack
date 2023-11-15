@@ -14,7 +14,7 @@ import java.util.Map;
 public class CohelumToken {
 
     private final static String ACCESS_TOKEN = "Toekncohelum1598743ghsvdhasfdthaschzvhxcdwrdfjhxcvghadasfjxash";
-    private final static Long ACCESS_TOKEN_VALIDITY_SECONDS = 240L;
+    private final static Long ACCESS_TOKEN_VALIDITY_SECONDS = 2400L;
 
     public static String createToken(String nameUser, String emailUser) {
         long expirationTime = ACCESS_TOKEN_VALIDITY_SECONDS * 1000L;

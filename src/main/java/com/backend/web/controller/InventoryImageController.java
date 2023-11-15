@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/v1/inventoryImage")
+@CrossOrigin(origins = "http://localhost:4200")
 public class InventoryImageController {
 
     @Autowired

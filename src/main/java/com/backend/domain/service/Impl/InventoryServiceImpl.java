@@ -1,11 +1,17 @@
 package com.backend.domain.service.Impl;
 
 import com.backend.domain.entity.Inventory;
+import com.backend.domain.entity.InventoryDetails;
+import com.backend.domain.entity.InventoryImage;
 import com.backend.domain.exception.DataNotFound;
+import com.backend.domain.repository.InventoryDetailsRepository;
+import com.backend.domain.repository.InventoryImageRepository;
 import com.backend.domain.repository.InventoryRepository;
 import com.backend.domain.service.InventoryService;
 import com.backend.web.dto.Inventory.GetInventoryDTO;
 import com.backend.web.dto.Inventory.InventoryDTO;
+import com.backend.web.dto.Inventory.InventoryFullDTO;
+import com.backend.web.dto.InventoryDetails.InventoryDetailsDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +24,12 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Autowired
     private InventoryRepository inventoryRepository;
+
+    @Autowired
+    private InventoryDetailsRepository inventoryDetailsRepository;
+
+    @Autowired
+    private InventoryImageRepository inventoryImageRepository;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -59,6 +71,36 @@ public class InventoryServiceImpl implements InventoryService {
         GetInventoryDTO getInventoryDTO = this.getInventoryByIdInventory(inventoryId);
         Inventory inventoryUpdated = this.inventoryRepository.save(this.validationObject(getInventoryDTO));
         return this.generateStructureResponse(inventoryUpdated);
+    }
+
+    @Override
+    public void createFullInventory(InventoryFullDTO inventoryFullDTO) throws Exception {
+
+        try {
+            // Guardar en el microservicio Inventory
+            Inventory inventory = new Inventory();
+            inventory.setName(inventoryFullDTO.getName());
+            inventory.setPrice(inventoryFullDTO.getPrice());
+            inventory.setUnitsAvailable(inventoryFullDTO.getUnitsAvailable());
+            inventory.setHighDate(new Date());
+            inventoryRepository.save(inventory);
+
+            // Guardar en el microservicio Details
+            InventoryDetails inventoryDetails = new InventoryDetails();
+            inventoryDetails.setCharacteristic(inventoryFullDTO.getCharacteristic());
+            inventoryDetails.setDatasheet(inventoryFullDTO.getDatasheet());
+            inventoryDetails.setHighDate(new Date());
+            inventoryDetailsRepository.save(inventoryDetails);
+
+            // Guardar en el microservicio Image
+            InventoryImage inventoryImage = new InventoryImage();
+            inventoryImage.setImage(inventoryFullDTO.getImage().getBytes());
+            inventoryImage.setHighDate(new Date());
+            inventoryImageRepository.save(inventoryImage);
+
+        } catch (Exception e) {
+            throw new Exception("Error al crear el inventario completo.", e);
+        }
     }
 
 
