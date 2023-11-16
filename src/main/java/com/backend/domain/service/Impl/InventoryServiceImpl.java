@@ -1,9 +1,11 @@
 package com.backend.domain.service.Impl;
 
 import com.backend.domain.entity.Inventory;
+import com.backend.domain.entity.InventoryCategory;
 import com.backend.domain.entity.InventoryDetails;
 import com.backend.domain.entity.InventoryImage;
 import com.backend.domain.exception.DataNotFound;
+import com.backend.domain.repository.InventoryCategoryRepository;
 import com.backend.domain.repository.InventoryDetailsRepository;
 import com.backend.domain.repository.InventoryImageRepository;
 import com.backend.domain.repository.InventoryRepository;
@@ -11,11 +13,11 @@ import com.backend.domain.service.InventoryService;
 import com.backend.web.dto.Inventory.GetInventoryDTO;
 import com.backend.web.dto.Inventory.InventoryDTO;
 import com.backend.web.dto.Inventory.InventoryFullDTO;
-import com.backend.web.dto.InventoryDetails.InventoryDetailsDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
 import java.util.Date;
 
 
@@ -30,6 +32,9 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Autowired
     private InventoryImageRepository inventoryImageRepository;
+
+    @Autowired
+    private InventoryCategoryRepository inventoryCategoryRepository;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -85,6 +90,10 @@ public class InventoryServiceImpl implements InventoryService {
             inventory.setHighDate(new Date());
             inventoryRepository.save(inventory);
 
+            InventoryCategory inventoryCategory = new InventoryCategory();
+            inventoryCategory.setDescription(inventoryFullDTO.getDescription());
+            inventoryCategory.setHighDate(new Date());
+            inventoryCategoryRepository.save(inventoryCategory);
 
             InventoryDetails inventoryDetails = new InventoryDetails();
             inventoryDetails.setCharacteristic(inventoryFullDTO.getCharacteristic());
@@ -92,9 +101,9 @@ public class InventoryServiceImpl implements InventoryService {
             inventoryDetails.setHighDate(new Date());
             inventoryDetailsRepository.save(inventoryDetails);
 
-
+            byte[] imageBytes = convertMultipartFileToBytes(inventoryFullDTO.getImage());
             InventoryImage inventoryImage = new InventoryImage();
-            inventoryImage.setImage(inventoryFullDTO.getImage().getBytes());
+            inventoryImage.setImage(imageBytes);
             inventoryImage.setHighDate(new Date());
             inventoryImageRepository.save(inventoryImage);
 
@@ -138,5 +147,7 @@ public class InventoryServiceImpl implements InventoryService {
         return inventory;
     }
 
-
+    private byte[] convertMultipartFileToBytes(MultipartFile file) throws IOException {
+        return file.getBytes();
+    }
 }
