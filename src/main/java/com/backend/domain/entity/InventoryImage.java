@@ -23,4 +23,8 @@ public class InventoryImage extends GeneralEntityAudit {
     @Column(name = "activo")
     private boolean active;
 
+    @ManyToOne
+    @JoinColumn(name = "idInventario")
+    private Inventory inventory;
+
 }

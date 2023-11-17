@@ -27,4 +27,7 @@ public class Inventory extends GeneralEntityAudit {
     @Column(name = "unidadesDisponibles")
     private Integer unitsAvailable;
 
+    @Column(name = "idCategoria")
+    private Integer categoryId;
+
 }

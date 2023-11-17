@@ -2,10 +2,8 @@ package com.backend.web.controller;
 
 import com.backend.domain.service.InventoryService;
 import com.backend.web.dto.Generic.ResponseDTO;
-import com.backend.web.dto.Inventory.GetInventoryDTO;
 import com.backend.web.dto.Inventory.InventoryDTO;
 import com.backend.web.dto.Inventory.InventoryFullDTO;
-import com.backend.web.dto.InventoryDetails.InventoryDetailsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +53,15 @@ public class InventoryController {
             return ResponseEntity.ok(responseDTO);
 
     }
+
+    @GetMapping
+    public ResponseEntity<ResponseDTO> getInventoryByList() throws Exception {
+        return ResponseEntity.ok(ResponseDTO
+                .builder()
+                .responseDTO(this.inventoryService.getAllInventories())
+                .build());
+    }
+
 
 
 }

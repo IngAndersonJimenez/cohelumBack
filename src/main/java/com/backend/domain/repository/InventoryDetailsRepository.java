@@ -12,4 +12,5 @@ public interface InventoryDetailsRepository extends CrudRepository<InventoryDeta
 
     InventoryDetails findByCharacteristic(String characteristic);
 
+
 }

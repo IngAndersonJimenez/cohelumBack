@@ -5,6 +5,8 @@ import com.backend.web.dto.Inventory.GetInventoryDTO;
 import com.backend.web.dto.Inventory.InventoryDTO;
 import com.backend.web.dto.Inventory.InventoryFullDTO;
 
+import java.util.List;
+
 public interface InventoryService {
 
     GetInventoryDTO getInventoryByIdInventory(Integer idInventory) throws Exception;
@@ -16,5 +18,7 @@ public interface InventoryService {
     GetInventoryDTO updateInventory(InventoryDTO inventoryDTO, Integer inventoryId) throws Exception;
 
     void createFullInventory(InventoryFullDTO inventoryFullDTO) throws Exception;
+
+    List<InventoryFullDTO> getAllInventories() throws Exception;;
 
 }

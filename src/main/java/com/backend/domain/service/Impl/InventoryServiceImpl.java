@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -83,34 +85,38 @@ public class InventoryServiceImpl implements InventoryService {
 
         try {
 
+            InventoryCategory savedCategory = inventoryCategoryRepository.findById(inventoryFullDTO.getCategoryId())
+                    .orElseThrow(() -> new Exception("Categoría no encontrada"));
+
             Inventory inventory = new Inventory();
             inventory.setName(inventoryFullDTO.getName());
             inventory.setPrice(inventoryFullDTO.getPrice());
             inventory.setUnitsAvailable(inventoryFullDTO.getUnitsAvailable());
+            inventory.setActive(true);
             inventory.setHighDate(new Date());
+            inventory.setCategoryId(savedCategory.getIdCategory());
             inventoryRepository.save(inventory);
-
-            InventoryCategory inventoryCategory = new InventoryCategory();
-            inventoryCategory.setDescription(inventoryFullDTO.getDescription());
-            inventoryCategory.setHighDate(new Date());
-            inventoryCategoryRepository.save(inventoryCategory);
 
             InventoryDetails inventoryDetails = new InventoryDetails();
             inventoryDetails.setCharacteristic(inventoryFullDTO.getCharacteristic());
             inventoryDetails.setDatasheet(inventoryFullDTO.getDatasheet());
             inventoryDetails.setHighDate(new Date());
+            inventoryDetails.setInventory(inventory);
             inventoryDetailsRepository.save(inventoryDetails);
 
             byte[] imageBytes = convertMultipartFileToBytes(inventoryFullDTO.getImage());
             InventoryImage inventoryImage = new InventoryImage();
             inventoryImage.setImage(imageBytes);
+            inventoryImage.setActive(true);
             inventoryImage.setHighDate(new Date());
+            inventoryImage.setInventory(inventory);
             inventoryImageRepository.save(inventoryImage);
 
         } catch (Exception e) {
             throw new Exception("Error al crear el inventario completo.", e);
         }
     }
+
 
 
     private GetInventoryDTO generateStructureResponse(Inventory inventory) throws DataNotFound {
@@ -150,4 +156,15 @@ public class InventoryServiceImpl implements InventoryService {
     private byte[] convertMultipartFileToBytes(MultipartFile file) throws IOException {
         return file.getBytes();
     }
+
+    @Override
+    public List<InventoryFullDTO> getAllInventories() {
+        List<Inventory> inventories = inventoryRepository.findAll();
+        return inventories.stream()
+                .map(inventory -> objectMapper.convertValue(inventory, InventoryFullDTO.class))
+                .collect(Collectors.toList());
+    }
+
+
+
 }
