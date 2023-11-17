@@ -16,7 +16,7 @@ public class InventoryFullDTO {
     private Integer unitsAvailable;
     private Integer categoryId;
     private String characteristic;
-    private String datasheet;
+    private MultipartFile datasheet;
     private MultipartFile image;
 
 }

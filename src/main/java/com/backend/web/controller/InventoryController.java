@@ -46,7 +46,6 @@ public class InventoryController {
 
     @PostMapping("/createFull")
     public ResponseEntity<ResponseDTO> createFullInventory(@ModelAttribute InventoryFullDTO inventoryFullDTO) throws Exception {
-
             inventoryService.createFullInventory(inventoryFullDTO);
             ResponseDTO responseDTO = ResponseDTO.builder()
                     .build();

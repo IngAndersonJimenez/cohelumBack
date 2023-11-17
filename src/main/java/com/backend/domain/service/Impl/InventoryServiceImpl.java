@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -99,7 +100,7 @@ public class InventoryServiceImpl implements InventoryService {
 
             InventoryDetails inventoryDetails = new InventoryDetails();
             inventoryDetails.setCharacteristic(inventoryFullDTO.getCharacteristic());
-            inventoryDetails.setDatasheet(inventoryFullDTO.getDatasheet());
+            inventoryDetails.setDatasheet(Base64.getEncoder().encodeToString(inventoryFullDTO.getDatasheet().getBytes()));
             inventoryDetails.setHighDate(new Date());
             inventoryDetails.setInventory(inventory);
             inventoryDetailsRepository.save(inventoryDetails);

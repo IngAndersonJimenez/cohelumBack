@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "InventoryCategory")
 @RestController
 @RequestMapping("/api/v1/inventoryCategory")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin
 public class InventoryCategoryController {
 
     @Autowired
@@ -46,7 +46,7 @@ public class InventoryCategoryController {
                 .build());
     }
 
-    @GetMapping
+    @GetMapping("/getAll")
     public ResponseEntity<ResponseDTO> getInventoryByList() throws Exception {
         return ResponseEntity.ok(ResponseDTO
                 .builder()
