@@ -9,14 +9,20 @@ import com.backend.domain.repository.InventoryCategoryRepository;
 import com.backend.domain.repository.InventoryDetailsRepository;
 import com.backend.domain.repository.InventoryImageRepository;
 import com.backend.domain.repository.InventoryRepository;
+import com.backend.domain.service.InventoryCategoryService;
+import com.backend.domain.service.InventoryDetailsService;
 import com.backend.domain.service.InventoryService;
 import com.backend.web.dto.Inventory.GetInventoryDTO;
+import com.backend.web.dto.Inventory.GetInventoryFullDTO;
 import com.backend.web.dto.Inventory.InventoryDTO;
 import com.backend.web.dto.Inventory.InventoryFullDTO;
+import com.backend.web.dto.InventoryCategory.GetInventoryCategoryDTO;
+import com.backend.web.dto.InventoryDetails.GetInventoryDetailsDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.util.Base64;
 import java.util.Date;
@@ -38,8 +44,11 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Autowired
     private InventoryCategoryRepository inventoryCategoryRepository;
-
-    private ObjectMapper objectMapper = new ObjectMapper();
+    @Autowired
+    private InventoryDetailsService inventoryDetailsService;
+    @Autowired
+    private InventoryCategoryService inventoryCategoryService;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
 
     @Override
@@ -53,7 +62,6 @@ public class InventoryServiceImpl implements InventoryService {
         Inventory inventory = this.inventoryRepository.findOneInventoryByName(name);
         return this.generateStructureResponse(inventory);
     }
-
 
 
     @Override
@@ -102,7 +110,7 @@ public class InventoryServiceImpl implements InventoryService {
             inventoryDetails.setCharacteristic(inventoryFullDTO.getCharacteristic());
             inventoryDetails.setDatasheet(Base64.getEncoder().encodeToString(inventoryFullDTO.getDatasheet().getBytes()));
             inventoryDetails.setHighDate(new Date());
-            inventoryDetails.setInventory(inventory);
+            inventoryDetails.setIdInventory(inventory.getIdInventory());
             inventoryDetailsRepository.save(inventoryDetails);
 
             byte[] imageBytes = convertMultipartFileToBytes(inventoryFullDTO.getImage());
@@ -117,7 +125,6 @@ public class InventoryServiceImpl implements InventoryService {
             throw new Exception("Error al crear el inventario completo.", e);
         }
     }
-
 
 
     private GetInventoryDTO generateStructureResponse(Inventory inventory) throws DataNotFound {
@@ -166,6 +173,28 @@ public class InventoryServiceImpl implements InventoryService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public GetInventoryFullDTO getInventoryFull(Integer idInventory) throws Exception {
+        GetInventoryFullDTO getInventoryFullDTO = new GetInventoryFullDTO();
+        GetInventoryDTO getInventoryDTO = this.getInventoryByIdInventory(idInventory);
 
+        if (getInventoryDTO != null) {
+            getInventoryFullDTO.setGetInventoryDTO(getInventoryDTO);
+            GetInventoryDetailsDTO getInventoryDetailsDTO =
+                    this.inventoryDetailsService.getInventoryDetailsByIdInventory(getInventoryDTO.getIdInventory());
+            if (getInventoryDetailsDTO != null) {
+                getInventoryFullDTO.setGetInventoryDetailsDTO(getInventoryDetailsDTO);
+            }
+
+            GetInventoryCategoryDTO getInventoryCategoryDTO =
+                    this.inventoryCategoryService.getCategoryById(getInventoryDTO.getCategoryId());
+
+            if (getInventoryCategoryDTO != null) {
+                getInventoryFullDTO.setGetInventoryCategoryDTO(getInventoryCategoryDTO);
+            }
+        }
+
+        return getInventoryFullDTO;
+    }
 
 }

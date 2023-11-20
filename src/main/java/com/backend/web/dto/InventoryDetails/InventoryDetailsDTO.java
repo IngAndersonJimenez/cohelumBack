@@ -2,9 +2,6 @@ package com.backend.web.dto.InventoryDetails;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
-
-import javax.persistence.Column;
-
 @Data
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
@@ -14,5 +11,6 @@ public class InventoryDetailsDTO {
 
     private String characteristic;
     private String datasheet;
+    private Integer idInventory;
 
 }

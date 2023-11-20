@@ -1,6 +1,5 @@
 package com.backend.domain.service.Impl;
 
-
 import com.backend.domain.entity.InventoryDetails;
 import com.backend.domain.exception.DataNotFound;
 import com.backend.domain.repository.InventoryDetailsRepository;
@@ -54,6 +53,12 @@ public class InventoryDetailsServiceImpl implements InventoryDetailsService {
     public GetInventoryDetailsDTO getInventoryDetailsByCharacteristic(String characteristic) throws DataNotFound {
         InventoryDetails inventoryDetails = this.inventoryDetailsRepository.findByCharacteristic(characteristic);
         return this.generateStructureResponse(inventoryDetails);
+    }
+
+    @Override
+    public GetInventoryDetailsDTO getInventoryDetailsByIdInventory(Integer idInventory) {
+        InventoryDetails inventoryDetails = this.inventoryDetailsRepository.getInventoryDetailsByIdInventory(idInventory);
+        return this.objectMapper.convertValue(inventoryDetails, GetInventoryDetailsDTO.class);
     }
 
     private InventoryDetails validationObject(GetInventoryDetailsDTO getInventoryDetailsDTO) {

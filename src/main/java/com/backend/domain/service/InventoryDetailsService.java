@@ -13,4 +13,7 @@ public interface InventoryDetailsService {
     GetInventoryDetailsDTO getDetailsById(Integer categoryId) throws Exception;
 
     GetInventoryDetailsDTO getInventoryDetailsByCharacteristic(String characteristic) throws DataNotFound;
+
+    GetInventoryDetailsDTO getInventoryDetailsByIdInventory(Integer idInventory);
+
 }

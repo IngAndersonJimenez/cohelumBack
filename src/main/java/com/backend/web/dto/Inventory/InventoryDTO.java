@@ -14,5 +14,6 @@ public class InventoryDTO {
     private boolean active;
     private Integer price;
     private Integer unitsAvailable;
+    private Integer categoryId;
 
 }

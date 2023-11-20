@@ -61,6 +61,12 @@ public class InventoryController {
                 .build());
     }
 
-
+    @GetMapping("/full/{idInventory}")
+    public ResponseEntity<ResponseDTO> getInventoryByNameInventory(@PathVariable String idInventory) throws Exception {
+        return ResponseEntity.ok(ResponseDTO
+                .builder()
+                .responseDTO(this.inventoryService.getInventoryFull(Integer.valueOf(idInventory)))
+                .build());
+    }
 
 }
