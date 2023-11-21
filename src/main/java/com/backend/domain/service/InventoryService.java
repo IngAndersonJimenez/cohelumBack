@@ -24,4 +24,6 @@ public interface InventoryService {
 
     GetInventoryFullDTO getInventoryFull(Integer idInventory) throws Exception;
 
+    GetInventoryFullDTO getInventoryFullByName(String nameInventory) throws Exception;
+
 }

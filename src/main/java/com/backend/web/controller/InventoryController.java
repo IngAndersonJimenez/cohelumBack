@@ -62,11 +62,20 @@ public class InventoryController {
     }
 
     @GetMapping("/full/{idInventory}")
-    public ResponseEntity<ResponseDTO> getInventoryByNameInventory(@PathVariable String idInventory) throws Exception {
+    public ResponseEntity<ResponseDTO> getInventoryById(@PathVariable String idInventory) throws Exception {
         return ResponseEntity.ok(ResponseDTO
                 .builder()
                 .responseDTO(this.inventoryService.getInventoryFull(Integer.valueOf(idInventory)))
                 .build());
     }
+
+    @GetMapping("/searchByName/{name}")
+    public ResponseEntity<ResponseDTO> getInventoryByName(@PathVariable String name) throws Exception {
+        return ResponseEntity.ok(ResponseDTO
+                .builder()
+                .responseDTO(this.inventoryService.getInventoryFullByName(name))
+                .build());
+    }
+
 
 }

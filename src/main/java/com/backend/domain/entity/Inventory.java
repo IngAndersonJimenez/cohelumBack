@@ -30,4 +30,7 @@ public class Inventory extends GeneralEntityAudit {
     @Column(name = "idCategoria")
     private Integer categoryId;
 
+    @Column(name = "idImagen")
+    private Integer imagenId;
+
 }

@@ -8,6 +8,7 @@ import com.backend.web.dto.InventoryCategory.GetInventoryCategoryDTO;
 import com.backend.web.dto.InventoryCategory.InventoryCategoryDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -56,12 +57,27 @@ public class InventoryCategoryServiceImpl implements InventoryCategoryService {
         return getInventoryCategoryDTO;
     }
 
-    @Override
+/*    @Override
     public GetInventoryCategoryDTO updateCategory(InventoryCategoryDTO inventoryCategoryDTO, Integer idCategory) throws Exception {
         GetInventoryCategoryDTO getInventoryCategoryDTO = this.getCategoryById(idCategory);
-        InventoryCategory inventoryCategoryUpdated = this.inventoryCategoryRepository.save(this.validationObject(getInventoryCategoryDTO));
+        inventoryCategoryDTO.setDescription(inventoryCategoryDTO.getDescription());
+        inventoryCategoryDTO.setDescription(String.valueOf(inventoryCategoryDTO.isActive()));
+        InventoryCategory inventoryCategoryUpdated = this.inventoryCategoryRepository.save(inventoryCategoryDTO);
+        return this.generateStructureResponse(inventoryCategoryUpdated);
+    }*/
+
+    @Override
+    public GetInventoryCategoryDTO updateCategory(InventoryCategoryDTO inventoryCategoryDTO, Integer idCategory) throws Exception {
+
+        InventoryCategory existingCategory = this.inventoryCategoryRepository.findById(idCategory)
+                .orElseThrow(() -> new Exception("Categoría no encontrada"));
+        existingCategory.setDescription(inventoryCategoryDTO.getDescription());
+        existingCategory.setActive(inventoryCategoryDTO.isActive());
+        InventoryCategory inventoryCategoryUpdated = this.inventoryCategoryRepository.save(existingCategory);
         return this.generateStructureResponse(inventoryCategoryUpdated);
     }
+
+
 
     @Override
     public GetInventoryCategoryDTO getCategoryById(Integer categoryId) throws Exception {
@@ -95,6 +111,5 @@ public class InventoryCategoryServiceImpl implements InventoryCategoryService {
         inventoryCategory.setModificationDate(new Date());
         return inventoryCategory;
     }
-
 
 }

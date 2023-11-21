@@ -16,4 +16,5 @@ public interface InventoryDetailsService {
 
     GetInventoryDetailsDTO getInventoryDetailsByIdInventory(Integer idInventory);
 
+
 }

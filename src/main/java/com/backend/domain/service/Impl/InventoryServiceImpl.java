@@ -11,6 +11,7 @@ import com.backend.domain.repository.InventoryImageRepository;
 import com.backend.domain.repository.InventoryRepository;
 import com.backend.domain.service.InventoryCategoryService;
 import com.backend.domain.service.InventoryDetailsService;
+import com.backend.domain.service.InventoryImageService;
 import com.backend.domain.service.InventoryService;
 import com.backend.web.dto.Inventory.GetInventoryDTO;
 import com.backend.web.dto.Inventory.GetInventoryFullDTO;
@@ -18,6 +19,7 @@ import com.backend.web.dto.Inventory.InventoryDTO;
 import com.backend.web.dto.Inventory.InventoryFullDTO;
 import com.backend.web.dto.InventoryCategory.GetInventoryCategoryDTO;
 import com.backend.web.dto.InventoryDetails.GetInventoryDetailsDTO;
+import com.backend.web.dto.InventoryImage.GetInventoryImageDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,6 +50,8 @@ public class InventoryServiceImpl implements InventoryService {
     private InventoryDetailsService inventoryDetailsService;
     @Autowired
     private InventoryCategoryService inventoryCategoryService;
+    @Autowired
+    private InventoryImageService inventoryImageService;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
 
@@ -96,6 +100,7 @@ public class InventoryServiceImpl implements InventoryService {
 
             InventoryCategory savedCategory = inventoryCategoryRepository.findById(inventoryFullDTO.getCategoryId())
                     .orElseThrow(() -> new Exception("Categoría no encontrada"));
+
 
             Inventory inventory = new Inventory();
             inventory.setName(inventoryFullDTO.getName());
@@ -191,6 +196,45 @@ public class InventoryServiceImpl implements InventoryService {
 
             if (getInventoryCategoryDTO != null) {
                 getInventoryFullDTO.setGetInventoryCategoryDTO(getInventoryCategoryDTO);
+            }
+            GetInventoryImageDTO getInventoryImageDTO =
+                    this.inventoryImageService.getImageById(getInventoryDTO.getIdInventory());
+            if (getInventoryImageDTO != null){
+                getInventoryFullDTO.setGetInventoryImageDTO(getInventoryImageDTO);
+            }
+        }
+
+        return getInventoryFullDTO;
+    }
+
+    @Override
+    public GetInventoryFullDTO getInventoryFullByName(String nameInventory) throws Exception {
+        GetInventoryFullDTO getInventoryFullDTO = new GetInventoryFullDTO();
+
+        GetInventoryDTO getInventoryDTO = this.getInventoryByName(nameInventory);
+
+        if (getInventoryDTO != null) {
+            getInventoryFullDTO.setGetInventoryDTO(getInventoryDTO);
+
+            GetInventoryDetailsDTO getInventoryDetailsDTO =
+                    this.inventoryDetailsService.getInventoryDetailsByIdInventory(getInventoryDTO.getIdInventory());
+
+            if (getInventoryDetailsDTO != null) {
+                getInventoryFullDTO.setGetInventoryDetailsDTO(getInventoryDetailsDTO);
+            }
+
+            GetInventoryCategoryDTO getInventoryCategoryDTO =
+                    this.inventoryCategoryService.getCategoryById(getInventoryDTO.getCategoryId());
+
+            if (getInventoryCategoryDTO != null) {
+                getInventoryFullDTO.setGetInventoryCategoryDTO(getInventoryCategoryDTO);
+            }
+
+            GetInventoryImageDTO getInventoryImageDTO =
+                    this.inventoryImageService.getImageById(getInventoryDTO.getIdInventory());
+
+            if (getInventoryImageDTO != null){
+                getInventoryFullDTO.setGetInventoryImageDTO(getInventoryImageDTO);
             }
         }
 
