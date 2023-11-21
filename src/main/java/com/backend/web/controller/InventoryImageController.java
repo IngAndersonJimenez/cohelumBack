@@ -29,13 +29,12 @@ public class InventoryImageController {
     }
 
     @GetMapping("/{idInventory}")
-    public ResponseEntity<byte[]> getImageById(@PathVariable Integer idInventory) throws Exception {
+    public ResponseEntity<String> getImageById(@PathVariable Integer idInventory) throws Exception {
         GetInventoryImageDTO image = this.inventoryImageService.getImageById(idInventory);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_JPEG);
         return new ResponseEntity<>(image.getImage(), headers, HttpStatus.OK);
     }
-
 
 
 }

@@ -118,9 +118,8 @@ public class InventoryServiceImpl implements InventoryService {
             inventoryDetails.setIdInventory(inventory.getIdInventory());
             inventoryDetailsRepository.save(inventoryDetails);
 
-            byte[] imageBytes = convertMultipartFileToBytes(inventoryFullDTO.getImage());
             InventoryImage inventoryImage = new InventoryImage();
-            inventoryImage.setImage(imageBytes);
+            inventoryImage.setImage(Base64.getEncoder().encodeToString(inventoryFullDTO.getImage().getBytes()));
             inventoryImage.setActive(true);
             inventoryImage.setHighDate(new Date());
             inventoryImage.setInventory(inventory);

@@ -17,8 +17,8 @@ public class InventoryImage extends GeneralEntityAudit {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer idInventoryImage;
 
-    @Column(name = "imagen")
-    private byte[] image;
+    @Column(name = "imagen", length = 100000)
+    private String image;
 
     @Column(name = "activo")
     private boolean active;

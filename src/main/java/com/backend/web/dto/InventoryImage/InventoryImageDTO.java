@@ -10,7 +10,7 @@ import lombok.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class InventoryImageDTO {
 
-    private byte[] image;
+    private String image;
     private boolean active;
 
 }

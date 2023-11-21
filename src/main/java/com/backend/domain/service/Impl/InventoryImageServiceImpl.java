@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Base64;
 import java.util.Date;
 
 @Service
@@ -41,10 +42,10 @@ public class InventoryImageServiceImpl implements InventoryImageService {
         GetInventoryImageDTO getInventoryImageDTO;
         InventoryImage inventoryImageDTO = new InventoryImage();
         try {
-            getInventoryImageDTO = this.getImage(inventoryImageDTO.getImage());
+            getInventoryImageDTO = this.getImage(inventoryImageDTO.getImage().getBytes());
         } catch (DataNotFound dataNotFound) {
             InventoryImage inventoryImage = this.objectMapper.convertValue(inventoryImageDTO, InventoryImage.class);
-            inventoryImage.setImage(file.getBytes());
+            inventoryImage.setImage(Base64.getEncoder().encodeToString(inventoryImageDTO.getImage().getBytes()));
             inventoryImage.setHighDate(new Date());
             getInventoryImageDTO = this.generateStructureResponse(
                     this.inventoryImageRepository.save(inventoryImage)
