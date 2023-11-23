@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GetRequestContactDTO extends RequestContactDTO{
+public class GetRequestContactDTO extends ContactDTO {
     private Integer idRequest;
 }
