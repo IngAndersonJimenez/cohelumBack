@@ -10,8 +10,8 @@ spring:
     active: ${PROFILE_ACTIVE:dev}
   datasource:
     url: ${PERSISTENCE_URL:jdbc:mysql://localhost:3306/cohelum}
-    username: ${PERSISTENCE_USER:root}
-    password: ${PERSISTENCE_PASSWORD:1234}
+    username: ${PERSISTENCE_USER:devLocal}
+    password: ${PERSISTENCE_PASSWORD:Dev2022$}
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximum-pool-size: 100
