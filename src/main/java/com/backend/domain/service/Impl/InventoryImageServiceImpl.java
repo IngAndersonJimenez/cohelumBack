@@ -14,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class InventoryImageServiceImpl implements InventoryImageService {
@@ -35,6 +37,21 @@ public class InventoryImageServiceImpl implements InventoryImageService {
     public GetInventoryImageDTO getImage(byte[] image) throws Exception {
         InventoryImage inventoryImage = this.inventoryImageRepository.findByImage(image);
         return this.generateStructureResponse(inventoryImage);
+    }
+
+    @Override
+    public List<GetInventoryImageDTO> getImagesByIdInventory(Integer idInventory) throws Exception {
+        List<InventoryImage> inventoryImages =
+                this.inventoryImageRepository.getInventoryImageByIdInventory(idInventory);
+        List<GetInventoryImageDTO> getInventoryImageDTOS = new ArrayList<>();
+        if (inventoryImages != null){
+            for (InventoryImage inventoryImageIter: inventoryImages){
+              getInventoryImageDTOS.add(this.objectMapper.convertValue(inventoryImageIter, GetInventoryImageDTO.class));
+            }
+
+        }
+
+        return getInventoryImageDTOS;
     }
 
     @Override

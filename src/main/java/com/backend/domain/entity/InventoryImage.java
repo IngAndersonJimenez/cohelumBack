@@ -23,8 +23,7 @@ public class InventoryImage extends GeneralEntityAudit {
     @Column(name = "activo")
     private boolean active;
 
-    @ManyToOne
-    @JoinColumn(name = "idInventario")
-    private Inventory inventory;
+    @Column(name = "idInventario")
+    private Integer idInventory;
 
 }

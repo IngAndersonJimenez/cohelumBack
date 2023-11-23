@@ -122,7 +122,7 @@ public class InventoryServiceImpl implements InventoryService {
             inventoryImage.setImage(Base64.getEncoder().encodeToString(inventoryFullDTO.getImage().getBytes()));
             inventoryImage.setActive(true);
             inventoryImage.setHighDate(new Date());
-            inventoryImage.setInventory(inventory);
+            inventoryImage.setIdInventory(inventory.getIdInventory());
             inventoryImageRepository.save(inventoryImage);
 
         } catch (Exception e) {
@@ -196,10 +196,10 @@ public class InventoryServiceImpl implements InventoryService {
             if (getInventoryCategoryDTO != null) {
                 getInventoryFullDTO.setGetInventoryCategoryDTO(getInventoryCategoryDTO);
             }
-            GetInventoryImageDTO getInventoryImageDTO =
-                    this.inventoryImageService.getImageById(getInventoryDTO.getIdInventory());
-            if (getInventoryImageDTO != null){
-                getInventoryFullDTO.setGetInventoryImageDTO(getInventoryImageDTO);
+            List<GetInventoryImageDTO> getInventoryImagesDTO =
+                    this.inventoryImageService.getImagesByIdInventory(getInventoryDTO.getIdInventory());
+            if (getInventoryImagesDTO != null){
+                getInventoryFullDTO.setGetInventoryImagesDTO(getInventoryImagesDTO);
             }
         }
 
@@ -229,11 +229,11 @@ public class InventoryServiceImpl implements InventoryService {
                 getInventoryFullDTO.setGetInventoryCategoryDTO(getInventoryCategoryDTO);
             }
 
-            GetInventoryImageDTO getInventoryImageDTO =
-                    this.inventoryImageService.getImageById(getInventoryDTO.getIdInventory());
+            List<GetInventoryImageDTO> getInventoryImagesDTO =
+                    this.inventoryImageService.getImagesByIdInventory(getInventoryDTO.getIdInventory());
 
-            if (getInventoryImageDTO != null){
-                getInventoryFullDTO.setGetInventoryImageDTO(getInventoryImageDTO);
+            if (getInventoryImagesDTO != null){
+                getInventoryFullDTO.setGetInventoryImagesDTO(getInventoryImagesDTO);
             }
         }
 

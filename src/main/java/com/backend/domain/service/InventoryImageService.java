@@ -1,9 +1,8 @@
 package com.backend.domain.service;
 
-
 import com.backend.web.dto.InventoryImage.GetInventoryImageDTO;
-import com.backend.web.dto.InventoryImage.InventoryImageDTO;
 import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
 
 public interface InventoryImageService {
 
@@ -11,4 +10,6 @@ public interface InventoryImageService {
     GetInventoryImageDTO getImageById(Integer categoryId) throws Exception;
 
     GetInventoryImageDTO getImage(byte[] image) throws Exception;
+
+    List<GetInventoryImageDTO> getImagesByIdInventory (Integer idInventory) throws Exception;
 }
