@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.*;
 public class InventoryCategoryController {
 
     @Autowired
-    private InventoryCategoryServiceImpl inventaryCategoryService;
+    private InventoryCategoryServiceImpl inventoryCategoryService;
 
     @PostMapping("/create")
     public ResponseEntity<ResponseDTO> createInventoryCategory(@RequestBody InventoryCategoryDTO inventoryCategoryDTO) throws Exception {
         return ResponseEntity.ok(ResponseDTO
                 .builder()
-                .responseDTO(this.inventaryCategoryService.createInventoryCategory(inventoryCategoryDTO))
+                .responseDTO(this.inventoryCategoryService.createInventoryCategory(inventoryCategoryDTO))
                 .build());
     }
 
@@ -30,7 +30,7 @@ public class InventoryCategoryController {
     public ResponseEntity<ResponseDTO> getInventoryById(@PathVariable Integer idInventory) throws Exception {
         return ResponseEntity.ok(ResponseDTO
                 .builder()
-                .responseDTO(this.inventaryCategoryService.getCategoryById(idInventory))
+                .responseDTO(this.inventoryCategoryService.getCategoryById(idInventory))
                 .build());
     }
 
@@ -42,7 +42,7 @@ public class InventoryCategoryController {
     ) throws Exception {
         return ResponseEntity.ok(ResponseDTO
                 .builder()
-                .responseDTO(this.inventaryCategoryService.updateCategory(inventoryCategoryDTO, idCategory))
+                .responseDTO(this.inventoryCategoryService.updateCategory(inventoryCategoryDTO, idCategory))
                 .build());
     }
 
@@ -50,7 +50,7 @@ public class InventoryCategoryController {
     public ResponseEntity<ResponseDTO> getInventoryByList() throws Exception {
         return ResponseEntity.ok(ResponseDTO
                 .builder()
-                .responseDTO(this.inventaryCategoryService.getAllCategories())
+                .responseDTO(this.inventoryCategoryService.getAllCategories())
                 .build());
     }
 
