@@ -1,6 +1,5 @@
 package com.backend.domain.service.Impl;
 
-
 import com.backend.domain.entity.*;
 import com.backend.domain.exception.DataNotFound;
 import com.backend.domain.repository.RequestContactRepository;
@@ -14,11 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
-
 
 @Service
 public class RequestContactServiceImpl implements RequestContactService {
@@ -54,30 +52,15 @@ public class RequestContactServiceImpl implements RequestContactService {
 
     @Override
     public List<ContactDTO> getAllContact() throws Exception {
-        List<RequestContact> requestContactDTOS = requestContactRepository.findAll();
-        return requestContactDTOS.stream()
-                .map(requestContact -> objectMapper.convertValue(requestContact, ContactDTO.class))
-                .collect(Collectors.toList());
-    }
+        List<RequestContact> requestContact = requestContactRepository.findAll();
+        List<ContactDTO> contactDTOS = new ArrayList<>();
 
-
-/*
-    @Override
-    public GetRequestContactDTO createContact(RequestContactDTO requestContactDTO) throws Exception {
-        GetRequestContactDTO getRequestContactDTO;
-        try {
-            getRequestContactDTO = this.getContactByName(requestContactDTO.getNameContact());
-        } catch (DataNotFound dataNotFound) {
-            RequestContact requestContact = this.objectMapper.convertValue(requestContactDTO, RequestContact.class);
-            requestContact.setHighDate(new Date());
-            requestContact.setReason(Reason.valueOf(String.valueOf(requestContactDTO.getReason())));
-            getRequestContactDTO = this.generateStructureResponse(
-                    this.requestContactRepository.save(requestContact)
-            );
+        for (RequestContact requestContact1: requestContact){
+            contactDTOS.add(this.convertToDto(requestContact1));
         }
-        return getRequestContactDTO;
+
+        return contactDTOS;
     }
-*/
 
 
 

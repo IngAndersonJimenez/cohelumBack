@@ -4,8 +4,6 @@ import com.backend.domain.entity.generic.ReasonEnum;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
-import java.security.cert.CRLReason;
-
 @Data
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
