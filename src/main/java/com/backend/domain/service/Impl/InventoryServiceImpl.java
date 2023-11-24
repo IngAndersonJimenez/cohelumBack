@@ -199,7 +199,7 @@ public class InventoryServiceImpl implements InventoryService {
             List<GetInventoryImageDTO> getInventoryImagesDTO =
                     this.inventoryImageService.getImagesByIdInventory(getInventoryDTO.getIdInventory());
             if (getInventoryImagesDTO != null){
-                getInventoryFullDTO.setGetInventoryImagesDTO(getInventoryImagesDTO);
+                getInventoryFullDTO.setGetInventoryImageDTO(getInventoryImagesDTO);
             }
         }
 
@@ -233,7 +233,7 @@ public class InventoryServiceImpl implements InventoryService {
                     this.inventoryImageService.getImagesByIdInventory(getInventoryDTO.getIdInventory());
 
             if (getInventoryImagesDTO != null){
-                getInventoryFullDTO.setGetInventoryImagesDTO(getInventoryImagesDTO);
+                getInventoryFullDTO.setGetInventoryImageDTO(getInventoryImagesDTO);
             }
         }
 

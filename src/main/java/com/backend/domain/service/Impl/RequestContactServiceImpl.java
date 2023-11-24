@@ -2,7 +2,6 @@ package com.backend.domain.service.Impl;
 
 
 import com.backend.domain.entity.*;
-import com.backend.domain.entity.generic.Reason;
 import com.backend.domain.exception.DataNotFound;
 import com.backend.domain.repository.RequestContactRepository;
 import com.backend.domain.service.RequestContactService;
@@ -28,10 +27,16 @@ public class RequestContactServiceImpl implements RequestContactService {
 
     @Override
     public GetRequestContactDTO createContact(RequestContactDTO requestContactDTO) throws Exception {
-        RequestContact requestContact = convertToEntity(requestContactDTO);
-        RequestContact savedRequestContact = requestContactRepository.save(requestContact);
-        return convertToDto(savedRequestContact);
+        try {
+            RequestContact requestContact = convertToEntity(requestContactDTO);
+            RequestContact savedRequestContact = requestContactRepository.save(requestContact);
+            return convertToDto(savedRequestContact);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("Error al procesar la solicitud de contacto", e);
+        }
     }
+
     @Override
     public GetRequestContactDTO getContactByIdContact(Integer idIRequest) throws Exception {
         RequestContact requestContact = this.requestContactRepository.findOneRequestContactByIdRequest(idIRequest);
@@ -80,7 +85,7 @@ public class RequestContactServiceImpl implements RequestContactService {
         requestContact.setHighDate(new Date());
         requestContact.setNameContact(requestContactDTO.getNameContact());
         requestContact.setEmail(requestContactDTO.getEmail());
-        requestContact.setReason(Reason.valueOf(String.valueOf(requestContactDTO.getReason())));
+        requestContact.setReason(requestContactDTO.getReason());
         requestContact.setAttach(convertAttachToBase64(requestContactDTO.getAttach()));
         requestContact.setComment(requestContactDTO.getComment());
         requestContact.setCellphone(requestContactDTO.getCellphone());

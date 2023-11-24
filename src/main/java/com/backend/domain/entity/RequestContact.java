@@ -1,7 +1,7 @@
 package com.backend.domain.entity;
 
 import com.backend.domain.entity.generic.GeneralEntityAudit;
-import com.backend.domain.entity.generic.Reason;
+import com.backend.domain.entity.generic.ReasonEnum;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -23,7 +23,8 @@ public class RequestContact extends GeneralEntityAudit {
     private String email ;
 
     @Column(name = "motivo")
-    private Reason reason;
+    private ReasonEnum reason;
+
     @Column(name = "adjunto")
     private String attach;
     @Column(name = "comentario")

@@ -18,6 +18,6 @@ public class GetInventoryFullDTO {
     private GetInventoryDTO getInventoryDTO;
     private GetInventoryDetailsDTO getInventoryDetailsDTO;
     private GetInventoryCategoryDTO getInventoryCategoryDTO;
-    private List<GetInventoryImageDTO> getInventoryImagesDTO;
+    private List<GetInventoryImageDTO> getInventoryImageDTO;
 
 }

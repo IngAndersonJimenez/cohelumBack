@@ -1,8 +1,10 @@
 package com.backend.web.dto.RequestContact;
 
-import com.backend.domain.entity.generic.Reason;
+import com.backend.domain.entity.generic.ReasonEnum;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+
+import java.security.cert.CRLReason;
 
 @Data
 @Builder(toBuilder = true)
@@ -13,7 +15,7 @@ public class ContactDTO {
 
     private String nameContact;
     private String email;
-    private Reason reason;
+    private ReasonEnum reason;
     private String attach;
     private String comment;
     private String cellphone;

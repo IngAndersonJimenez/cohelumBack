@@ -1,14 +1,10 @@
 package com.backend.domain.service.Impl;
 
-import com.backend.domain.entity.InventoryDetails;
 import com.backend.domain.entity.InventoryImage;
 import com.backend.domain.exception.DataNotFound;
 import com.backend.domain.repository.InventoryImageRepository;
 import com.backend.domain.service.InventoryImageService;
-import com.backend.web.dto.InventoryDetails.GetInventoryDetailsDTO;
-import com.backend.web.dto.InventoryDetails.InventoryDetailsDTO;
 import com.backend.web.dto.InventoryImage.GetInventoryImageDTO;
-import com.backend.web.dto.InventoryImage.InventoryImageDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
