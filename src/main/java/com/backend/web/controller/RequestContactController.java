@@ -39,5 +39,14 @@ public class RequestContactController {
                 .build());
     }
 
+    @GetMapping
+    public ResponseEntity<ResponseDTO> getContactByList() throws Exception {
+        return ResponseEntity.ok(ResponseDTO
+                .builder()
+                .responseDTO(this.requestContactService.getAllContact())
+                .build());
+    }
+
+
 
 }

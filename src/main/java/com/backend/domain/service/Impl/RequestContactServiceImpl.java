@@ -5,6 +5,7 @@ import com.backend.domain.entity.*;
 import com.backend.domain.exception.DataNotFound;
 import com.backend.domain.repository.RequestContactRepository;
 import com.backend.domain.service.RequestContactService;
+import com.backend.web.dto.RequestContact.ContactDTO;
 import com.backend.web.dto.RequestContact.GetRequestContactDTO;
 import com.backend.web.dto.RequestContact.RequestContactDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -48,6 +51,15 @@ public class RequestContactServiceImpl implements RequestContactService {
         RequestContact requestContact = this.requestContactRepository.findOneRequestContactByNameContact(name);
         return this.generateStructureResponse(requestContact);
     }
+
+    @Override
+    public List<ContactDTO> getAllContact() throws Exception {
+        List<RequestContact> requestContactDTOS = requestContactRepository.findAll();
+        return requestContactDTOS.stream()
+                .map(requestContact -> objectMapper.convertValue(requestContact, ContactDTO.class))
+                .collect(Collectors.toList());
+    }
+
 
 /*
     @Override
