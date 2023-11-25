@@ -39,7 +39,7 @@ public class RequestContactController {
                 .build());
     }
 
-    @GetMapping
+    @GetMapping("list")
     public ResponseEntity<ResponseDTO> getContactByList() throws Exception {
         return ResponseEntity.ok(ResponseDTO
                 .builder()

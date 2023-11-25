@@ -112,6 +112,7 @@ public class RequestContactServiceImpl implements RequestContactService {
         getRequestContactDTO.setCellphone(requestContact.getCellphone());
         getRequestContactDTO.setDepartment(requestContact.getDepartment());
         getRequestContactDTO.setComment(requestContact.getComment());
+        getRequestContactDTO.setAttach(requestContact.getAttach());
         return getRequestContactDTO;
     }
 
