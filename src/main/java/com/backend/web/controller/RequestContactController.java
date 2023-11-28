@@ -47,6 +47,23 @@ public class RequestContactController {
                 .build());
     }
 
+    @GetMapping("notifications/{isNotRead}")
+    public ResponseEntity<ResponseDTO> getContactIsNotRead(@PathVariable boolean isNotRead) throws Exception {
+        return ResponseEntity.ok(ResponseDTO
+                .builder()
+                .responseDTO(this.requestContactService.getContactIsNotRead(isNotRead))
+                .build());
+    }
+
+    @PutMapping("notifications/update/{status}/{idContact}")
+    public ResponseEntity<ResponseDTO> updateStatusRead(@PathVariable boolean status, @PathVariable Integer idContact) throws Exception {
+
+        return ResponseEntity.ok(ResponseDTO
+                .builder()
+                .responseDTO(this.requestContactService.updateStatusRead(idContact,status))
+                .build());
+    }
+
 
 
 }

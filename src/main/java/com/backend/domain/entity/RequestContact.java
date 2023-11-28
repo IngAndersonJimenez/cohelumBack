@@ -38,5 +38,8 @@ public class RequestContact extends GeneralEntityAudit {
     @Column(name = "ciudad")
     private String city;
 
+    @Column(name = "leido")
+    private boolean read;
+
 
 }

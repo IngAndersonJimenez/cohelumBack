@@ -12,4 +12,6 @@ public interface RequestContactRepository extends JpaRepository<RequestContact, 
 
     RequestContact findOneRequestContactByNameContact(String name);
 
+    List<RequestContact> findRequestContactByRead(boolean isNotRead);
+
 }

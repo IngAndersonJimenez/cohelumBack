@@ -4,9 +4,7 @@ import com.backend.domain.entity.*;
 import com.backend.domain.exception.DataNotFound;
 import com.backend.domain.repository.RequestContactRepository;
 import com.backend.domain.service.RequestContactService;
-import com.backend.web.dto.RequestContact.ContactDTO;
-import com.backend.web.dto.RequestContact.GetRequestContactDTO;
-import com.backend.web.dto.RequestContact.RequestContactDTO;
+import com.backend.web.dto.RequestContact.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,6 +60,36 @@ public class RequestContactServiceImpl implements RequestContactService {
         return contactDTOS;
     }
 
+    @Override
+    public ResponseMessageDTO getContactIsNotRead(boolean isNotRead) throws Exception {
+        List<RequestContact> requestContacts = this.requestContactRepository.findRequestContactByRead(isNotRead);
+        ResponseMessageDTO responseMessageDTO = new ResponseMessageDTO();
+        List<Integer> responseIntegers = new ArrayList<>();
+        List<String> responseNames = new ArrayList<>();
+
+        for (RequestContact requestContact : requestContacts) {
+            responseIntegers.add(requestContact.getIdRequest());
+            responseNames.add(requestContact.getNameContact());
+        }
+
+        responseMessageDTO.setName(responseNames);
+        responseMessageDTO.setIdContact(responseIntegers);
+        return responseMessageDTO;
+    }
+
+    @Override
+    public ResponseUpdateMessageDTO updateStatusRead(Integer idRequestContact, boolean statusRead) throws Exception {
+        RequestContact requestContact = this.requestContactRepository.findOneRequestContactByIdRequest(idRequestContact);
+        ResponseUpdateMessageDTO responseUpdateMessageDTO = new ResponseUpdateMessageDTO();
+        if(requestContact !=null){
+            requestContact.setRead(statusRead);
+            this.requestContactRepository.save(requestContact);
+            responseUpdateMessageDTO.setResultUpdate("Status actualizado");
+        } else {
+            responseUpdateMessageDTO.setResultUpdate("El mensaje no existe");
+        }
+        return responseUpdateMessageDTO;
+    }
 
 
     private GetRequestContactDTO generateStructureResponse(RequestContact requestContact) throws DataNotFound {
@@ -86,7 +114,7 @@ public class RequestContactServiceImpl implements RequestContactService {
         requestContact.setCellphone(requestContactDTO.getCellphone());
         requestContact.setDepartment(requestContactDTO.getDepartment());
         requestContact.setCity(requestContactDTO.getCity());
-        // Puedes establecer otros campos según sea necesario
+
         return requestContact;
     }
 
@@ -96,7 +124,7 @@ public class RequestContactServiceImpl implements RequestContactService {
             try {
                 return Base64.getEncoder().encodeToString(attach.getBytes());
             } catch (IOException e) {
-                // Manejar la excepción según sea necesario
+
                 e.printStackTrace();
             }
         }
