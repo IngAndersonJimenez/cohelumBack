@@ -6,8 +6,10 @@ import com.backend.web.dto.Generic.ResponseDTO;
 import com.backend.web.dto.InventoryCategory.InventoryCategoryDTO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Api(tags = "CategoryImage")
 @RestController
@@ -20,18 +22,18 @@ public class CategoryImageController {
 
     @GetMapping("/{idCategory}")
     public ResponseEntity<ResponseDTO> getCategoryImageByIdCategory(@PathVariable Integer idCategory) throws Exception {
-        return ResponseEntity.ok(ResponseDTO
-                .builder()
-                .responseDTO(this.categoryImageService.getCategoryImageByIdCategory(idCategory))
-                .build());
+        return ResponseEntity.ok(ResponseDTO.builder().responseDTO(
+                this.categoryImageService.getCategoryImageByIdCategory(idCategory)).build());
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<ResponseDTO> createCategoryImage(@ModelAttribute CategoryImageDTO categoryImageDTO) throws Exception {
-        return ResponseEntity.ok(ResponseDTO
-                .builder()
-                .responseDTO(this.categoryImageService.createCategoryImage(categoryImageDTO))
-                .build());
+    @PostMapping(value = "/create", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<ResponseDTO> createCategoryImage(
+            @RequestParam Boolean active,
+            @RequestParam Integer idCategory,
+            @RequestPart(value = "image", required = false) MultipartFile imageCategory) throws Exception {
+        CategoryImageDTO categoryImageDTO = new CategoryImageDTO(active, idCategory);
+        return ResponseEntity.ok(ResponseDTO.builder().responseDTO(
+                this.categoryImageService.createCategoryImage(categoryImageDTO, imageCategory)).build());
     }
 
 }

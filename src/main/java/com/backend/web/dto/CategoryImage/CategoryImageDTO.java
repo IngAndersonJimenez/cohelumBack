@@ -11,8 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CategoryImageDTO {
 
-    private MultipartFile image;
-
     private boolean active;
 
     private Integer idCategory;

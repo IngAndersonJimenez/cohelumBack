@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/requestContact")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin
 public class RequestContactController {
 
     @Autowired
@@ -46,7 +46,6 @@ public class RequestContactController {
                 .responseDTO(this.requestContactService.getAllContact())
                 .build());
     }
-
 
 
 }

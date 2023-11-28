@@ -1,13 +1,15 @@
 package com.backend.domain.entity;
 
+import com.backend.domain.entity.generic.GeneralEntityAudit;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.sql.Blob;
 
 @Entity
 @Data
-@Table(name = "inventario", schema = "cohelum")
-public class CategoryImage {
+@Table(name = "categoriaImagen", schema = "cohelum")
+public class CategoryImage extends GeneralEntityAudit {
 
     @Id
     @Column(name = "idCategoriaImagen")
@@ -15,7 +17,7 @@ public class CategoryImage {
     private Integer idCategoryImage;
 
     @Column(name = "imagen", length = 100000)
-    private String image;
+    private String photo;
 
     @Column(name = "activo")
     private boolean active;
