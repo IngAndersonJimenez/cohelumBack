@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CategoryImageRepository extends CrudRepository<CategoryImage, Integer> {
 
-    CategoryImageRepository getCategoryImageByIdCategory(Integer idCategory);
+    CategoryImage getCategoryImageByIdCategory(Integer idCategory);
 
 }

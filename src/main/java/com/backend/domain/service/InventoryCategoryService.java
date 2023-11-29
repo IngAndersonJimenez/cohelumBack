@@ -1,8 +1,8 @@
 package com.backend.domain.service;
 
 import com.backend.domain.exception.DataNotFound;
-import com.backend.web.dto.InventoryCategory.GetInventoryCategoryDTO;
-import com.backend.web.dto.InventoryCategory.InventoryCategoryDTO;
+import com.backend.web.dto.InventoryCategory.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -17,4 +17,8 @@ public interface InventoryCategoryService {
     GetInventoryCategoryDTO getInventoryCategoryByDescription(String description) throws DataNotFound;
 
     List<GetInventoryCategoryDTO> getAllCategories() throws Exception;
+
+    GetInventoryCategoryDTO createInventoryCategoryAndImage(RequestCreateCategoryAndImageDTO requestCreateCategoryAndImageDTO, MultipartFile file) throws Exception;
+
+    ResponseCategoryFullDTO getCategoryAll() throws Exception;
 }

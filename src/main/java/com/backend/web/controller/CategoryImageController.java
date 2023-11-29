@@ -31,7 +31,7 @@ public class CategoryImageController {
             @RequestParam Boolean active,
             @RequestParam Integer idCategory,
             @RequestPart(value = "image", required = false) MultipartFile imageCategory) throws Exception {
-        CategoryImageDTO categoryImageDTO = new CategoryImageDTO(active, idCategory);
+        CategoryImageDTO categoryImageDTO = new CategoryImageDTO(active, idCategory, null);
         return ResponseEntity.ok(ResponseDTO.builder().responseDTO(
                 this.categoryImageService.createCategoryImage(categoryImageDTO, imageCategory)).build());
     }

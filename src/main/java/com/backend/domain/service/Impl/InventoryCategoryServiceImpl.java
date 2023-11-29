@@ -3,14 +3,16 @@ package com.backend.domain.service.Impl;
 import com.backend.domain.entity.InventoryCategory;
 import com.backend.domain.exception.DataNotFound;
 import com.backend.domain.repository.InventoryCategoryRepository;
+import com.backend.domain.service.CategoryImageService;
 import com.backend.domain.service.InventoryCategoryService;
-import com.backend.web.dto.InventoryCategory.GetInventoryCategoryDTO;
-import com.backend.web.dto.InventoryCategory.InventoryCategoryDTO;
+import com.backend.web.dto.CategoryImage.CategoryImageDTO;
+import com.backend.web.dto.InventoryCategory.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,6 +23,8 @@ public class InventoryCategoryServiceImpl implements InventoryCategoryService {
 
     @Autowired
     private InventoryCategoryRepository inventoryCategoryRepository;
+    @Autowired
+    private CategoryImageService categoryImageService;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -37,6 +41,29 @@ public class InventoryCategoryServiceImpl implements InventoryCategoryService {
         return categories.stream()
                 .map(category -> objectMapper.convertValue(category, GetInventoryCategoryDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public GetInventoryCategoryDTO createInventoryCategoryAndImage(RequestCreateCategoryAndImageDTO requestCreateCategoryAndImageDTO, MultipartFile file) throws Exception {
+        GetInventoryCategoryDTO getInventoryCategoryDTO =
+        this.createInventoryCategory(requestCreateCategoryAndImageDTO.getInventoryCategoryDTO());
+        this.categoryImageService.createCategoryImage(new CategoryImageDTO(Boolean.TRUE,getInventoryCategoryDTO.getIdCategory(), null),file);
+        return getInventoryCategoryDTO;
+    }
+
+    @Override
+    public ResponseCategoryFullDTO getCategoryAll() throws Exception {
+        ResponseCategoryFullDTO responseCategoryFullDTO = new ResponseCategoryFullDTO();
+        List<CategoryFullDTO> categoryFullDTOList = new ArrayList<>();
+        List<GetInventoryCategoryDTO> categories = this.getAllCategories();
+        for (GetInventoryCategoryDTO getInventoryCategoryDTO:categories){
+            categoryFullDTOList.add(new CategoryFullDTO(
+                    getInventoryCategoryDTO,
+                    this.categoryImageService.getCategoryImageByIdCategory(getInventoryCategoryDTO.getIdCategory()
+            )));
+        }
+        responseCategoryFullDTO.setCategoryFullDTOList(categoryFullDTOList);
+        return responseCategoryFullDTO;
     }
 
 

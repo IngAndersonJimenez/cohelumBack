@@ -24,14 +24,17 @@ public class CategoryImageServiceImpl implements CategoryImageService {
 
     @Override
     public GetCategoryImageDTO getCategoryImageByIdCategory(Integer idCategory) {
-        return this.objectMapper.convertValue(
-                this.categoryImageRepository.getCategoryImageByIdCategory(idCategory), GetCategoryImageDTO.class);
+
+        CategoryImage image = this.categoryImageRepository.getCategoryImageByIdCategory(idCategory);
+
+        return this.objectMapper.convertValue(image
+                , GetCategoryImageDTO.class);
     }
 
     @Override
     public GetCategoryImageDTO createCategoryImage(CategoryImageDTO categoryImageDTO, MultipartFile imageCategory) throws IOException {
         CategoryImage categoryImage = this.objectMapper.convertValue(categoryImageDTO, CategoryImage.class);
-        if (imageCategory != null){
+        if (imageCategory != null) {
             categoryImage.setPhoto(Base64.getEncoder().encodeToString(imageCategory.getBytes()));
         }
         categoryImage.setHighDate(new Date());
