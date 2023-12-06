@@ -240,4 +240,5 @@ public class InventoryServiceImpl implements InventoryService {
         return getInventoryFullDTO;
     }
 
+
 }

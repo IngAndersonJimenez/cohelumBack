@@ -21,7 +21,7 @@ public class InventoryImageServiceImpl implements InventoryImageService {
     @Autowired
     private InventoryImageRepository inventoryImageRepository;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public GetInventoryImageDTO getImageById(Integer imageId) throws Exception {
@@ -40,9 +40,9 @@ public class InventoryImageServiceImpl implements InventoryImageService {
         List<InventoryImage> inventoryImages =
                 this.inventoryImageRepository.getInventoryImageByIdInventory(idInventory);
         List<GetInventoryImageDTO> getInventoryImageDTOS = new ArrayList<>();
-        if (inventoryImages != null){
-            for (InventoryImage inventoryImageIter: inventoryImages){
-              getInventoryImageDTOS.add(this.objectMapper.convertValue(inventoryImageIter, GetInventoryImageDTO.class));
+        if (inventoryImages != null) {
+            for (InventoryImage inventoryImageIter : inventoryImages) {
+                getInventoryImageDTOS.add(this.objectMapper.convertValue(inventoryImageIter, GetInventoryImageDTO.class));
             }
 
         }
@@ -51,19 +51,17 @@ public class InventoryImageServiceImpl implements InventoryImageService {
     }
 
     @Override
-    public GetInventoryImageDTO createInventoryImage(MultipartFile file) throws Exception {
+    public GetInventoryImageDTO createInventoryImage(MultipartFile file, Integer idInventory) throws Exception {
         GetInventoryImageDTO getInventoryImageDTO;
-        InventoryImage inventoryImageDTO = new InventoryImage();
-        try {
-            getInventoryImageDTO = this.getImage(inventoryImageDTO.getImage().getBytes());
-        } catch (DataNotFound dataNotFound) {
-            InventoryImage inventoryImage = this.objectMapper.convertValue(inventoryImageDTO, InventoryImage.class);
-            inventoryImage.setImage(Base64.getEncoder().encodeToString(inventoryImageDTO.getImage().getBytes()));
-            inventoryImage.setHighDate(new Date());
-            getInventoryImageDTO = this.generateStructureResponse(
-                    this.inventoryImageRepository.save(inventoryImage)
-            );
-        }
+        InventoryImage inventoryImage = new InventoryImage();
+        inventoryImage.setImage(Base64.getEncoder().encodeToString(file.getBytes()));
+        inventoryImage.setActive(true);
+        inventoryImage.setIdInventory(idInventory);
+        inventoryImage.setHighDate(new Date());
+        getInventoryImageDTO = this.generateStructureResponse(
+                this.inventoryImageRepository.save(inventoryImage)
+        );
+
         return getInventoryImageDTO;
     }
 

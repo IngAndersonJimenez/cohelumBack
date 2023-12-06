@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface InventoryImageService {
 
-    GetInventoryImageDTO createInventoryImage(MultipartFile file) throws Exception;
+    GetInventoryImageDTO createInventoryImage(MultipartFile file, Integer idInventory) throws Exception;
     GetInventoryImageDTO getImageById(Integer categoryId) throws Exception;
 
     GetInventoryImageDTO getImage(byte[] image) throws Exception;

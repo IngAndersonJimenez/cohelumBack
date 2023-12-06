@@ -20,11 +20,13 @@ public class InventoryImageController {
     @Autowired
     private InventoryImageService inventoryImageService;
 
-    @PostMapping("/create")
-    public ResponseEntity<ResponseDTO> createInventoryImage(@RequestParam("file") MultipartFile file) throws Exception {
+    @PostMapping("/create/{idInventory}")
+    public ResponseEntity<ResponseDTO> createInventoryImage(
+            @RequestPart(value = "image", required = false) MultipartFile file,
+            @PathVariable Integer idInventory) throws Exception {
         return ResponseEntity.ok(ResponseDTO
                 .builder()
-                .responseDTO(this.inventoryImageService.createInventoryImage(file))
+                .responseDTO(this.inventoryImageService.createInventoryImage(file, idInventory))
                 .build());
     }
 
