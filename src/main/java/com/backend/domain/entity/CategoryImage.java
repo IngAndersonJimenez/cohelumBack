@@ -17,7 +17,7 @@ public class CategoryImage extends GeneralEntityAudit {
     private Integer idCategoryImage;
 
     @Column(name = "imagen", length = 100000)
-    private String photo;
+    private String image;
 
     @Column(name = "activo")
     private boolean active;

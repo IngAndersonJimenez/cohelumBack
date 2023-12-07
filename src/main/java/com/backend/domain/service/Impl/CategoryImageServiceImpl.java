@@ -37,7 +37,7 @@ public class CategoryImageServiceImpl implements CategoryImageService {
     public GetCategoryImageDTO createCategoryImage(CategoryImageDTO categoryImageDTO, MultipartFile imageCategory) throws IOException {
         CategoryImage categoryImage = this.objectMapper.convertValue(categoryImageDTO, CategoryImage.class);
         if (imageCategory != null) {
-            categoryImage.setPhoto(Base64.getEncoder().encodeToString(imageCategory.getBytes()));
+            categoryImage.setImage(Base64.getEncoder().encodeToString(imageCategory.getBytes()));
         }
         categoryImage.setHighDate(new Date());
         CategoryImage categoryImageResult = this.categoryImageRepository.save(categoryImage);
@@ -49,7 +49,7 @@ public class CategoryImageServiceImpl implements CategoryImageService {
         CategoryImage categoryImage = this.categoryImageRepository.findById(categoryImageId)
                 .orElseThrow(() -> new EntityNotFoundException("No se encontró la categoría con ID: " + categoryImageId));
         if (imageCategory != null && !imageCategory.isEmpty()) {
-            categoryImage.setPhoto(Base64.getEncoder().encodeToString(imageCategory.getBytes()));
+            categoryImage.setImage(Base64.getEncoder().encodeToString(imageCategory.getBytes()));
         }
         CategoryImage updatedCategoryImage = this.categoryImageRepository.save(categoryImage);
         return this.objectMapper.convertValue(updatedCategoryImage, GetCategoryImageDTO.class);

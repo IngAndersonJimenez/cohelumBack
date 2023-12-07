@@ -15,6 +15,6 @@ public class CategoryImageDTO {
 
     private Integer idCategory;
 
-    private String photo;
+    private String image;
 
 }
