@@ -20,7 +20,7 @@ public interface InventoryService {
 
     void createFullInventory(InventoryFullDTO inventoryFullDTO) throws Exception;
 
-    List<InventoryFullDTO> getAllInventories() throws Exception;
+    List<GetInventoryFullDTO> getAllInventories() throws Exception;
 
     GetInventoryFullDTO getInventoryFull(Integer idInventory) throws Exception;
 

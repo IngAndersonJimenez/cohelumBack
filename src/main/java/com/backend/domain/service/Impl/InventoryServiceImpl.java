@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
@@ -170,11 +171,20 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public List<InventoryFullDTO> getAllInventories() {
+    public List<GetInventoryFullDTO> getAllInventories() throws Exception {
         List<Inventory> inventories = inventoryRepository.findAll();
-        return inventories.stream()
-                .map(inventory -> objectMapper.convertValue(inventory, InventoryFullDTO.class))
-                .collect(Collectors.toList());
+        List<GetInventoryFullDTO> getInventoryFullDTOS = new ArrayList<>();
+
+        for (Inventory inventory : inventories) {
+            GetInventoryFullDTO getInventoryFullDTO = new GetInventoryFullDTO();
+            getInventoryFullDTO.setGetInventoryDTO(this.objectMapper.convertValue(inventory, GetInventoryDTO.class));
+            getInventoryFullDTO.setGetInventoryCategoryDTO(this.inventoryCategoryService.getCategoryById(inventory.getCategoryId()));
+            getInventoryFullDTO.setGetInventoryImageDTO(this.inventoryImageService.getImagesByIdInventory(inventory.getIdInventory()));
+            getInventoryFullDTO.setGetInventoryDetailsDTO(this.inventoryDetailsService.getInventoryDetailsByIdInventory(inventory.getIdInventory()));
+            getInventoryFullDTOS.add(getInventoryFullDTO);
+        }
+
+        return getInventoryFullDTOS;
     }
 
     @Override
@@ -198,7 +208,7 @@ public class InventoryServiceImpl implements InventoryService {
             }
             List<GetInventoryImageDTO> getInventoryImagesDTO =
                     this.inventoryImageService.getImagesByIdInventory(getInventoryDTO.getIdInventory());
-            if (getInventoryImagesDTO != null){
+            if (getInventoryImagesDTO != null) {
                 getInventoryFullDTO.setGetInventoryImageDTO(getInventoryImagesDTO);
             }
         }
@@ -232,7 +242,7 @@ public class InventoryServiceImpl implements InventoryService {
             List<GetInventoryImageDTO> getInventoryImagesDTO =
                     this.inventoryImageService.getImagesByIdInventory(getInventoryDTO.getIdInventory());
 
-            if (getInventoryImagesDTO != null){
+            if (getInventoryImagesDTO != null) {
                 getInventoryFullDTO.setGetInventoryImageDTO(getInventoryImagesDTO);
             }
         }
