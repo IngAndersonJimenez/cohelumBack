@@ -52,6 +52,25 @@ public class InventoryCategoryServiceImpl implements InventoryCategoryService {
     }
 
     @Override
+    public GetInventoryCategoryDTO updateInventoryCategoryAndImage(Integer categoryId, RequestCreateCategoryAndImageDTO requestCreateCategoryAndImageDTO, MultipartFile file) throws Exception {
+        return null;
+    }
+
+/*
+    @Override
+    public GetInventoryCategoryDTO updateInventoryCategoryAndImage(Integer categoryId, RequestCreateCategoryAndImageDTO requestUpdateCategoryAndImageDTO, MultipartFile file) throws Exception {
+        GetInventoryCategoryDTO getInventoryCategoryDTO = this.getCategoryById(categoryId);
+        getInventoryCategoryDTO.setDescription(requestUpdateCategoryAndImageDTO.getInventoryCategoryDTO().getDescription());
+        getInventoryCategoryDTO.setActive(requestUpdateCategoryAndImageDTO);
+        this.categoryImageService.updateCategoryImage(new CategoryImageDTO(Boolean.TRUE,categoryId,null), file);
+        return getInventoryCategoryDTO;
+    }
+*/
+
+
+
+
+    @Override
     public ResponseCategoryFullDTO getCategoryAll() throws Exception {
         ResponseCategoryFullDTO responseCategoryFullDTO = new ResponseCategoryFullDTO();
         List<CategoryFullDTO> categoryFullDTOList = new ArrayList<>();
@@ -83,15 +102,6 @@ public class InventoryCategoryServiceImpl implements InventoryCategoryService {
 
         return getInventoryCategoryDTO;
     }
-
-/*    @Override
-    public GetInventoryCategoryDTO updateCategory(InventoryCategoryDTO inventoryCategoryDTO, Integer idCategory) throws Exception {
-        GetInventoryCategoryDTO getInventoryCategoryDTO = this.getCategoryById(idCategory);
-        inventoryCategoryDTO.setDescription(inventoryCategoryDTO.getDescription());
-        inventoryCategoryDTO.setDescription(String.valueOf(inventoryCategoryDTO.isActive()));
-        InventoryCategory inventoryCategoryUpdated = this.inventoryCategoryRepository.save(inventoryCategoryDTO);
-        return this.generateStructureResponse(inventoryCategoryUpdated);
-    }*/
 
     @Override
     public GetInventoryCategoryDTO updateCategory(InventoryCategoryDTO inventoryCategoryDTO, Integer idCategory) throws Exception {

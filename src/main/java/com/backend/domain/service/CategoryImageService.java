@@ -12,4 +12,6 @@ public interface CategoryImageService {
 
     GetCategoryImageDTO createCategoryImage(CategoryImageDTO categoryImageDTO, MultipartFile imageCategory) throws IOException;
 
+    GetCategoryImageDTO updateCategoryImage(Integer categoryImageId,CategoryImageDTO categoryImageDTO, MultipartFile imageCategory) throws IOException;
+
 }

@@ -41,4 +41,14 @@ public class CategoryImageServiceImpl implements CategoryImageService {
         CategoryImage categoryImageResult = this.categoryImageRepository.save(categoryImage);
         return this.objectMapper.convertValue(categoryImageResult, GetCategoryImageDTO.class);
     }
+
+    @Override
+    public GetCategoryImageDTO updateCategoryImage(Integer categoryImageId,CategoryImageDTO categoryImageDTO, MultipartFile imageCategory) throws IOException {
+        GetCategoryImageDTO getCategoryImageDTO = this.getCategoryImageByIdCategory(categoryImageId);
+
+        if (getCategoryImageDTO != null){
+            getCategoryImageDTO.setPhoto(Base64.getEncoder().encodeToString(imageCategory.getBytes()));
+        }
+        return getCategoryImageDTO;
+    }
 }

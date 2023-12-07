@@ -3,7 +3,6 @@ package com.backend.web.controller;
 import com.backend.domain.service.CategoryImageService;
 import com.backend.web.dto.CategoryImage.CategoryImageDTO;
 import com.backend.web.dto.Generic.ResponseDTO;
-import com.backend.web.dto.InventoryCategory.InventoryCategoryDTO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -34,6 +33,15 @@ public class CategoryImageController {
         CategoryImageDTO categoryImageDTO = new CategoryImageDTO(active, idCategory, null);
         return ResponseEntity.ok(ResponseDTO.builder().responseDTO(
                 this.categoryImageService.createCategoryImage(categoryImageDTO, imageCategory)).build());
+    }
+
+    @PutMapping(value = "/update/{idCategory}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<ResponseDTO> updateCategoryImage(
+            @PathVariable Integer idCategory,
+            @RequestPart(value = "image", required = false) MultipartFile imageCategory) throws Exception {
+        CategoryImageDTO categoryImageDTO = new CategoryImageDTO( Boolean.TRUE,idCategory, null);
+        return ResponseEntity.ok(ResponseDTO.builder().responseDTO(
+                this.categoryImageService.updateCategoryImage(idCategory,categoryImageDTO, imageCategory)).build());
     }
 
 }
