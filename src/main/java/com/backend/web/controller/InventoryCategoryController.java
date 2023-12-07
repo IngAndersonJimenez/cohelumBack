@@ -3,6 +3,7 @@ package com.backend.web.controller;
 import com.backend.domain.service.Impl.InventoryCategoryServiceImpl;
 import com.backend.web.dto.CategoryImage.CategoryImageDTO;
 import com.backend.web.dto.Generic.ResponseDTO;
+import com.backend.web.dto.InventoryCategory.GetInventoryCategoryDTO;
 import com.backend.web.dto.InventoryCategory.InventoryCategoryDTO;
 import com.backend.web.dto.InventoryCategory.RequestCreateCategoryAndImageDTO;
 import io.swagger.annotations.Api;

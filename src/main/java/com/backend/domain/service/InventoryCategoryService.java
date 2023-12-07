@@ -20,7 +20,5 @@ public interface InventoryCategoryService {
 
     GetInventoryCategoryDTO createInventoryCategoryAndImage(RequestCreateCategoryAndImageDTO requestCreateCategoryAndImageDTO, MultipartFile file) throws Exception;
 
-    GetInventoryCategoryDTO updateInventoryCategoryAndImage(Integer categoryId,RequestCreateCategoryAndImageDTO requestCreateCategoryAndImageDTO, MultipartFile file) throws Exception;
-
     ResponseCategoryFullDTO getCategoryAll() throws Exception;
 }

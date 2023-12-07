@@ -51,24 +51,6 @@ public class InventoryCategoryServiceImpl implements InventoryCategoryService {
         return getInventoryCategoryDTO;
     }
 
-    @Override
-    public GetInventoryCategoryDTO updateInventoryCategoryAndImage(Integer categoryId, RequestCreateCategoryAndImageDTO requestCreateCategoryAndImageDTO, MultipartFile file) throws Exception {
-        return null;
-    }
-
-/*
-    @Override
-    public GetInventoryCategoryDTO updateInventoryCategoryAndImage(Integer categoryId, RequestCreateCategoryAndImageDTO requestUpdateCategoryAndImageDTO, MultipartFile file) throws Exception {
-        GetInventoryCategoryDTO getInventoryCategoryDTO = this.getCategoryById(categoryId);
-        getInventoryCategoryDTO.setDescription(requestUpdateCategoryAndImageDTO.getInventoryCategoryDTO().getDescription());
-        getInventoryCategoryDTO.setActive(requestUpdateCategoryAndImageDTO);
-        this.categoryImageService.updateCategoryImage(new CategoryImageDTO(Boolean.TRUE,categoryId,null), file);
-        return getInventoryCategoryDTO;
-    }
-*/
-
-
-
 
     @Override
     public ResponseCategoryFullDTO getCategoryAll() throws Exception {

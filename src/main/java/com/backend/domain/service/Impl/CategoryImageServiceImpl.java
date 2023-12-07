@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class CategoryImageServiceImpl implements CategoryImageService {
@@ -43,12 +45,14 @@ public class CategoryImageServiceImpl implements CategoryImageService {
     }
 
     @Override
-    public GetCategoryImageDTO updateCategoryImage(Integer categoryImageId,CategoryImageDTO categoryImageDTO, MultipartFile imageCategory) throws IOException {
-        GetCategoryImageDTO getCategoryImageDTO = this.getCategoryImageByIdCategory(categoryImageId);
-
-        if (getCategoryImageDTO != null){
-            getCategoryImageDTO.setPhoto(Base64.getEncoder().encodeToString(imageCategory.getBytes()));
+    public GetCategoryImageDTO updateCategoryImage(Integer categoryImageId, MultipartFile imageCategory) throws IOException {
+        CategoryImage categoryImage = this.categoryImageRepository.findById(categoryImageId)
+                .orElseThrow(() -> new EntityNotFoundException("No se encontró la categoría con ID: " + categoryImageId));
+        if (imageCategory != null && !imageCategory.isEmpty()) {
+            categoryImage.setPhoto(Base64.getEncoder().encodeToString(imageCategory.getBytes()));
         }
-        return getCategoryImageDTO;
+        CategoryImage updatedCategoryImage = this.categoryImageRepository.save(categoryImage);
+        return this.objectMapper.convertValue(updatedCategoryImage, GetCategoryImageDTO.class);
     }
+
 }

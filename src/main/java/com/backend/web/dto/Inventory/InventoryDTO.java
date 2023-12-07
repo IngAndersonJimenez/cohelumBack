@@ -3,6 +3,8 @@ package com.backend.web.dto.Inventory;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
@@ -12,7 +14,7 @@ public class InventoryDTO {
 
     private String name;
     private boolean active;
-    private Integer price;
+    private BigDecimal price;
     private Integer unitsAvailable;
     private Integer categoryId;
 

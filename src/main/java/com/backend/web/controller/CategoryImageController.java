@@ -39,9 +39,8 @@ public class CategoryImageController {
     public ResponseEntity<ResponseDTO> updateCategoryImage(
             @PathVariable Integer idCategory,
             @RequestPart(value = "image", required = false) MultipartFile imageCategory) throws Exception {
-        CategoryImageDTO categoryImageDTO = new CategoryImageDTO( Boolean.TRUE,idCategory, null);
         return ResponseEntity.ok(ResponseDTO.builder().responseDTO(
-                this.categoryImageService.updateCategoryImage(idCategory,categoryImageDTO, imageCategory)).build());
+                this.categoryImageService.updateCategoryImage(idCategory, imageCategory)).build());
     }
 
 }

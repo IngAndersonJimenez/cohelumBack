@@ -4,6 +4,7 @@ import com.backend.domain.entity.generic.GeneralEntityAudit;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Data
@@ -22,7 +23,7 @@ public class Inventory extends GeneralEntityAudit {
     private boolean active;
 
     @Column(name = "precio")
-    private Integer price;
+    private BigDecimal price;
 
     @Column(name = "unidadesDisponibles")
     private Integer unitsAvailable;

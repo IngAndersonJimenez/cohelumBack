@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
@@ -12,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class InventoryFullDTO {
 
     private String name;
-    private Integer price;
+    private BigDecimal price;
     private Integer unitsAvailable;
     private Integer categoryId;
     private String characteristic;
