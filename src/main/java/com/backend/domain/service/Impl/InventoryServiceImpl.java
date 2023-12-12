@@ -282,22 +282,17 @@ public class InventoryServiceImpl implements InventoryService {
     public void updateInventoryFUll(InventoryFullDTO inventoryFullDTO, Integer inventoryId) throws Exception {
         try {
 
-            Inventory existingInventory = inventoryRepository.findById(inventoryId)
+            Inventory inventory = inventoryRepository.findById(inventoryId)
                     .orElseThrow(() -> new Exception("Inventario no encontrado"));
 
-            existingInventory.setName(inventoryFullDTO.getName());
-            existingInventory.setPrice(inventoryFullDTO.getPrice());
-            existingInventory.setUnitsAvailable(inventoryFullDTO.getUnitsAvailable());
-
-            if (!existingInventory.getCategoryId().equals(inventoryFullDTO.getCategoryId())) {
-                InventoryCategory savedCategory = inventoryCategoryRepository.findById(inventoryFullDTO.getCategoryId())
-                        .orElseThrow(() -> new Exception("Categoría no encontrada"));
-                existingInventory.setCategoryId(savedCategory.getIdCategory());
-            }
-            InventoryDetails inventoryDetails = inventoryDetailsRepository.findByIdInventoryDetails(inventoryId);
+            inventory.setName(inventoryFullDTO.getName());
+            inventory.setPrice(inventoryFullDTO.getPrice());
+            inventory.setUnitsAvailable(inventoryFullDTO.getUnitsAvailable());
+            inventory.setIdSubCategory(inventoryFullDTO.getIdSubCategory());
+            InventoryDetails inventoryDetails = inventoryDetailsRepository.getInventoryDetailsByIdInventory(inventoryId);
             inventoryDetails.setCharacteristic(inventoryFullDTO.getCharacteristic());
             inventoryDetails.setDatasheet(Base64.getEncoder().encodeToString(inventoryFullDTO.getDatasheet().getBytes()));
-            inventoryRepository.save(existingInventory);
+            inventoryRepository.save(inventory);
             inventoryDetailsRepository.save(inventoryDetails);
 
         } catch (Exception e) {
