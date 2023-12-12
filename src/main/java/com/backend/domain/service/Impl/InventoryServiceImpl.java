@@ -9,10 +9,7 @@ import com.backend.domain.repository.InventoryCategoryRepository;
 import com.backend.domain.repository.InventoryDetailsRepository;
 import com.backend.domain.repository.InventoryImageRepository;
 import com.backend.domain.repository.InventoryRepository;
-import com.backend.domain.service.InventoryCategoryService;
-import com.backend.domain.service.InventoryDetailsService;
-import com.backend.domain.service.InventoryImageService;
-import com.backend.domain.service.InventoryService;
+import com.backend.domain.service.*;
 import com.backend.web.dto.Inventory.GetInventoryDTO;
 import com.backend.web.dto.Inventory.GetInventoryFullDTO;
 import com.backend.web.dto.Inventory.InventoryDTO;
@@ -20,6 +17,7 @@ import com.backend.web.dto.Inventory.InventoryFullDTO;
 import com.backend.web.dto.InventoryCategory.GetInventoryCategoryDTO;
 import com.backend.web.dto.InventoryDetails.GetInventoryDetailsDTO;
 import com.backend.web.dto.InventoryImage.GetInventoryImageDTO;
+import com.backend.web.dto.InventorySubCategory.GetInventorySubCategoryDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -27,6 +25,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Date;
+import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -52,6 +54,9 @@ public class InventoryServiceImpl implements InventoryService {
     @Autowired
     private InventoryImageService inventoryImageService;
     private final ObjectMapper objectMapper = new ObjectMapper();
+
+    @Autowired
+    private InventorySubCategoryService inventorySubCategoryService;
 
 
     @Override
@@ -97,9 +102,8 @@ public class InventoryServiceImpl implements InventoryService {
 
         try {
 
-            InventoryCategory savedCategory = inventoryCategoryRepository.findById(inventoryFullDTO.getCategoryId())
-                    .orElseThrow(() -> new Exception("Categoría no encontrada"));
-
+            GetInventorySubCategoryDTO getInventorySubCategoryDTO =
+                    this.inventorySubCategoryService.getInventorySubCategoryByIdSubCategory(inventoryFullDTO.getIdSubCategory());
 
             Inventory inventory = new Inventory();
             inventory.setName(inventoryFullDTO.getName());
@@ -107,7 +111,7 @@ public class InventoryServiceImpl implements InventoryService {
             inventory.setUnitsAvailable(inventoryFullDTO.getUnitsAvailable());
             inventory.setActive(true);
             inventory.setHighDate(new Date());
-            inventory.setCategoryId(savedCategory.getIdCategory());
+            inventory.setIdSubCategory(getInventorySubCategoryDTO.getIdSubCategory());
             inventoryRepository.save(inventory);
 
             InventoryDetails inventoryDetails = new InventoryDetails();
@@ -171,12 +175,24 @@ public class InventoryServiceImpl implements InventoryService {
         List<GetInventoryFullDTO> getInventoryFullDTOS = new ArrayList<>();
 
         for (Inventory inventory : inventories) {
-            GetInventoryFullDTO getInventoryFullDTO = new GetInventoryFullDTO();
-            getInventoryFullDTO.setGetInventoryDTO(this.objectMapper.convertValue(inventory, GetInventoryDTO.class));
-            getInventoryFullDTO.setGetInventoryCategoryDTO(this.inventoryCategoryService.getCategoryById(inventory.getCategoryId()));
-            getInventoryFullDTO.setGetInventoryImageDTO(this.inventoryImageService.getImagesByIdInventory(inventory.getIdInventory()));
-            getInventoryFullDTO.setGetInventoryDetailsDTO(this.inventoryDetailsService.getInventoryDetailsByIdInventory(inventory.getIdInventory()));
-            getInventoryFullDTOS.add(getInventoryFullDTO);
+            if (inventory.isActive()) {
+                GetInventoryFullDTO getInventoryFullDTO = new GetInventoryFullDTO();
+                getInventoryFullDTO.setGetInventoryDTO(this.objectMapper.convertValue(inventory, GetInventoryDTO.class));
+                getInventoryFullDTO.setGetInventorySubCategoryDTO(
+                        this.inventorySubCategoryService.getInventorySubCategoryByIdSubCategory(inventory.getIdSubCategory()));
+                if (getInventoryFullDTO.getGetInventorySubCategoryDTO().isActive()) {
+                    getInventoryFullDTO.setGetInventoryCategoryDTO(
+                            this.inventoryCategoryService.getCategoryById(
+                                    getInventoryFullDTO.getGetInventorySubCategoryDTO().getIdCategory()));
+                    if (getInventoryFullDTO.getGetInventoryCategoryDTO().isActive()) {
+                        getInventoryFullDTO.setGetInventoryImageDTO(
+                                this.inventoryImageService.getImagesByIdInventory(inventory.getIdInventory()));
+                        getInventoryFullDTO.setGetInventoryDetailsDTO(
+                                this.inventoryDetailsService.getInventoryDetailsByIdInventory(inventory.getIdInventory()));
+                        getInventoryFullDTOS.add(getInventoryFullDTO);
+                    }
+                }
+            }
         }
 
         return getInventoryFullDTOS;
@@ -195,12 +211,21 @@ public class InventoryServiceImpl implements InventoryService {
                 getInventoryFullDTO.setGetInventoryDetailsDTO(getInventoryDetailsDTO);
             }
 
-            GetInventoryCategoryDTO getInventoryCategoryDTO =
-                    this.inventoryCategoryService.getCategoryById(getInventoryDTO.getCategoryId());
+            GetInventorySubCategoryDTO getInventorySubCategoryDTO =
+                    this.inventorySubCategoryService.getInventorySubCategoryByIdSubCategory(getInventoryDTO.getIdSubCategory());
 
-            if (getInventoryCategoryDTO != null) {
-                getInventoryFullDTO.setGetInventoryCategoryDTO(getInventoryCategoryDTO);
+            if (getInventorySubCategoryDTO != null) {
+                getInventoryFullDTO.setGetInventorySubCategoryDTO(getInventorySubCategoryDTO);
+
+                GetInventoryCategoryDTO getInventoryCategoryDTO =
+                        this.inventoryCategoryService.getCategoryById(getInventorySubCategoryDTO.getIdCategory());
+                if (getInventoryCategoryDTO != null) {
+                    getInventoryFullDTO.setGetInventoryCategoryDTO(getInventoryCategoryDTO);
+                }
+
             }
+
+
             List<GetInventoryImageDTO> getInventoryImagesDTO =
                     this.inventoryImageService.getImagesByIdInventory(getInventoryDTO.getIdInventory());
             if (getInventoryImagesDTO != null) {
@@ -227,17 +252,25 @@ public class InventoryServiceImpl implements InventoryService {
                 getInventoryFullDTO.setGetInventoryDetailsDTO(getInventoryDetailsDTO);
             }
 
-            GetInventoryCategoryDTO getInventoryCategoryDTO =
-                    this.inventoryCategoryService.getCategoryById(getInventoryDTO.getCategoryId());
+            GetInventorySubCategoryDTO getInventorySubCategoryDTO =
+                    this.inventorySubCategoryService.getInventorySubCategoryByIdSubCategory(getInventoryDTO.getIdSubCategory());
 
-            if (getInventoryCategoryDTO != null) {
-                getInventoryFullDTO.setGetInventoryCategoryDTO(getInventoryCategoryDTO);
+            if (getInventorySubCategoryDTO != null) {
+                getInventoryFullDTO.setGetInventorySubCategoryDTO(getInventorySubCategoryDTO);
+
+                GetInventoryCategoryDTO getInventoryCategoryDTO =
+                        this.inventoryCategoryService.getCategoryById(getInventorySubCategoryDTO.getIdCategory());
+                if (getInventoryCategoryDTO != null) {
+                    getInventoryFullDTO.setGetInventoryCategoryDTO(getInventoryCategoryDTO);
+                }
+
             }
+
 
             List<GetInventoryImageDTO> getInventoryImagesDTO =
                     this.inventoryImageService.getImagesByIdInventory(getInventoryDTO.getIdInventory());
 
-            if (getInventoryImagesDTO != null){
+            if (getInventoryImagesDTO != null) {
                 getInventoryFullDTO.setGetInventoryImageDTO(getInventoryImagesDTO);
             }
         }
