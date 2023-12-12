@@ -46,8 +46,7 @@ public class CategoryImageServiceImpl implements CategoryImageService {
 
     @Override
     public GetCategoryImageDTO updateCategoryImage(Integer categoryImageId, MultipartFile imageCategory) throws IOException {
-        CategoryImage categoryImage = this.categoryImageRepository.findById(categoryImageId)
-                .orElseThrow(() -> new EntityNotFoundException("No se encontró la categoría con ID: " + categoryImageId));
+        CategoryImage categoryImage = this.categoryImageRepository.getCategoryImageByIdCategory(categoryImageId);
         if (imageCategory != null && !imageCategory.isEmpty()) {
             categoryImage.setImage(Base64.getEncoder().encodeToString(imageCategory.getBytes()));
         }

@@ -29,11 +29,7 @@ public class InventoryImageServiceImpl implements InventoryImageService {
         return this.generateStructureResponse(inventoryImage);
     }
 
-    @Override
-    public GetInventoryImageDTO getImage(byte[] image) throws Exception {
-        InventoryImage inventoryImage = this.inventoryImageRepository.findByImage(image);
-        return this.generateStructureResponse(inventoryImage);
-    }
+
 
     @Override
     public List<GetInventoryImageDTO> getImagesByIdInventory(Integer idInventory) throws Exception {
@@ -63,6 +59,21 @@ public class InventoryImageServiceImpl implements InventoryImageService {
         );
 
         return getInventoryImageDTO;
+    }
+
+    @Override
+    public GetInventoryImageDTO updateInventoryImage(MultipartFile file, Integer idInventoryImage) throws Exception {
+        try {
+
+            InventoryImage inventoryImage = inventoryImageRepository.findByIdInventoryImage(idInventoryImage);
+            inventoryImage.setImage(Base64.getEncoder().encodeToString(file.getBytes()));
+            inventoryImage.setHighDate(new Date());
+            inventoryImageRepository.save(inventoryImage);
+            return generateStructureResponse(inventoryImage);
+
+        } catch (Exception e) {
+            throw new Exception("Error al actualizar la imagen del inventario.", e);
+        }
     }
 
 

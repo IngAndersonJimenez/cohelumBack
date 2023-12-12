@@ -22,14 +22,12 @@ import com.backend.web.dto.InventoryDetails.GetInventoryDetailsDTO;
 import com.backend.web.dto.InventoryImage.GetInventoryImageDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -166,9 +164,6 @@ public class InventoryServiceImpl implements InventoryService {
         return inventory;
     }
 
-    private byte[] convertMultipartFileToBytes(MultipartFile file) throws IOException {
-        return file.getBytes();
-    }
 
     @Override
     public List<GetInventoryFullDTO> getAllInventories() throws Exception {
@@ -248,6 +243,33 @@ public class InventoryServiceImpl implements InventoryService {
         }
 
         return getInventoryFullDTO;
+    }
+
+    @Override
+    public void updateInventoryFUll(InventoryFullDTO inventoryFullDTO, Integer inventoryId) throws Exception {
+        try {
+
+            Inventory existingInventory = inventoryRepository.findById(inventoryId)
+                    .orElseThrow(() -> new Exception("Inventario no encontrado"));
+
+            existingInventory.setName(inventoryFullDTO.getName());
+            existingInventory.setPrice(inventoryFullDTO.getPrice());
+            existingInventory.setUnitsAvailable(inventoryFullDTO.getUnitsAvailable());
+
+            if (!existingInventory.getCategoryId().equals(inventoryFullDTO.getCategoryId())) {
+                InventoryCategory savedCategory = inventoryCategoryRepository.findById(inventoryFullDTO.getCategoryId())
+                        .orElseThrow(() -> new Exception("Categoría no encontrada"));
+                existingInventory.setCategoryId(savedCategory.getIdCategory());
+            }
+            InventoryDetails inventoryDetails = inventoryDetailsRepository.findByIdInventoryDetails(inventoryId);
+            inventoryDetails.setCharacteristic(inventoryFullDTO.getCharacteristic());
+            inventoryDetails.setDatasheet(Base64.getEncoder().encodeToString(inventoryFullDTO.getDatasheet().getBytes()));
+            inventoryRepository.save(existingInventory);
+            inventoryDetailsRepository.save(inventoryDetails);
+
+        } catch (Exception e) {
+            throw new Exception("Error al actualizar el inventario completo.", e);
+        }
     }
 
 

@@ -9,7 +9,7 @@ public interface InventoryImageService {
     GetInventoryImageDTO createInventoryImage(MultipartFile file, Integer idInventory) throws Exception;
     GetInventoryImageDTO getImageById(Integer categoryId) throws Exception;
 
-    GetInventoryImageDTO getImage(byte[] image) throws Exception;
-
     List<GetInventoryImageDTO> getImagesByIdInventory (Integer idInventory) throws Exception;
+
+    GetInventoryImageDTO updateInventoryImage(MultipartFile file,Integer idInventoryImage)  throws Exception;
 }

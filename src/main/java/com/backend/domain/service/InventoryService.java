@@ -26,4 +26,6 @@ public interface InventoryService {
 
     GetInventoryFullDTO getInventoryFullByName(String nameInventory) throws Exception;
 
+    void updateInventoryFUll(InventoryFullDTO inventoryFullDTO, Integer InventoryId) throws Exception;
+
 }

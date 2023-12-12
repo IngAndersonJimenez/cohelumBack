@@ -2,9 +2,12 @@ package com.backend.web.controller;
 
 import com.backend.domain.service.InventoryService;
 import com.backend.web.dto.Generic.ResponseDTO;
+import com.backend.web.dto.Inventory.GetInventoryFullDTO;
 import com.backend.web.dto.Inventory.InventoryDTO;
 import com.backend.web.dto.Inventory.InventoryFullDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -76,6 +79,18 @@ public class InventoryController {
                 .responseDTO(this.inventoryService.getInventoryFullByName(name))
                 .build());
     }
+    @PutMapping("/updateFull/{inventoryId}")
+    public ResponseEntity<ResponseDTO> updateInventoryFull(
+            @ModelAttribute InventoryFullDTO inventoryFullDTO,
+            @PathVariable Integer inventoryId
+    ) throws Exception {
+        inventoryService.updateInventoryFUll(inventoryFullDTO, inventoryId);
+        ResponseDTO responseDTO = ResponseDTO.builder()
+                .build();
+        return ResponseEntity.ok(responseDTO);
+    }
+
+
 
 
 }

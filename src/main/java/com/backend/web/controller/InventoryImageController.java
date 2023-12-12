@@ -38,5 +38,14 @@ public class InventoryImageController {
         return new ResponseEntity<>(image.getImage(), headers, HttpStatus.OK);
     }
 
+    @PutMapping("/update/{idInventoryImage}")
+    public ResponseEntity<ResponseDTO> updateInventoryImage(
+            @RequestPart(value = "image", required = false) MultipartFile file,
+            @PathVariable Integer idInventoryImage) throws Exception {
+        return ResponseEntity.ok(ResponseDTO
+                .builder()
+                .responseDTO(this.inventoryImageService.updateInventoryImage(file, idInventoryImage))
+                .build());
+    }
 
 }
