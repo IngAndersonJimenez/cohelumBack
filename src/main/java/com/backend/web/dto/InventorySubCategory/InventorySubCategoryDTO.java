@@ -1,22 +1,19 @@
-package com.backend.web.dto.Inventory;
+package com.backend.web.dto.InventorySubCategory;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
-
-import java.math.BigDecimal;
 
 @Data
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class InventoryDTO {
+public class InventorySubCategoryDTO {
 
-    private String name;
+    private String description;
+
     private boolean active;
-    private BigDecimal price;
-    private Integer unitsAvailable;
-    private Integer idSubCategory;
-    private Integer discount;
+
+    private Integer idCategory;
 
 }

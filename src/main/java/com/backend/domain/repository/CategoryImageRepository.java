@@ -9,4 +9,6 @@ public interface CategoryImageRepository extends CrudRepository<CategoryImage, I
 
     CategoryImage getCategoryImageByIdCategory(Integer idCategory);
 
+
+
 }
