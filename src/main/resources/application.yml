@@ -9,7 +9,7 @@ spring:
   profiles:
     active: ${PROFILE_ACTIVE:dev}
   datasource:
-    url: ${PERSISTENCE_URL:jdbc:mysql://localhost:3306/cohelum1}
+    url: ${PERSISTENCE_URL:jdbc:mysql://localhost:3306/cohelum}
     username: ${PERSISTENCE_USER:devLocal}
     password: ${PERSISTENCE_PASSWORD:Dev2022$}
     driver-class-name: com.mysql.cj.jdbc.Driver

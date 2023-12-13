@@ -1,5 +1,6 @@
 package com.backend.domain.repository;
 
+import com.backend.domain.entity.InventoryCategory;
 import com.backend.domain.entity.InventorySubCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -12,5 +13,7 @@ public interface InventorySubCategoryRepository extends JpaRepository<InventoryS
     List<InventorySubCategory> getInventorySubCategoryByIdCategory(Integer idCategory);
 
     InventorySubCategory getInventorySubCategoryByIdSubCategory(Integer idSubCategory);
+
+    InventorySubCategory findByDescription(String description);
 
 }
