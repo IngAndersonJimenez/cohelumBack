@@ -4,6 +4,7 @@ package com.backend.web.controller;
 import com.backend.domain.service.Impl.ImageService;
 import com.backend.web.dto.Generic.ResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,16 +19,18 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
 
-    @PostMapping("/create")
-    public ResponseEntity<ResponseDTO> createInventoryImage(
+    @PostMapping("/uploadImage")
+    public ResponseEntity<String> createInventoryImage(
             @RequestPart(value = "image", required = false) MultipartFile file,
-            @RequestParam(value = "customName", required = false) String customName)  throws IOException {
-        this.imageService.createImage(file,customName);
+            @RequestParam(value = "folder", required = false) String folder) throws IOException {
 
-        return ResponseEntity.ok(ResponseDTO
-                .builder()
-                .responseDTO("Image created successfully")
-                .build());
+        try {
+            String rutaAlmacenamiento = this.imageService.storeImage(file, folder);
+            return ResponseEntity.ok("Imagen almacenada exitosamente en: " + rutaAlmacenamiento);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al almacenar la imagen");
+        }
     }
 
     @GetMapping

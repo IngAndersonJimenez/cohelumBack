@@ -8,6 +8,7 @@ import com.backend.domain.service.InventoryCategoryService;
 import com.backend.web.dto.CategoryImage.CategoryImageDTO;
 import com.backend.web.dto.InventoryCategory.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 
 
 @Service
+@Slf4j
 public class InventoryCategoryServiceImpl implements InventoryCategoryService {
 
     @Autowired

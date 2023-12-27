@@ -7,18 +7,20 @@ import com.backend.domain.service.InventoryCommentService;
 import com.backend.web.dto.InventoryComment.GetInventoryCommentDTO;
 import com.backend.web.dto.InventoryComment.InventoryCommentDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
 @Service
+@Slf4j
 public class InventoryCommentServiceImpl implements InventoryCommentService {
 
     @Autowired
     private InventoryCommentRepository inventoryCommentRepository;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
 
     @Override
