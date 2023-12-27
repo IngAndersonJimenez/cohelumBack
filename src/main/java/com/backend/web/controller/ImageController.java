@@ -34,10 +34,12 @@ public class ImageController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseDTO> getInventoryByList() throws Exception {
+    public ResponseEntity<ResponseDTO> getInventoryByList(
+            @RequestParam(value = "folder", required = false) String folder
+    ) throws Exception {
         return ResponseEntity.ok(ResponseDTO
                 .builder()
-                .responseDTO(this.imageService.getImages())
+                .responseDTO(this.imageService.getImages(folder))
                 .build());
     }
 

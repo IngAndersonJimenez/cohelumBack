@@ -21,10 +21,10 @@ public class ImageService {
 
     private final String pathStorage = "/etc/nginx/images/";
 
-    public List<String> getImages() {
+    public List<String> getImages(String folder) {
         List<String> imagenes = new ArrayList<>();
 
-        File carpeta = new File(pathStorage);
+        File carpeta = new File(pathStorage + folder);
         if (carpeta.exists()) {
             File[] files = carpeta.listFiles();
             if (files != null) {
