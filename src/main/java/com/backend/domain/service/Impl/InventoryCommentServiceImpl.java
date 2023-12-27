@@ -47,7 +47,7 @@ public class InventoryCommentServiceImpl implements InventoryCommentService {
         GetInventoryCommentDTO getInventoryCommentDTO;
 
         try {
-            getInventoryCommentDTO = this.getInventoryCommentByQualification(inventoryCommentDTO.getQualification());
+            getInventoryCommentDTO = this.getInventoryCommentByQualification(inventoryCommentDTO.getIdInventory());
         } catch (DataNotFound dataNotFound) {
             InventoryComment inventoryComment = this.objectMapper.convertValue(inventoryCommentDTO, InventoryComment.class);
             inventoryComment.setHighDate(new Date());
