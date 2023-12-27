@@ -1,11 +1,8 @@
 package com.backend.web.controller;
 
-import com.backend.domain.service.Impl.InventoryCommentServiceImpl;
+import com.backend.domain.service.InventoryCommentService;
 import com.backend.web.dto.Generic.ResponseDTO;
-import com.backend.web.dto.InventoryCategory.InventoryCategoryDTO;
-import com.backend.web.dto.InventoryComment.GetInventoryCommentDTO;
 import com.backend.web.dto.InventoryComment.InventoryCommentDTO;
-import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class InventoryCommentController {
 
     @Autowired
-    private InventoryCommentServiceImpl inventoryCommentService;
+    private InventoryCommentService inventoryCommentService;
 
     @PostMapping("/create")
     public ResponseEntity<ResponseDTO> createInventoryCategory(@RequestBody InventoryCommentDTO inventoryCommentDTO) throws Exception {

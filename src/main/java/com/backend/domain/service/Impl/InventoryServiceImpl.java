@@ -1,7 +1,6 @@
 package com.backend.domain.service.Impl;
 
 import com.backend.domain.entity.Inventory;
-import com.backend.domain.entity.InventoryCategory;
 import com.backend.domain.entity.InventoryDetails;
 import com.backend.domain.entity.InventoryImage;
 import com.backend.domain.exception.DataNotFound;
@@ -20,17 +19,12 @@ import com.backend.web.dto.InventoryImage.GetInventoryImageDTO;
 import com.backend.web.dto.InventorySubCategory.GetInventorySubCategoryDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
-import java.util.*;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -57,6 +51,9 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Autowired
     private InventorySubCategoryService inventorySubCategoryService;
+
+    @Autowired
+    private ImageService imageService;
 
 
     @Override
@@ -122,7 +119,7 @@ public class InventoryServiceImpl implements InventoryService {
             inventoryDetailsRepository.save(inventoryDetails);
 
             InventoryImage inventoryImage = new InventoryImage();
-            inventoryImage.setImage(Base64.getEncoder().encodeToString(inventoryFullDTO.getImage().getBytes()));
+            inventoryImage.setImage(this.imageService.storeImage(inventoryFullDTO.getImage(),inventoryFullDTO.getName()));
             inventoryImage.setActive(true);
             inventoryImage.setHighDate(new Date());
             inventoryImage.setIdInventory(inventory.getIdInventory());

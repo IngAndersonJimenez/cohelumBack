@@ -1,24 +1,30 @@
 package com.backend.domain.service.Impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class ImageService {
 
-    private static final String CARPETA_ESCRITORIO = System.getProperty("user.home") + File.separator + "Desktop" + File.separator + "local";
 
-    public List<String> getImages() {
+    private final String pathStorage = "/etc/nginx/images/";
+
+    public List<String> getImages(String folder) {
         List<String> imagenes = new ArrayList<>();
 
-        File carpeta = new File(CARPETA_ESCRITORIO);
+        File carpeta = new File(pathStorage + folder);
         if (carpeta.exists()) {
             File[] files = carpeta.listFiles();
             if (files != null) {
@@ -31,17 +37,19 @@ public class ImageService {
         return imagenes;
     }
 
-    public void createImage(MultipartFile archivo, String nombrePersonalizado) throws IOException {
-        File carpeta = new File(CARPETA_ESCRITORIO);
-        if (!carpeta.exists()) {
-            carpeta.mkdirs();
+
+    public String storeImage(MultipartFile file, String folder) throws IOException {
+        File directoryStorage = new File(this.pathStorage + folder);
+
+        if (!directoryStorage.exists()) {
+            directoryStorage.mkdirs();
         }
 
-        String nombreArchivo = StringUtils.cleanPath(nombrePersonalizado + ".png");
-        File file = new File(carpeta.getAbsolutePath() + File.separator + nombreArchivo);
-
-        try (FileOutputStream fos = new FileOutputStream(file)) {
-            fos.write(archivo.getBytes());
-        }
+        String nameFile = StringUtils.cleanPath(file.getOriginalFilename());
+        Path pathFull = Paths.get(this.pathStorage + folder, nameFile);
+        Files.copy(file.getInputStream(), pathFull, StandardCopyOption.REPLACE_EXISTING);
+        return pathFull.toString();
     }
+
+
 }

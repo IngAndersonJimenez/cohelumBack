@@ -6,17 +6,16 @@ import com.backend.domain.service.CategoryImageService;
 import com.backend.web.dto.CategoryImage.CategoryImageDTO;
 import com.backend.web.dto.CategoryImage.GetCategoryImageDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.Date;
-import java.util.Optional;
 
 @Service
+@Slf4j
 public class CategoryImageServiceImpl implements CategoryImageService {
 
     @Autowired

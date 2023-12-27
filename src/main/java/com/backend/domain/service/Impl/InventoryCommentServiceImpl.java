@@ -9,6 +9,7 @@ import com.backend.web.dto.InventoryComment.GetInventoryCommentDTO;
 import com.backend.web.dto.InventoryComment.InventoryCommentDTO;
 import com.backend.web.dto.InventorySubCategory.GetInventorySubCategoryDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +18,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class InventoryCommentServiceImpl implements InventoryCommentService {
 
     @Autowired
     private InventoryCommentRepository inventoryCommentRepository;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
 
     @Override
