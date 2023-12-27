@@ -52,6 +52,9 @@ public class InventoryServiceImpl implements InventoryService {
     @Autowired
     private InventorySubCategoryService inventorySubCategoryService;
 
+    @Autowired
+    private ImageService imageService;
+
 
     @Override
     public GetInventoryDTO getInventoryByIdInventory(Integer idInventory) throws Exception {
@@ -116,7 +119,7 @@ public class InventoryServiceImpl implements InventoryService {
             inventoryDetailsRepository.save(inventoryDetails);
 
             InventoryImage inventoryImage = new InventoryImage();
-            inventoryImage.setImage(Base64.getEncoder().encodeToString(inventoryFullDTO.getImage().getBytes()));
+            inventoryImage.setImage(this.imageService.storeImage(inventoryFullDTO.getImage(),inventoryFullDTO.getName()));
             inventoryImage.setActive(true);
             inventoryImage.setHighDate(new Date());
             inventoryImage.setIdInventory(inventory.getIdInventory());
