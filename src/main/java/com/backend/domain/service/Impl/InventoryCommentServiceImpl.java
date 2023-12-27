@@ -1,16 +1,20 @@
 package com.backend.domain.service.Impl;
 
 import com.backend.domain.entity.InventoryComment;
+import com.backend.domain.entity.InventorySubCategory;
 import com.backend.domain.exception.DataNotFound;
 import com.backend.domain.repository.InventoryCommentRepository;
 import com.backend.domain.service.InventoryCommentService;
 import com.backend.web.dto.InventoryComment.GetInventoryCommentDTO;
 import com.backend.web.dto.InventoryComment.InventoryCommentDTO;
+import com.backend.web.dto.InventorySubCategory.GetInventorySubCategoryDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class InventoryCommentServiceImpl implements InventoryCommentService {
@@ -22,9 +26,11 @@ public class InventoryCommentServiceImpl implements InventoryCommentService {
 
 
     @Override
-    public GetInventoryCommentDTO getInventoryCommentByIdInventoryComment(Integer idInventory) throws Exception {
-        InventoryComment inventoryComment = this.inventoryCommentRepository.findByIdInventoryComment(idInventory);
-        return this.generateStructureResponse(inventoryComment);
+    public List<GetInventoryCommentDTO> getInventoryCommentByIdInventory(Integer idInventory) throws Exception {
+        List<InventoryComment> inventoryComment = this.inventoryCommentRepository.findByIdInventory(idInventory);
+        return inventoryComment.stream()
+                .map(Comment -> objectMapper.convertValue(Comment, GetInventoryCommentDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -44,19 +50,19 @@ public class InventoryCommentServiceImpl implements InventoryCommentService {
             InventoryComment inventoryComment = this.objectMapper.convertValue(inventoryCommentDTO, InventoryComment.class);
             inventoryComment.setHighDate(new Date());
             getInventoryCommentDTO = this.generateStructureResponse(
-                    this.inventoryCommentRepository.save(this.objectMapper.convertValue(inventoryCommentDTO, InventoryComment.class))
-            );
+                    this.inventoryCommentRepository.save(inventoryComment));
         }
 
         return getInventoryCommentDTO;
     }
 
-    @Override
-    public GetInventoryCommentDTO updateInventoryComment(InventoryCommentDTO inventoryCommentDTO, Integer inventoryId) throws Exception {
 
-        GetInventoryCommentDTO getInventoryCommentDTO = this.getInventoryCommentByIdInventoryComment(inventoryId);
-        InventoryComment inventoryComment = this.inventoryCommentRepository.save(this.validationObject(getInventoryCommentDTO));
-        return this.generateStructureResponse(inventoryComment);
+    @Override
+    public List<GetInventoryCommentDTO> getAllInventoriesComment() throws Exception {
+        List<InventoryComment> inventoryCommentList = (List<InventoryComment>) inventoryCommentRepository.findAll();
+        return inventoryCommentList.stream()
+                .map(Comment -> objectMapper.convertValue(Comment, GetInventoryCommentDTO.class))
+                .collect(Collectors.toList());
     }
 
 

@@ -29,18 +29,18 @@ public class InventoryCommentController {
     public ResponseEntity<ResponseDTO> getInventoryById(@PathVariable Integer idInventory) throws Exception {
         return ResponseEntity.ok(ResponseDTO
                 .builder()
-                .responseDTO(this.inventoryCommentService.getInventoryCommentByIdInventoryComment(idInventory))
+                .responseDTO(this.inventoryCommentService.getInventoryCommentByIdInventory(idInventory))
                 .build());
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<ResponseDTO> updateCategory(
-            @RequestBody InventoryCommentDTO inventoryCommentDTO,
-            @RequestParam Integer idCategory
-    ) throws Exception {
+
+    @GetMapping("/getCommentAll")
+    public ResponseEntity<ResponseDTO> getAllSubCategories() throws Exception {
         return ResponseEntity.ok(ResponseDTO
                 .builder()
-                .responseDTO(this.inventoryCommentService.updateInventoryComment(inventoryCommentDTO, idCategory))
+                .responseDTO(this.inventoryCommentService.getAllInventoriesComment())
                 .build());
     }
+
+
 }

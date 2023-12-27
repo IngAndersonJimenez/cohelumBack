@@ -21,4 +21,16 @@ public class InventoryComment extends GeneralEntityAudit {
 
     @Column(name = "activo")
     private boolean active;
+
+    @Column(name = "reseña")
+    private String review;
+
+    @Column(name = "nombre")
+    private String name;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "idInventario")
+    private Integer idInventory;
 }
