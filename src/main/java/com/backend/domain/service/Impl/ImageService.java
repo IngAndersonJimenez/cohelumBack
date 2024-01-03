@@ -46,9 +46,9 @@ public class ImageService {
         }
 
         String nameFile = StringUtils.cleanPath(file.getOriginalFilename());
-        Path pathFull = Paths.get(this.pathStorage + folder, nameFile);
+        Path pathFull = Paths.get(this.pathStorage + folder , nameFile);
         Files.copy(file.getInputStream(), pathFull, StandardCopyOption.REPLACE_EXISTING);
-        return "/imagenes/" + nameFile;
+        return "/imagenes/" + folder + '/' + nameFile;
     }
 
 

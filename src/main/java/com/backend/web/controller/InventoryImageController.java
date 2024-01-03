@@ -23,12 +23,14 @@ public class InventoryImageController {
     @PostMapping("/create/{idInventory}")
     public ResponseEntity<ResponseDTO> createInventoryImage(
             @RequestPart(value = "image", required = false) MultipartFile file,
-            @PathVariable Integer idInventory) throws Exception {
+            @PathVariable Integer idInventory,
+            @RequestParam(value = "fileName") String fileName) throws Exception {
         return ResponseEntity.ok(ResponseDTO
                 .builder()
-                .responseDTO(this.inventoryImageService.createInventoryImage(file, idInventory))
+                .responseDTO(this.inventoryImageService.createInventoryImage(file, idInventory, fileName))
                 .build());
     }
+
 
     @GetMapping("/{idInventory}")
     public ResponseEntity<String> getImageById(@PathVariable Integer idInventory) throws Exception {

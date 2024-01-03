@@ -21,6 +21,9 @@ public class InventoryImageServiceImpl implements InventoryImageService {
     @Autowired
     private InventoryImageRepository inventoryImageRepository;
 
+    @Autowired
+    private ImageService imageService;
+
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
@@ -47,10 +50,10 @@ public class InventoryImageServiceImpl implements InventoryImageService {
     }
 
     @Override
-    public GetInventoryImageDTO createInventoryImage(MultipartFile file, Integer idInventory) throws Exception {
+    public GetInventoryImageDTO createInventoryImage(MultipartFile file, Integer idInventory, String fileName) throws Exception {
         GetInventoryImageDTO getInventoryImageDTO;
         InventoryImage inventoryImage = new InventoryImage();
-        inventoryImage.setImage(Base64.getEncoder().encodeToString(file.getBytes()));
+        inventoryImage.setImage(this.imageService.storeImage(file, fileName));
         inventoryImage.setActive(true);
         inventoryImage.setIdInventory(idInventory);
         inventoryImage.setHighDate(new Date());
