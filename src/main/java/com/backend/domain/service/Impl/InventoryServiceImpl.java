@@ -55,6 +55,9 @@ public class InventoryServiceImpl implements InventoryService {
     @Autowired
     private ImageService imageService;
 
+    @Autowired
+    private PdfService pdfService;
+
 
     @Override
     public GetInventoryDTO getInventoryByIdInventory(Integer idInventory) throws Exception {
@@ -113,7 +116,7 @@ public class InventoryServiceImpl implements InventoryService {
 
             InventoryDetails inventoryDetails = new InventoryDetails();
             inventoryDetails.setCharacteristic(inventoryFullDTO.getCharacteristic());
-            inventoryDetails.setDatasheet(Base64.getEncoder().encodeToString(inventoryFullDTO.getDatasheet().getBytes()));
+            inventoryDetails.setDatasheet(this.pdfService.storePdf(inventoryFullDTO.getDatasheet(),inventoryFullDTO.getName()));
             inventoryDetails.setHighDate(new Date());
             inventoryDetails.setIdInventory(inventory.getIdInventory());
             inventoryDetailsRepository.save(inventoryDetails);
@@ -288,7 +291,7 @@ public class InventoryServiceImpl implements InventoryService {
             inventory.setIdSubCategory(inventoryFullDTO.getIdSubCategory());
             InventoryDetails inventoryDetails = inventoryDetailsRepository.getInventoryDetailsByIdInventory(inventoryId);
             inventoryDetails.setCharacteristic(inventoryFullDTO.getCharacteristic());
-            inventoryDetails.setDatasheet(Base64.getEncoder().encodeToString(inventoryFullDTO.getDatasheet().getBytes()));
+            inventoryDetails.setDatasheet(this.pdfService.storePdf(inventoryFullDTO.getDatasheet(),inventoryFullDTO.getName()));
             inventoryRepository.save(inventory);
             inventoryDetailsRepository.save(inventoryDetails);
 
