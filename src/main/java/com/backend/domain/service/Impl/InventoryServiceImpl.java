@@ -20,6 +20,7 @@ import com.backend.web.dto.InventorySubCategory.GetInventorySubCategoryDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Base64;
@@ -101,7 +102,6 @@ public class InventoryServiceImpl implements InventoryService {
     public void createFullInventory(InventoryFullDTO inventoryFullDTO) throws Exception {
 
         try {
-
             GetInventorySubCategoryDTO getInventorySubCategoryDTO =
                     this.inventorySubCategoryService.getInventorySubCategoryByIdSubCategory(inventoryFullDTO.getIdSubCategory());
 
@@ -116,22 +116,28 @@ public class InventoryServiceImpl implements InventoryService {
 
             InventoryDetails inventoryDetails = new InventoryDetails();
             inventoryDetails.setCharacteristic(inventoryFullDTO.getCharacteristic());
-            inventoryDetails.setDatasheet(this.pdfService.storePdf(inventoryFullDTO.getDatasheet(),inventoryFullDTO.getName()));
+            inventoryDetails.setDatasheet(this.pdfService.storePdf(inventoryFullDTO.getDatasheet(), inventoryFullDTO.getName()));
             inventoryDetails.setHighDate(new Date());
             inventoryDetails.setIdInventory(inventory.getIdInventory());
             inventoryDetailsRepository.save(inventoryDetails);
 
-            InventoryImage inventoryImage = new InventoryImage();
-            inventoryImage.setImage(this.imageService.storeImage(inventoryFullDTO.getImage(),inventoryFullDTO.getName()));
-            inventoryImage.setActive(true);
-            inventoryImage.setHighDate(new Date());
-            inventoryImage.setIdInventory(inventory.getIdInventory());
-            inventoryImageRepository.save(inventoryImage);
+            // Guarda múltiples imágenes
+            if (inventoryFullDTO.getImage() != null && !inventoryFullDTO.getImage().isEmpty()) {
+                for (MultipartFile image : inventoryFullDTO.getImage()) {
+                    InventoryImage inventoryImage = new InventoryImage();
+                    inventoryImage.setImage(this.imageService.storeImage(image, inventoryFullDTO.getName()));
+                    inventoryImage.setActive(true);
+                    inventoryImage.setHighDate(new Date());
+                    inventoryImage.setIdInventory(inventory.getIdInventory());
+                    inventoryImageRepository.save(inventoryImage);
+                }
+            }
 
         } catch (Exception e) {
             throw new Exception("Error al crear el inventario completo.", e);
         }
     }
+
 
 
     private GetInventoryDTO generateStructureResponse(Inventory inventory) throws DataNotFound {
