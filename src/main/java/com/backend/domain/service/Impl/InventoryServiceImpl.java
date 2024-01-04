@@ -121,7 +121,6 @@ public class InventoryServiceImpl implements InventoryService {
             inventoryDetails.setIdInventory(inventory.getIdInventory());
             inventoryDetailsRepository.save(inventoryDetails);
 
-            // Guarda múltiples imágenes
             if (inventoryFullDTO.getImage() != null && !inventoryFullDTO.getImage().isEmpty()) {
                 for (MultipartFile image : inventoryFullDTO.getImage()) {
                     InventoryImage inventoryImage = new InventoryImage();

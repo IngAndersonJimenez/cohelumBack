@@ -22,12 +22,16 @@ public class RequestContactServiceImpl implements RequestContactService {
     @Autowired
     private RequestContactRepository requestContactRepository;
 
+    @Autowired
+    private PdfService pdfService;
+
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public GetRequestContactDTO createContact(RequestContactDTO requestContactDTO) throws Exception {
         try {
             RequestContact requestContact = convertToEntity(requestContactDTO);
+            requestContact.setAttach(this.pdfService.storePdf(requestContactDTO.getAttach(),"contact-pdf"));
             RequestContact savedRequestContact = requestContactRepository.save(requestContact);
             return convertToDto(savedRequestContact);
         } catch (Exception e) {

@@ -5,6 +5,7 @@ import com.backend.domain.repository.CategoryImageRepository;
 import com.backend.domain.service.CategoryImageService;
 import com.backend.web.dto.CategoryImage.CategoryImageDTO;
 import com.backend.web.dto.CategoryImage.GetCategoryImageDTO;
+import com.backend.web.dto.InventoryCategory.InventoryCategoryDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class CategoryImageServiceImpl implements CategoryImageService {
     @Autowired
     private CategoryImageRepository categoryImageRepository;
 
+    @Autowired
+    private ImageService imageService;
+
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
@@ -36,7 +40,7 @@ public class CategoryImageServiceImpl implements CategoryImageService {
     public GetCategoryImageDTO createCategoryImage(CategoryImageDTO categoryImageDTO, MultipartFile imageCategory) throws IOException {
         CategoryImage categoryImage = this.objectMapper.convertValue(categoryImageDTO, CategoryImage.class);
         if (imageCategory != null) {
-            categoryImage.setImage(Base64.getEncoder().encodeToString(imageCategory.getBytes()));
+            categoryImage.setImage(this.imageService.storeImage(imageCategory,"category-images"));
         }
         categoryImage.setHighDate(new Date());
         CategoryImage categoryImageResult = this.categoryImageRepository.save(categoryImage);
@@ -47,7 +51,7 @@ public class CategoryImageServiceImpl implements CategoryImageService {
     public GetCategoryImageDTO updateCategoryImage(Integer categoryImageId, MultipartFile imageCategory) throws IOException {
         CategoryImage categoryImage = this.categoryImageRepository.getCategoryImageByIdCategory(categoryImageId);
         if (imageCategory != null && !imageCategory.isEmpty()) {
-            categoryImage.setImage(Base64.getEncoder().encodeToString(imageCategory.getBytes()));
+            categoryImage.setImage(this.imageService.storeImage(imageCategory,"category-images"));
         }
         CategoryImage updatedCategoryImage = this.categoryImageRepository.save(categoryImage);
         return this.objectMapper.convertValue(updatedCategoryImage, GetCategoryImageDTO.class);

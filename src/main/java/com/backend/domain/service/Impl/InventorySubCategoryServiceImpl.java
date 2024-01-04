@@ -68,6 +68,7 @@ public class InventorySubCategoryServiceImpl implements InventorySubCategoryServ
             getInventorySubCategoryDTO = this.getInventorySubCategoryByDescription(inventorySubCategoryDTO.getDescription());
         } catch (DataNotFound dataNotFound) {
             InventorySubCategory inventorySubCategory = this.objectMapper.convertValue(inventorySubCategoryDTO, InventorySubCategory.class);
+            inventorySubCategory.setActive(true);
             inventorySubCategory.setHighDate(new Date());
             getInventorySubCategoryDTO = this.generateStructureResponse(this.inventorySubCategoryRepository.save(inventorySubCategory)
             );
