@@ -46,5 +46,15 @@ public class SettingTPController {
                 .build());
     }
 
+    @PutMapping("/updateStatus/{idSettingTP}")
+    public ResponseEntity<ResponseDTO> updateStatusSettingTP(
+            @PathVariable Integer idSettingTP,
+            @RequestParam(value = "statusSettingTP") Boolean statusSettingTP) throws Exception {
+        return ResponseEntity.ok(ResponseDTO
+                .builder()
+                .responseDTO(this.settingTPService.updateStatusSettingTP(idSettingTP, statusSettingTP))
+                .build());
+    }
+
 
 }
