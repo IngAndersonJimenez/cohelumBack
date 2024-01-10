@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Api(tags = "SettingTP")
 @RestController
@@ -26,10 +27,22 @@ public class SettingTPController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ResponseDTO> createSettingTP(@RequestBody SettingTPDTO settingTPDTO) throws Exception {
+    public ResponseEntity<ResponseDTO> createSettingTP(
+            @RequestBody SettingTPDTO settingTPDTO) throws Exception {
         return ResponseEntity.ok(ResponseDTO
                 .builder()
                 .responseDTO(this.settingTPService.createSettingTP(settingTPDTO))
+                .build());
+    }
+
+    @PostMapping("/createImage/{idSettingTP}")
+    public ResponseEntity<ResponseDTO> createImageSettingTP(
+            @PathVariable Integer idSettingTP,
+            @RequestParam(value = "storageFolder") String storageFolder,
+            @RequestPart(value = "imageSettingTP", required = false) MultipartFile file) throws Exception {
+        return ResponseEntity.ok(ResponseDTO
+                .builder()
+                .responseDTO(this.settingTPService.createImageSettingTP(idSettingTP, file, storageFolder))
                 .build());
     }
 
