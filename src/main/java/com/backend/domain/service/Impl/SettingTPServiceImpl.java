@@ -9,6 +9,7 @@ import com.backend.web.dto.SettingTP.SettingTPDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,9 @@ public class SettingTPServiceImpl implements SettingTPService {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private ImageService imageService;
 
     @Override
     public List<GetSettingTPDTO> getSettingTPByArtefact(String artefact) {
@@ -41,7 +45,22 @@ public class SettingTPServiceImpl implements SettingTPService {
     public GetSettingTPDTO createSettingTP(SettingTPDTO settingTPDTO) throws Exception {
         GetSettingTPDTO getSettingTPDTO;
         SettingTP settingTP = this.objectMapper.convertValue(settingTPDTO, SettingTP.class);
+        settingTP.setActive(Boolean.TRUE);
         getSettingTPDTO = this.generateStructureResponse(this.settingTPRepository.save(settingTP));
+        return getSettingTPDTO;
+    }
+
+    @Override
+    public GetSettingTPDTO createImageSettingTP(Integer idSettingTP, MultipartFile file, String storageFolder) throws Exception {
+        SettingTP settingTP = this.settingTPRepository.getById(idSettingTP);
+
+        GetSettingTPDTO getSettingTPDTO = new GetSettingTPDTO();
+
+        if (settingTP != null) {
+            settingTP.setValue4(this.imageService.storeImage(file, storageFolder));
+            settingTP.setActive(Boolean.TRUE);
+            getSettingTPDTO = this.objectMapper.convertValue(this.settingTPRepository.save(settingTP), GetSettingTPDTO.class);
+        }
         return getSettingTPDTO;
     }
 
