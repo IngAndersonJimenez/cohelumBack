@@ -14,5 +14,7 @@ public interface SettingTPService {
 
     GetSettingTPDTO createImageSettingTP(Integer idSettingTP, MultipartFile file, String storageFolder) throws Exception;
 
+    GetSettingTPDTO updateStatusSettingTP(Integer idSettingTP, Boolean statusSettingTP);
+
 
 }
