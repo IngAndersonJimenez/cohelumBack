@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Api(tags = "SettingTP")
 @RestController
 @RequestMapping("/api/v1/SettingTP")
+@CrossOrigin
 public class SettingTPController {
 
     @Autowired
