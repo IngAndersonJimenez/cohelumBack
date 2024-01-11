@@ -57,5 +57,15 @@ public class SettingTPController {
                 .build());
     }
 
+    @PutMapping("/updateSettingTP/{idSettingTP}")
+    public ResponseEntity<ResponseDTO> updateSettingTP(
+            @PathVariable Integer idSettingTP,
+            @RequestBody SettingTPDTO settingTPDTO) throws Exception {
+        return ResponseEntity.ok(ResponseDTO
+                .builder()
+                .responseDTO(this.settingTPService.updateSettingTP(idSettingTP, settingTPDTO))
+                .build());
+    }
+
 
 }
