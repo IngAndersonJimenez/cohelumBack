@@ -76,6 +76,22 @@ public class SettingTPServiceImpl implements SettingTPService {
         return getSettingTPDTO;
     }
 
+    @Override
+    public GetSettingTPDTO updateSettingTP(Integer idSettingTP, SettingTPDTO settingTPDTO) throws DataNotFound {
+        SettingTP settingTP = this.settingTPRepository.getById(idSettingTP);
+        GetSettingTPDTO getSettingTPDTO = new GetSettingTPDTO();
+
+        if (settingTP != null) {
+            settingTP = this.objectMapper.convertValue(settingTPDTO, SettingTP.class);
+            settingTP.setIdSettingTP(idSettingTP);
+            settingTP.setActive(Boolean.TRUE);
+            this.settingTPRepository.save(settingTP);
+            getSettingTPDTO.setIdSettingTP(idSettingTP);
+        }
+
+        return getSettingTPDTO;
+    }
+
     private GetSettingTPDTO generateStructureResponse(SettingTP settingTP) throws DataNotFound {
         GetSettingTPDTO getSettingTPDTO;
 
