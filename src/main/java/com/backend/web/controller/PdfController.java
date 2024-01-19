@@ -12,6 +12,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/pdf")
+@CrossOrigin
 public class PdfController {
 
     @Autowired
