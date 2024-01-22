@@ -11,7 +11,6 @@ public interface InventoryImageRepository extends CrudRepository<InventoryImage,
 
     InventoryImage findByIdInventoryImage(Integer idInventoryComment);
 
-    InventoryImage findByImage(byte[] image);
 
     List<InventoryImage> getInventoryImageByIdInventory (Integer idInventory);
 
