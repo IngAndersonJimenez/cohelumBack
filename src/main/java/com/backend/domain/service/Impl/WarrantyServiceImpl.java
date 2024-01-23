@@ -98,7 +98,7 @@ public class WarrantyServiceImpl implements WarrantyService {
         warranty.setCellphone(requestWarrantyDTO.getCellphone());
         warranty.setDate(requestWarrantyDTO.getDate());
         warranty.setProduct(requestWarrantyDTO.getProduct());
-
+        warranty.setNumber_bill(requestWarrantyDTO.getNumber_bill());
         return warranty;
     }
 }
