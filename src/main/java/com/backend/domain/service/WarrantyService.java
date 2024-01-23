@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface WarrantyService {
 
-    GetWarrantyDTO createWarranty(RequestWarrantyDTO requestWarrantyDTO) throws DataNotFound, IOException;
+    GetWarrantyDTO createWarranty(RequestWarrantyDTO requestWarrantyDTO) throws Exception;
     List<GetWarrantyDTO> getWarranty();
 
 }

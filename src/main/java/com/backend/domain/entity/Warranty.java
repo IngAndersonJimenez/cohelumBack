@@ -47,7 +47,5 @@ public class Warranty extends GeneralEntityAudit {
     @Column(name = "adjuntoProducto")
     private String attach;
 
-    @Column(name = "leido")
-    private boolean read;
 
 }
