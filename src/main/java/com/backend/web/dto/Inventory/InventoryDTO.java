@@ -18,5 +18,6 @@ public class InventoryDTO {
     private Integer unitsAvailable;
     private Integer idSubCategory;
     private Integer discount;
+    private String reference;
 
 }

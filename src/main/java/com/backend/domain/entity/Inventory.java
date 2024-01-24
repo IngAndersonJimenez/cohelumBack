@@ -34,4 +34,7 @@ public class Inventory extends GeneralEntityAudit {
     @Column(name = "descuento")
     private Integer discount;
 
+    @Column(name = "referencia")
+    private String reference;
+
 }
