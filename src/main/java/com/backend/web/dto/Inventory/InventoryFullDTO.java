@@ -21,5 +21,7 @@ public class InventoryFullDTO {
     private String characteristic;
     private MultipartFile datasheet;
     private List<MultipartFile> image;
+    private Integer discount;
+    private String reference;
 
 }

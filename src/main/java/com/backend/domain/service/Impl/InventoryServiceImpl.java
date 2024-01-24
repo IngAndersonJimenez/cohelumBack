@@ -107,6 +107,7 @@ public class InventoryServiceImpl implements InventoryService {
 
             Inventory inventory = new Inventory();
             inventory.setName(inventoryFullDTO.getName());
+            inventory.setReference(inventoryFullDTO.getReference());
             inventory.setPrice(inventoryFullDTO.getPrice());
             inventory.setUnitsAvailable(inventoryFullDTO.getUnitsAvailable());
             inventory.setActive(true);
@@ -292,6 +293,7 @@ public class InventoryServiceImpl implements InventoryService {
 
             inventory.setName(inventoryFullDTO.getName());
             inventory.setPrice(inventoryFullDTO.getPrice());
+            inventory.setReference(inventoryFullDTO.getReference());
             inventory.setUnitsAvailable(inventoryFullDTO.getUnitsAvailable());
             inventory.setIdSubCategory(inventoryFullDTO.getIdSubCategory());
             InventoryDetails inventoryDetails = inventoryDetailsRepository.getInventoryDetailsByIdInventory(inventoryId);

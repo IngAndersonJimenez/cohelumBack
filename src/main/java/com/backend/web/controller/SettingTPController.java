@@ -2,7 +2,6 @@ package com.backend.web.controller;
 
 import com.backend.domain.service.SettingTPService;
 import com.backend.web.dto.Generic.ResponseDTO;
-import com.backend.web.dto.Inventory.InventoryDTO;
 import com.backend.web.dto.SettingTP.SettingTPDTO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +65,5 @@ public class SettingTPController {
                 .responseDTO(this.settingTPService.updateSettingTP(idSettingTP, settingTPDTO))
                 .build());
     }
-
 
 }
