@@ -65,11 +65,11 @@ public class InventoryImageServiceImpl implements InventoryImageService {
     }
 
     @Override
-    public GetInventoryImageDTO updateInventoryImage(MultipartFile file, Integer idInventoryImage) throws Exception {
+    public GetInventoryImageDTO updateInventoryImage(MultipartFile file, Integer idInventoryImage, String fileName) throws Exception {
         try {
 
             InventoryImage inventoryImage = inventoryImageRepository.findByIdInventoryImage(idInventoryImage);
-            inventoryImage.setImage(Base64.getEncoder().encodeToString(file.getBytes()));
+            inventoryImage.setImage(this.imageService.storeImage(file, fileName));
             inventoryImage.setHighDate(new Date());
             inventoryImageRepository.save(inventoryImage);
             return generateStructureResponse(inventoryImage);

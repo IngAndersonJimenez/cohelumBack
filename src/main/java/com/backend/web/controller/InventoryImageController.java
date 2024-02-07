@@ -43,10 +43,11 @@ public class InventoryImageController {
     @PutMapping("/update/{idInventoryImage}")
     public ResponseEntity<ResponseDTO> updateInventoryImage(
             @RequestPart(value = "image", required = false) MultipartFile file,
-            @PathVariable Integer idInventoryImage) throws Exception {
+            @PathVariable Integer idInventoryImage,
+            @RequestParam(value = "fileName") String fileName) throws Exception {
         return ResponseEntity.ok(ResponseDTO
                 .builder()
-                .responseDTO(this.inventoryImageService.updateInventoryImage(file, idInventoryImage))
+                .responseDTO(this.inventoryImageService.updateInventoryImage(file, idInventoryImage,fileName))
                 .build());
     }
 

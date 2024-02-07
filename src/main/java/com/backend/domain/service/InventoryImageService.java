@@ -11,5 +11,5 @@ public interface InventoryImageService {
 
     List<GetInventoryImageDTO> getImagesByIdInventory (Integer idInventory) throws Exception;
 
-    GetInventoryImageDTO updateInventoryImage(MultipartFile file,Integer idInventoryImage)  throws Exception;
+    GetInventoryImageDTO updateInventoryImage(MultipartFile file,Integer idInventoryImage,String fileName)  throws Exception;
 }
