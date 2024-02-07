@@ -1,5 +1,6 @@
 package com.backend.security;
 
+import com.backend.domain.service.Impl.EncryptionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,24 +16,34 @@ import java.util.Collections;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
+    private final EncryptionService encryptionService;
+
+    public JWTAuthenticationFilter(EncryptionService encryptionService) {
+        this.encryptionService = encryptionService;
+    }
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
             throws AuthenticationException {
-
-        AuthCredentials authCredentials = new AuthCredentials();
+        AuthCredentials authCredentials = null;
 
         try {
             authCredentials = new ObjectMapper().readValue(httpServletRequest.getReader(), AuthCredentials.class);
+            // Desencriptar correo y contraseña
+            authCredentials.setEmailUser(encryptionService.decrypt(authCredentials.getEmailUser()));
+            authCredentials.setPassword(encryptionService.decrypt(authCredentials.getPassword()));
         } catch (IOException exception) {
+            // Aquí puedes manejar la excepción como creas más conveniente
+            throw new RuntimeException(exception);
         }
 
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 authCredentials.getEmailUser(),
                 authCredentials.getPassword(),
                 Collections.emptyList()
         );
 
-        return getAuthenticationManager().authenticate(usernamePasswordAuthenticationToken);
+        return getAuthenticationManager().authenticate(authenticationToken);
     }
 
     @Override

@@ -93,6 +93,11 @@
             <artifactId>springfox-boot-starter</artifactId>
             <version>3.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>3.0.4</version>
+        </dependency>
 
     </dependencies>
 
@@ -111,7 +116,7 @@
                 </configuration>
             </plugin>
 
-            <plugin>
+<!--            <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <executions>
@@ -129,7 +134,7 @@
                     <username>${deploy.wildfly.username}</username>
                     <password>${deploy.wildfly.password}</password>
                 </configuration>
-            </plugin>
+            </plugin>-->
 
         </plugins>
     </build>

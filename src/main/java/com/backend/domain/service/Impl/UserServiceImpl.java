@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private EncryptionService encryptionService;
 
     public ResponseEntity<Object> getUserByEmail(String email) {
 
@@ -24,7 +24,6 @@ public class UserServiceImpl implements UserService {
 
 
     public ResponseEntity<String> authenticateUser(LoginDTO loginDTO) {
-
         return null;
     }
 
