@@ -90,7 +90,13 @@ public class InventoryController {
         return ResponseEntity.ok(responseDTO);
     }
 
-
+    @GetMapping("/searchByNameAndReference/{name}/{reference}")
+    public ResponseEntity<ResponseDTO> getInventoryByNameAndReference(@PathVariable String name, @PathVariable String reference) throws Exception {
+        return ResponseEntity.ok(ResponseDTO
+                .builder()
+                .responseDTO(this.inventoryService.getInventoryFullByNameAndReference(name, reference))
+                .build());
+    }
 
 
 }

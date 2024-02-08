@@ -71,6 +71,12 @@ public class InventoryServiceImpl implements InventoryService {
         Inventory inventory = this.inventoryRepository.findOneInventoryByName(name);
         return this.generateStructureResponse(inventory);
     }
+    @Override
+    public GetInventoryDTO getInventoryByNameAndReference(String name,String reference) throws DataNotFound {
+        Inventory inventory = this.inventoryRepository.findOneInventoryByNameAndReference(name,reference);
+        return this.generateStructureResponse(inventory);
+    }
+
 
 
     @Override
@@ -305,6 +311,46 @@ public class InventoryServiceImpl implements InventoryService {
         } catch (Exception e) {
             throw new Exception("Error al actualizar el inventario completo.", e);
         }
+    }
+
+    @Override
+    public GetInventoryFullDTO getInventoryFullByNameAndReference(String nameInventory, String reference) throws Exception {
+        GetInventoryFullDTO getInventoryFullDTO = new GetInventoryFullDTO();
+        GetInventoryDTO getInventoryDTO = this.getInventoryByNameAndReference(nameInventory, reference);
+
+        if (getInventoryDTO != null) {
+            getInventoryFullDTO.setGetInventoryDTO(getInventoryDTO);
+
+            GetInventoryDetailsDTO getInventoryDetailsDTO =
+                    this.inventoryDetailsService.getInventoryDetailsByIdInventory(getInventoryDTO.getIdInventory());
+
+            if (getInventoryDetailsDTO != null) {
+                getInventoryFullDTO.setGetInventoryDetailsDTO(getInventoryDetailsDTO);
+            }
+
+            GetInventorySubCategoryDTO getInventorySubCategoryDTO =
+                    this.inventorySubCategoryService.getInventorySubCategoryByIdSubCategory(getInventoryDTO.getIdSubCategory());
+
+            if (getInventorySubCategoryDTO != null) {
+                getInventoryFullDTO.setGetInventorySubCategoryDTO(getInventorySubCategoryDTO);
+
+                GetInventoryCategoryDTO getInventoryCategoryDTO =
+                        this.inventoryCategoryService.getCategoryById(getInventorySubCategoryDTO.getIdCategory());
+                if (getInventoryCategoryDTO != null) {
+                    getInventoryFullDTO.setGetInventoryCategoryDTO(getInventoryCategoryDTO);
+                }
+
+            }
+
+            List<GetInventoryImageDTO> getInventoryImagesDTO =
+                    this.inventoryImageService.getImagesByIdInventory(getInventoryDTO.getIdInventory());
+
+            if (getInventoryImagesDTO != null) {
+                getInventoryFullDTO.setGetInventoryImageDTO(getInventoryImagesDTO);
+            }
+        }
+
+        return getInventoryFullDTO;
     }
 
 
