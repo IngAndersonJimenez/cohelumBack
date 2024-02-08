@@ -14,6 +14,8 @@ public interface InventoryRepository extends CrudRepository<Inventory, Integer>,
 
     Inventory findOneInventoryByName(String name);
 
+    Inventory findOneInventoryByNameAndReference(String name,String reference);
+
     List<Inventory> findAll();
 
 }
