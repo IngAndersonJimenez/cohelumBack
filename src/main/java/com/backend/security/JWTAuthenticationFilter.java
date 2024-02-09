@@ -1,6 +1,5 @@
 package com.backend.security;
 
-import com.backend.domain.service.Impl.EncryptionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,15 +11,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Collections;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    private final EncryptionService encryptionService;
-
-    public JWTAuthenticationFilter(EncryptionService encryptionService) {
-        this.encryptionService = encryptionService;
-    }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
@@ -30,8 +25,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             authCredentials = new ObjectMapper().readValue(httpServletRequest.getReader(), AuthCredentials.class);
             // Desencriptar correo y contraseña
-            authCredentials.setEmailUser(encryptionService.decrypt(authCredentials.getEmailUser()));
-            authCredentials.setPassword(encryptionService.decrypt(authCredentials.getPassword()));
+            authCredentials.setEmailUser(new String(Base64.getDecoder().decode(authCredentials.getEmailUser())));
+            authCredentials.setPassword(new String(Base64.getDecoder().decode(authCredentials.getPassword())));
         } catch (IOException exception) {
             // Aquí puedes manejar la excepción como creas más conveniente
             throw new RuntimeException(exception);
