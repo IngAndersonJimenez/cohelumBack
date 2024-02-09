@@ -51,4 +51,12 @@ public class InventoryImageController {
                 .build());
     }
 
+    @DeleteMapping("/delete/{idInventoryImage}")
+    public ResponseEntity<ResponseDTO> deleteInventoryImage(@PathVariable Integer idInventoryImage) throws Exception {
+        inventoryImageService.deleteByIdInventoryImage(idInventoryImage);
+        return ResponseEntity.ok(ResponseDTO
+                .builder()
+                .build());
+    }
+
 }

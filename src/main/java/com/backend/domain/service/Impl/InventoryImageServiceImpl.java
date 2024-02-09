@@ -79,6 +79,14 @@ public class InventoryImageServiceImpl implements InventoryImageService {
         }
     }
 
+    public void deleteByIdInventoryImage(Integer idInventoryImage) throws DataNotFound {
+        if (inventoryImageRepository.existsById(idInventoryImage)) {
+            inventoryImageRepository.deleteById(idInventoryImage);
+        } else {
+            throw new DataNotFound("Imagen no encontrada con el ID: " + idInventoryImage);
+        }
+    }
+
 
     private GetInventoryImageDTO generateStructureResponse(InventoryImage inventoryImage) throws DataNotFound {
         GetInventoryImageDTO getInventoryImageDTO;
