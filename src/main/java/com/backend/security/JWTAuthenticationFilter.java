@@ -16,29 +16,25 @@ import java.util.Collections;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-
-    @Override
     public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
             throws AuthenticationException {
-        AuthCredentials authCredentials = null;
+
+        AuthCredentials authCredentials = new AuthCredentials();
 
         try {
             authCredentials = new ObjectMapper().readValue(httpServletRequest.getReader(), AuthCredentials.class);
-            // Desencriptar correo y contraseña
             authCredentials.setEmailUser(new String(Base64.getDecoder().decode(authCredentials.getEmailUser())));
             authCredentials.setPassword(new String(Base64.getDecoder().decode(authCredentials.getPassword())));
         } catch (IOException exception) {
-            // Aquí puedes manejar la excepción como creas más conveniente
-            throw new RuntimeException(exception);
         }
 
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                 authCredentials.getEmailUser(),
                 authCredentials.getPassword(),
                 Collections.emptyList()
         );
 
-        return getAuthenticationManager().authenticate(authenticationToken);
+        return getAuthenticationManager().authenticate(usernamePasswordAuthenticationToken);
     }
 
     @Override

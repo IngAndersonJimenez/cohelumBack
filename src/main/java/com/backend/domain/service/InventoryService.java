@@ -14,6 +14,8 @@ public interface InventoryService {
 
     GetInventoryDTO getInventoryByName(String name) throws DataNotFound;
 
+    GetInventoryDTO getInventoryByNameAndReference(String name,String reference) throws DataNotFound;
+
     GetInventoryDTO createInventory(InventoryDTO inventoryDTO) throws Exception;
 
     GetInventoryDTO updateInventory(InventoryDTO inventoryDTO, Integer inventoryId) throws Exception;
@@ -27,5 +29,7 @@ public interface InventoryService {
     GetInventoryFullDTO getInventoryFullByName(String nameInventory) throws Exception;
 
     void updateInventoryFUll(InventoryFullDTO inventoryFullDTO, Integer InventoryId) throws Exception;
+
+    GetInventoryFullDTO getInventoryFullByNameAndReference(String nameInventory,String reference) throws Exception;
 
 }
