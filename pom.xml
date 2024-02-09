@@ -47,7 +47,7 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <dependency>
+           <dependency>
                <groupId>org.springframework.boot</groupId>
                <artifactId>spring-boot-starter-tomcat</artifactId>
                <scope>provided</scope>
@@ -116,7 +116,7 @@
                 </configuration>
             </plugin>
 
-<!--            <plugin>
+            <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <executions>
@@ -134,7 +134,7 @@
                     <username>${deploy.wildfly.username}</username>
                     <password>${deploy.wildfly.password}</password>
                 </configuration>
-            </plugin>-->
+            </plugin>
 
         </plugins>
     </build>

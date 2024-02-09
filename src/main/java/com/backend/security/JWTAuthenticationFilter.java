@@ -11,11 +11,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Collections;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    @Override
     public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
             throws AuthenticationException {
 
@@ -23,6 +23,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         try {
             authCredentials = new ObjectMapper().readValue(httpServletRequest.getReader(), AuthCredentials.class);
+            authCredentials.setEmailUser(new String(Base64.getDecoder().decode(authCredentials.getEmailUser())));
+            authCredentials.setPassword(new String(Base64.getDecoder().decode(authCredentials.getPassword())));
         } catch (IOException exception) {
         }
 
