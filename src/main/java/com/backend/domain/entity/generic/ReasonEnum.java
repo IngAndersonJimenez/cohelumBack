@@ -1,8 +1,10 @@
 package com.backend.domain.entity.generic;
 
 public enum ReasonEnum {
-    GARANTIA(1,"garantia"),
-    CONTACTO_GENERAL(2,"contactoGeneral");
+    GARANTIA(1, "garantia"),
+    CONTACTO_GENERAL(2, "contactoGeneral"),
+
+    SUSCRIPCION(3, "Suscripcion");
 
     private Integer id;
     private String descrption;
@@ -17,7 +19,7 @@ public enum ReasonEnum {
         return id;
     }
 
-    public void setId(Integer id) {
+    void setId(Integer id) {
         this.id = id;
     }
 
@@ -25,7 +27,7 @@ public enum ReasonEnum {
         return descrption;
     }
 
-    public void setDescrption(String descrption) {
+    void setDescrption(String descrption) {
         this.descrption = descrption;
     }
 }
