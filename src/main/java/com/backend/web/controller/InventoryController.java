@@ -10,6 +10,7 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/v1/inventory")
@@ -97,6 +98,20 @@ public class InventoryController {
                 .responseDTO(this.inventoryService.getInventoryFullByNameAndReference(name, reference))
                 .build());
     }
+
+    @PutMapping(value = "/updateDatasheet/{inventoryId}", consumes = {"multipart/form-data"})
+    public ResponseEntity<ResponseDTO> updateInventoryDatasheet(
+            @RequestParam("datasheet") MultipartFile datasheet,
+            @PathVariable Integer inventoryId,
+            @RequestParam("productName") String productName
+    ) throws Exception {
+        inventoryService.updateInventoryDatasheet(datasheet, inventoryId, productName);
+        ResponseDTO responseDTO = ResponseDTO.builder()
+                .build();
+
+        return ResponseEntity.ok(responseDTO);
+    }
+
 
 
 }

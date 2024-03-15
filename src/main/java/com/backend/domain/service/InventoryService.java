@@ -5,6 +5,7 @@ import com.backend.web.dto.Inventory.GetInventoryDTO;
 import com.backend.web.dto.Inventory.GetInventoryFullDTO;
 import com.backend.web.dto.Inventory.InventoryDTO;
 import com.backend.web.dto.Inventory.InventoryFullDTO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -32,4 +33,6 @@ public interface InventoryService {
 
     GetInventoryFullDTO getInventoryFullByNameAndReference(String nameInventory,String reference) throws Exception;
 
+    void updateInventoryDatasheet(MultipartFile datasheet, Integer inventoryId, String productName) throws Exception;
 }
+

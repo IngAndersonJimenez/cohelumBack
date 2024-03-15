@@ -304,7 +304,6 @@ public class InventoryServiceImpl implements InventoryService {
             inventory.setIdSubCategory(inventoryFullDTO.getIdSubCategory());
             InventoryDetails inventoryDetails = inventoryDetailsRepository.getInventoryDetailsByIdInventory(inventoryId);
             inventoryDetails.setCharacteristic(inventoryFullDTO.getCharacteristic());
-            inventoryDetails.setDatasheet(this.pdfService.storePdf(inventoryFullDTO.getDatasheet(),inventoryFullDTO.getName()));
             inventoryRepository.save(inventory);
             inventoryDetailsRepository.save(inventoryDetails);
 
@@ -352,6 +351,20 @@ public class InventoryServiceImpl implements InventoryService {
 
         return getInventoryFullDTO;
     }
+    @Override
+    public void updateInventoryDatasheet(MultipartFile datasheet, Integer inventoryId, String productName) throws Exception {
+        InventoryDetails inventoryDetails = inventoryDetailsRepository.getInventoryDetailsByIdInventory(inventoryId);
+        if (inventoryDetails == null) {
+            throw new Exception("Detalles del inventario no encontrados para el ID: " + inventoryId);
+        }
 
+        if (datasheet != null && !datasheet.isEmpty()) {
+            String datasheetUrl = pdfService.storePdf(datasheet, productName);
+            inventoryDetails.setDatasheet(datasheetUrl);
+            inventoryDetailsRepository.save(inventoryDetails);
+        } else {
+            throw new Exception("El archivo PDF proporcionado no es válido o está vacío.");
+        }
+    }
 
 }
